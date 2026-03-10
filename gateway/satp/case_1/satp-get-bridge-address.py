@@ -30,7 +30,7 @@ def get_approve_address_source_chain():
         dict: The JSON response from the endpoint.
     """
     req_params = {
-        'networkId.id': 'HardhatTestNetwork1',
+        'networkId.id': 'EthereumLedgerTestNetwork1',
         'networkId.ledgerType': 'ETHEREUM',
         'tokenType': 'NONSTANDARD_FUNGIBLE',
     }
@@ -46,7 +46,7 @@ def get_approve_address_target_chain():
         dict: The JSON response from the endpoint.
     """
     req_params = {
-        'networkId.id': 'HardhatTestNetwork2',
+        'networkId.id': 'EthereumLedgerTestNetwork2',
         'networkId.ledgerType': 'ETHEREUM',
         'tokenType': 'NONSTANDARD_FUNGIBLE',
     }

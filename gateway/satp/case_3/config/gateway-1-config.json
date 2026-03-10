@@ -1,0 +1,150 @@
+{
+  "gid": {
+    "id": "mockID-1",
+    "name": "CustomGateway",
+    "version": [
+      {
+        "Core": "v02",
+        "Architecture": "v02",
+        "Crash": "v02"
+      }
+    ],
+    "connectedDLTs": [
+      {
+        "id": "EthereumLedgerTestNetwork1",
+        "ledgerType": "ETHEREUM"
+      },
+      {
+        "id": "EthereumLedgerTestNetwork2",
+        "ledgerType": "ETHEREUM"
+      },
+      {
+        "id": "EthereumLedgerTestNetwork3",
+        "ledgerType": "ETHEREUM"
+      }
+    ],
+    "proofID": "mockProofID10",
+    "address": "http://satp-hermes-gateway-1",
+    "gatewayClientPort": 3011,
+    "gatewayServerPort": 3010,
+    "gatewayOapiPort": 4010,
+    "identificationCredential": {
+      "signingAlgorithm": "SECP256K1",
+      "pubKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
+    }  
+  },
+  "logLevel": "TRACE",
+  "counterPartyGateways": [
+    {
+      "id": "mockID-2",
+      "name": "CustomGateway",
+      "version": [
+        {
+          "Core": "v02",
+          "Architecture": "v02",
+          "Crash": "v02"
+        }
+      ],
+      "connectedDLTs": [
+        {
+          "id": "EthereumLedgerTestNetwork1",
+          "ledgerType": "ETHEREUM"
+        },
+        {
+          "id": "EthereumLedgerTestNetwork2",
+          "ledgerType": "ETHEREUM"
+        },
+        {
+          "id": "EthereumLedgerTestNetwork3",
+          "ledgerType": "ETHEREUM"
+        }
+      ],
+      "proofID": "mockProofID11",
+      "address": "http://satp-hermes-gateway-2",
+      "gatewayClientPort": 3011,
+      "gatewayServerPort": 3010,
+      "gatewayOapiPort": 4010,
+      "identificationCredential": {
+        "signingAlgorithm": "SECP256K1",
+        "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"    
+      }
+    }
+  ],
+  "environment": "development",
+  "ccConfig": {
+    "bridgeConfig": [
+      {
+        "networkIdentification": {
+          "id": "EthereumLedgerTestNetwork1",
+          "ledgerType": "ETHEREUM"
+        },
+        "signingCredential": {
+          "transactionSignerEthAccount": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+          "secret": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+          "type": "PRIVATE_KEY_HEX"
+        },
+        "gasConfig": {
+          "gas": "6721975",
+          "gasPrice": "20000000000"
+        },
+        "connectorOptions": {
+          "rpcApiHttpHost": "http://host.docker.internal:8545"
+        },
+        "claimFormats": [
+          1
+        ],
+        "leafId": "leaf1"
+      },
+      {
+        "networkIdentification": {
+          "id": "EthereumLedgerTestNetwork2",
+          "ledgerType": "ETHEREUM"
+        },
+        "signingCredential": {
+          "transactionSignerEthAccount": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+          "secret": "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
+          "type": "PRIVATE_KEY_HEX"
+        },
+        "gasConfig": {
+          "gas": "6721975",
+          "gasPrice": "20000000000"
+        },
+        "connectorOptions": {
+          "rpcApiHttpHost": "http://host.docker.internal:8546"
+        },
+        "claimFormats": [
+          1
+        ],
+        "leafId": "leaf2"
+      },
+      {
+        "networkIdentification": {
+          "id": "EthereumLedgerTestNetwork3",
+          "ledgerType": "ETHEREUM"
+        },
+        "signingCredential": {
+          "transactionSignerEthAccount": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+          "secret": "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a",
+          "type": "PRIVATE_KEY_HEX"
+        },
+        "gasConfig": {
+          "gas": "6721975",
+          "gasPrice": "20000000000"
+        },
+        "connectorOptions": {
+          "rpcApiHttpHost": "http://host.docker.internal:8547"
+        },
+        "claimFormats": [
+          1
+        ],
+        "leafId": "leaf3"
+      }
+    ]
+  },
+  "keyPair": {
+    "privateKey": "38c732b7b86d752c5c051a9c944a683da994eac1cc1544462518b90f89d8146d",
+    "publicKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
+  },
+  "enableCrashRecovery": false,
+  "ontologyPath": "/opt/cacti/satp-hermes/ontologies"
+}

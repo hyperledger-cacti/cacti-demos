@@ -1,6 +1,6 @@
 services:
   satp-hermes-gateway-1:
-    image: tomassilva2187/satp-gateway:2026-01-18-1958
+    image: tomassilva2187/satp-gateway:2026-02-02-1458
     platform: linux/amd64
     volumes:
       - ./config/gateway-1-config.json:/opt/cacti/satp-hermes/config/config.json
@@ -14,7 +14,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   satp-hermes-gateway-2:
-    image: tomassilva2187/satp-gateway:2026-01-18-1958
+    image: tomassilva2187/satp-gateway:2026-02-02-1458
     platform: linux/amd64
     volumes:
       - ./config/gateway-2-config.json:/opt/cacti/satp-hermes/config/config.json
