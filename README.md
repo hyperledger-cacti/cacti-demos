@@ -37,6 +37,7 @@ This repository contains a demo implementation of a **SATP (Secure Asset Transfe
 │       └── case_1/               # SATP Protocol: Fungible asset transfer between EVM blockchains
 │       └── case_2/               # SATP Protocol: Non fungible asset transfer between EVM blockchains
 │       └── case_3/               # SATP Protocol: Fungible asset transfer between 3 different EVM blockchain pairs
+│       └── case_4/               # SATP Protocol: Docker adapter layer demo with webhook test server
 ```
 
 ---
@@ -64,6 +65,7 @@ The SATP folder contains secure asset transfer protocol cases.
 * **Case 1**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
 * **Case 2**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
 * **Case 3**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol, between 3 blockchain pairs, and always using the same assets, starting in blockchain1.
+* **Case 4**: **Docker Adapter Layer Demo** — demonstrates the SATP adapter layer (API Type 3) using Docker with two Besu gateways and a webhook test server for external approval workflows.
 
 ---
 
@@ -108,6 +110,7 @@ to see all available targets for building, deploying, and running the demo cases
 - `make run-satp-case-1`   — SATP Case 1: Fungible asset transfer protocol
 - `make run-satp-case-2`   — SATP Case 2: Non fungible asset transfer protocol
 - `make run-satp-case-3`   — SATP Case 3: Fungible asset transfer protocol between 3 different blockchain pairs
+- `make run-satp-case-4`   — SATP Case 4: Docker adapter layer demo (see case_4/README.md for full instructions)
 - `make run-all-cases`      — Run all cases sequentially with cleanup between each
 
 Each case also includes its own `README.md` with step-by-step instructions for manual or advanced usage.
