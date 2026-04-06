@@ -1,0 +1,19 @@
+{
+  "name": "satp-adapter-demo-case4",
+  "version": "1.0.0",
+  "description": "SATP Hermes Gateway Docker Adapter Layer Demo",
+  "private": true,
+  "scripts": {
+    "start-webhook-server": "ts-node adapter-test-server.ts"
+  },
+  "dependencies": {
+    "@hyperledger/cactus-plugin-satp-hermes": "latest",
+    "express": "4.21.0"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.1",
+    "@types/node": "^18.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  }
+}
