@@ -1,0 +1,28 @@
+services:
+  satp-hermes-gateway-1:
+    image: tomassilva2187/satp-gateway:2026-02-02-1458
+    platform: linux/amd64
+    volumes:
+      - ./config/gateway-1-config.json:/opt/cacti/satp-hermes/config/config.json
+      - ./satp-hermes-gateway/gateway-1/logs:/opt/cacti/satp-hermes/logs
+      - ./ontologies/:/opt/cacti/satp-hermes/ontologies/
+    ports:
+      - 3010:3010/tcp # SERVER_PORT
+      - 3011:3011/tcp # CLIENT_PORT
+      - 4010:4010/tcp # OAPI_PORT
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  satp-hermes-gateway-2:
+    image: tomassilva2187/satp-gateway:2026-02-02-1458
+    platform: linux/amd64
+    volumes:
+      - ./config/gateway-2-config.json:/opt/cacti/satp-hermes/config/config.json
+      - ./satp-hermes-gateway/gateway-2/logs:/opt/cacti/satp-hermes/logs
+      - ./ontologies/:/opt/cacti/satp-hermes/ontologies/
+    ports:
+      - 3110:3010/tcp # SERVER_PORT
+      - 3111:3011/tcp # CLIENT_PORT
+      - 4110:4010/tcp # OAPI_PORT
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
