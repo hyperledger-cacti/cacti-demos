@@ -125,9 +125,9 @@ And check if kubaya/cacti-satp-hermes-gateway is healthy, if it proceed
 
 ### 5. Run the Oracle Polling Test Script
 
-In terminal 4 (this directory where `oracle-register-fabric.py` lives):
+In terminal 4 (this directory where `oracle-register-poller-fabric.py` lives):
 ```bash
-python3 oracle-register-fabric.py
+python3 oracle-register-poller-fabric.py
 ```
 
 What the script does (high level)
@@ -153,4 +153,4 @@ Troubleshooting
 - If register fails, check gateway logs and ensure the Fabric connection info in `config/gateway-fabric-config.json` is correct.
 - If operations are fewer than expected, increase wait times in the script or confirm gateway scheduling is working.
 
-This README matches the flow implemented in `oracle-register-fabric.py`. Run the Fabric network, start the gateway, then execute the script to validate polling register/read/update flows against the `asset-transfer-basic` chaincode.
+This README matches the flow implemented in `oracle-register-poller-fabric.py`. Run the Fabric network, start the gateway, then execute the script to validate polling register/read/update flows against the `asset-transfer-basic` chaincode.
