@@ -10,6 +10,7 @@ This repository contains a demo implementation of a **SATP (Secure Asset Transfe
     - [Extensions Cases](#extensions-cases)
     - [Oracle Cases (gateway/oracle)](#oracle-cases-gatewayoracle)
     - [SATP Cases (gateway/satp/)](#satp-cases-gatewaysatp)
+    - [Adapter Cases (gateway/adapter/)](#adapter-cases-gatewayadapter)
   - [EVM Test Environment](#evm-test-environment)
   - [Important Instructions](#important-instructions)
   - [Setup \& Running](#setup--running)
@@ -37,6 +38,9 @@ This repository contains a demo implementation of a **SATP (Secure Asset Transfe
 │       └── case_1/               # SATP Protocol: Fungible asset transfer between EVM blockchains
 │       └── case_2/               # SATP Protocol: Non fungible asset transfer between EVM blockchains
 │       └── case_3/               # SATP Protocol: Fungible asset transfer between 3 different EVM blockchain pairs
+│   └── adapter/
+│       └── case_1/               # Adapter Layer: Docker-based adapter webhook testing with deployed bridge
+│       └── config/               # Adapter configuration files (gateway + adapter YAML configs)
 ```
 
 ---
@@ -64,6 +68,12 @@ The SATP folder contains secure asset transfer protocol cases.
 * **Case 1**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
 * **Case 2**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
 * **Case 3**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol, between 3 blockchain pairs, and always using the same assets, starting in blockchain1.
+
+### Adapter Cases (gateway/adapter/)
+
+These use cases demonstrate the **Adapter Layer** of the SATP Hermes Gateway, which enables external systems to integrate with and control SATP transfers through webhook-based communication.
+
+* **Case 1**: Docker-based adapter layer testing with **deployed bridge contracts** on Besu networks, configuring outbound/inbound webhook adapters for Stage 0 new session requests.
 
 ---
 
@@ -108,6 +118,7 @@ to see all available targets for building, deploying, and running the demo cases
 - `make run-satp-case-1`   — SATP Case 1: Fungible asset transfer protocol
 - `make run-satp-case-2`   — SATP Case 2: Non fungible asset transfer protocol
 - `make run-satp-case-3`   — SATP Case 3: Fungible asset transfer protocol between 3 different blockchain pairs
+- `make run-adapter-case-1` — Adapter Case 1: Docker adapter layer testing with deployed bridge
 - `make run-all-cases`      — Run all cases sequentially with cleanup between each
 
 Each case also includes its own `README.md` with step-by-step instructions for manual or advanced usage.
