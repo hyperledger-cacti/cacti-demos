@@ -1,0 +1,24 @@
+{
+  "name": "cacti-demos",
+  "private": true,
+  "packageManager": "yarn@4.13.0",
+  "workspaces": [
+    "utils/*",
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "configure": "yarn install && yarn build:dev:backend",
+    "lint": "run-s format:eslint format:prettier spellcheck",
+    "format:eslint": "eslint '**/*.{js,ts}' --quiet --fix",
+    "format:prettier": "prettier --write --config .prettierrc.js './**/{*.ts,*.js,*.json}'",
+    "spellcheck": "cspell lint --no-progress '*/*/src/**/*.{js,ts}'",
+    "build:dev:backend": "tsc --build",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "lerna": "^8.1.2",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.4.5"
+  }
+}
