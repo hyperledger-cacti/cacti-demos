@@ -1,0 +1,34 @@
+{
+  "version": "0.1",
+  "language": "en",
+  "minWordLength": 4,
+  "allowCompoundWords": true,
+  "words": [
+    "cacti",
+    "satp",
+    "hermes",
+    "hardhat",
+    "evm",
+    "hyperledger",
+    "solidity",
+    "chaincode",
+    "besu",
+    "corda",
+    "fabric",
+    "erc20",
+    "erc721",
+    "ipfs"
+  ],
+  "dictionaries": [
+    "typescript",
+    "node",
+    "npm"
+  ],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/build/**",
+    "**/dist/**",
+    "yarn.lock",
+    ".yarn/**"
+  ]
+}

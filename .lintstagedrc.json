@@ -1,0 +1,10 @@
+{
+  "**/*.{js,ts}": [
+    "eslint --fix",
+    "cspell --no-must-find-files --config .cspell.json",
+    "prettier --write --config .prettierrc.js"
+  ],
+  "**/*.{json,md,yaml,yml}": [
+    "prettier --write --config .prettierrc.js"
+  ]
+}

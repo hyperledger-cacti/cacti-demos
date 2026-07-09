@@ -1,0 +1,4 @@
+# Generated code or vendor files
+.yarn/**
+node_modules/**
+yarn.lock
