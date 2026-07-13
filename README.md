@@ -1,28 +1,33 @@
-# SATP Gateway Demo
+# Hyperledger Cacti Demos
 
-This repository contains a demo implementation of a **SATP (Secure Asset Transfer Protocol) Gateway**, designed to act as middleware between EVM-based blockchains. It supports various interoperability use cases explained below.
+This repository serves as a comprehensive demonstration and example environment for the Hyperledger Cacti ecosystem. It provides end-to-end integration use-cases, showcasing how to build interoperable blockchain solutions, cross-chain communication pipelines, and Secure Asset Transfer Protocol (SATP) workflows.
 
 ## Table of Contents
 
-- [SATP Gateway Demo](#satp-gateway-demo)
-  - [Table of Contents](#table-of-contents)
-  - [Repository Structure](#repository-structure)
-  - [Case Descriptions](#case-descriptions)
-    - [Extensions Cases](#extensions-cases)
-    - [Oracle Cases (demos/oracle)](#oracle-cases-gatewayoracle)
-    - [SATP Cases (demos/satp/)](#satp-cases-gatewaysatp)
-    - [Adapter Cases (demos/adapter/)](#adapter-cases-gatewayadapter)
-  - [EVM Test Environment](#evm-test-environment)
-  - [Important Instructions](#important-instructions)
-  - [Setup \& Running](#setup--running)
-    - [Running Cases with the Makefile](#running-cases-with-the-makefile)
-  - [Dependencies](#dependencies)
-  - [Contact](#contact)
+- [Repository Structure](#repository-structure)
+- [Case Descriptions](#case-descriptions)
+  - [Extensions Cases](#extensions-cases)
+  - [Oracle Cases (demos/oracle)](#oracle-cases-demosoracle)
+  - [SATP Cases (demos/satp/)](#satp-cases-demossatp)
+  - [Adapter Cases (demos/adapter/)](#adapter-cases-demosadapter)
+- [EVM Test Environment](#evm-test-environment)
+- [Important Instructions](#important-instructions)
+- [Setup & Running](#setup--running)
+  - [Running Cases with the Makefile](#running-cases-with-the-makefile)
+- [Dependencies](#dependencies)
+- [Contact](#contact)
+- [Contributing](#contributing)
+
+---
 
 ## Repository Structure
 
-```
+This repository is organized as a Yarn Workspace:
+
+```text
 .
+├── .github/                          # CI/CD workflows, PR templates, and Dependabot config
+├── .husky/                           # Git hooks (commitlint, pre-commit, pre-push)
 ├── utils/
 │   ├── test-ledgers/                 # Hardhat project for setting up test EVM blockchains
 │   └── contracts/
@@ -48,7 +53,8 @@ This repository contains a demo implementation of a **SATP (Secure Asset Transfe
 ├── examples/                         # Future: full-fledged example applications (empty for now)
 ├── packages/                         # Future: test packages migrated from cacti (empty for now)
 ├── Makefile                          # Orchestrates all demo cases
-└── README.md
+├── package.json                      # Workspace configuration
+└── tsconfig.json                     # TypeScript compiler configuration
 ```
 
 ---
@@ -69,13 +75,14 @@ These use cases demonstrate the usage of the gateway as middleware to interact w
 - **Case 2**: Automatic **READ and WRITE** operations using the gateway
 - **Case 3**: Registering a **polling task** to periodically READ from an EVM blockchain
 - **Case 4**: **Cross-chain event listening** with subsequent READ and conditional UPDATE actions
+- **Cases 5, 6, 7**: Identical to above but utilizing **Hyperledger Fabric**.
 
 ### SATP Cases (demos/satp/)
 
 The SATP folder contains secure asset transfer protocol cases.
 
 - **Case 1**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
-- **Case 2**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
+- **Case 2**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol (Non-fungible).
 - **Case 3**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol, between 3 blockchain pairs, and always using the same assets, starting in blockchain1.
 
 ### Adapter Cases (demos/adapter/)
@@ -98,7 +105,6 @@ The `utils/test-ledgers/` directory contains a **Hardhat** project used to deplo
 
 - **Please follow the setup instructions for each case carefully.**
 - **Before switching from one case to another**, **always rerun all setup commands** to ensure:
-
   - The environment is **fully refreshed**
   - **Contract addresses remain consistent**
   - No residual data or processes from other cases affect the results
@@ -108,6 +114,18 @@ Failure to reset the environment between cases may lead to unexpected behavior d
 ---
 
 ## Setup & Running
+
+### Initial Installation
+
+Since this is a modern Yarn workspace, you must install dependencies at the root level before running any cases:
+
+```bash
+# Install all dependencies across the workspace
+yarn install
+
+# Build the TypeScript backend
+yarn build:dev:backend
+```
 
 ### Running Cases with the Makefile
 
@@ -144,6 +162,14 @@ The Hyperledger Fabric cases (demos/oracle/case_5, case_6, case_7) require addit
 - Python ≥ 3.8
 
 ---
+
+## Contributing
+
+Before opening a Pull Request, please familiarize yourself with our guidelines:
+
+1. **[CONTRIBUTING.md](./CONTRIBUTING.md)**: Git workflow, branch naming, and DCO sign-off requirements.
+2. **[PULL.md](./PULL.md)**: Our core philosophy on **Small, Focused Pull Requests**.
+3. **[AI_GUIDELINES.md](./AI_GUIDELINES.md)**: Rules for disclosing and reviewing AI/LLM-generated code.
 
 ## Contact
 
