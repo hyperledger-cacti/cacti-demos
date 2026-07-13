@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  pr-checks:
+    uses: ./.github/workflows/pr-structural-checks.yaml
+
+  build-and-lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/configure-repo
+      - name: Build TypeScript
+        run: yarn build:dev:backend
+      - name: Lint
+        run: yarn lint

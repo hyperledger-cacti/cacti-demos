@@ -1,0 +1,195 @@
+{
+  "gid": {
+    "id": "mockID-1",
+    "name": "CustomGateway",
+    "version": [
+      {
+        "Core": "v02",
+        "Architecture": "v02",
+        "Crash": "v02"
+      }
+    ],
+    "connectedDLTs": [
+      {
+        "id": "FabricLedgerTestNetwork",
+        "ledgerType": "FABRIC_2"
+      }
+    ],
+    "proofID": "mockProofID10",
+    "address": "http://satp-hermes-gateway-1",
+    "gatewayClientPort": 3011,
+    "gatewayServerPort": 3010,
+    "gatewayOapiPort": 4010,
+    "pubKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
+  },
+  "logLevel": "TRACE",
+  "counterPartyGateways": [
+    {
+      "id": "mockID-2",
+      "name": "CustomGateway",
+      "version": [
+        {
+          "Core": "v02",
+          "Architecture": "v02",
+          "Crash": "v02"
+        }
+      ],
+      "connectedDLTs": [
+        {
+          "id": "HardhatTestNetwork2",
+          "ledgerType": "ETHEREUM"
+        }
+      ],
+      "proofID": "mockProofID11",
+      "address": "http://satp-hermes-gateway-2",
+      "gatewayClientPort": 3011,
+      "gatewayServerPort": 3010,
+      "gatewayOapiPort": 4010,
+      "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"
+    }
+  ],
+  "environment": "development",
+  "ccConfig": {
+    "oracleConfig": [
+      {
+        "networkIdentification": {
+          "id": "FabricLedgerTestNetwork",
+          "ledgerType": "FABRIC_2"
+        },
+        "userIdentity": {
+          "credentials": {
+            "certificate": "PASTE CERTIFICATE CONTENT HERE",
+            "privateKey": "PASTE PRIVATE KEY CONTENT HERE"
+          },
+          "mspId": "Org1MSP",
+          "type": "X.509"
+        },
+        "channelName": "mychannel",
+        "targetOrganizations": [
+          {
+            "CORE_PEER_LOCALMSPID": "Org1MSP",
+            "CORE_PEER_ADDRESS": "peer0.org1.example.com:7051",
+            "CORE_PEER_MSPCONFIG_PATH": "/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp",
+            "CORE_PEER_TLS_ROOTCERT_PATH": "/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt",
+            "ORDERER_TLS_ROOTCERT_PATH": "/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+          },
+          {
+            "CORE_PEER_LOCALMSPID": "Org2MSP",
+            "CORE_PEER_ADDRESS": "peer0.org2.example.com:9051",
+            "CORE_PEER_MSPCONFIG_PATH": "/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp",
+            "CORE_PEER_TLS_ROOTCERT_PATH": "/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt",
+            "ORDERER_TLS_ROOTCERT_PATH": "/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+          }
+        ],
+        "caFilePath": "/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem",
+        "ccSequence": 1,
+        "orderer": "orderer.example.com:7050",
+        "ordererTLSHostnameOverride": "orderer.example.com",
+        "connTimeout": 60,
+        "mspId": "Org1MSP",
+        "connectorOptions": {
+          "dockerBinary": "/usr/local/bin/docker",
+          "peerBinary": "/fabric-samples/bin/peer",
+          "goBinary": "/usr/local/go/bin/go",
+          "cliContainerEnv": {
+            "CORE_PEER_TLS_ENABLED": "true",
+            "CORE_PEER_LOCALMSPID": "Org1MSP",
+            "CORE_PEER_TLS_CERT_FILE": "/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt",
+            "CORE_PEER_TLS_KEY_FILE": "/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key",
+            "CORE_PEER_ADDRESS": "peer0.org1.example.com:7051",
+            "CORE_PEER_MSPCONFIGPATH": "/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp",
+            "CORE_PEER_TLS_ROOTCERT_FILE": "/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt",
+            "ORDERER_TLS_ROOTCERT_FILE": "/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+          },
+          "connectionProfile": {
+            "name": "test-network-org1",
+            "version": "1.0.0",
+            "client": {
+              "organization": "Org1",
+              "connection": {
+                "timeout": {
+                  "peer": {
+                    "endorser": "300"
+                  },
+                  "orderer": "300"
+                }
+              }
+            },
+            "organizations": {
+              "Org1": {
+                "mspid": "Org1MSP",
+                "peers": ["peer0.org1.example.com"],
+                "certificateAuthorities": ["ca.org1.example.com"]
+              }
+            },
+            "peers": {
+              "peer0.org1.example.com": {
+                "url": "grpcs://peer0.org1.example.com:7051",
+                "tlsCACerts": {
+                  "pem": "PASTE CONTENTS OF: ca.crt"
+                },
+                "grpcOptions": {
+                  "ssl-target-name-override": "peer0.org1.example.com",
+                  "hostnameOverride": "peer0.org1.example.com"
+                }
+              }
+            },
+            "certificateAuthorities": {
+              "ca.org1.example.com": {
+                "url": "https://ca.org1.example.com:7054",
+                "caName": "ca-org1",
+                "tlsCACerts": {
+                  "pem": ["PASTE CONTENTS OF: ca.org1.example.com-cert.pem"]
+                },
+                "httpOptions": {
+                  "verify": false
+                }
+              }
+            },
+            "orderers": {
+              "orderer.example.com": {
+                "url": "grpcs://orderer.example.com:7050",
+                "grpcOptions": {
+                  "ssl-target-name-override": "orderer.example.com"
+                },
+                "tlsCACerts": {
+                  "pem": "PASTE CONTENTS OF: tlsca.example.com-cert.pem"
+                }
+              }
+            },
+            "channels": {
+              "mychannel": {
+                "orderers": ["orderer.example.com"],
+                "peers": {
+                  "peer0.org1.example.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "ledgerQuery": true,
+                    "eventSource": true,
+                    "discover": true
+                  }
+                }
+              }
+            }
+          },
+          "discoveryOptions": {
+            "enabled": true,
+            "asLocalhost": false
+          },
+          "eventHandlerOptions": {
+            "strategy": "NETWORK_SCOPE_ALLFORTX",
+            "commitTimeout": 300
+          }
+        },
+        "claimFormats": [2],
+        "coreYamlFilePath": "config/core.yaml"
+      }
+    ]
+  },
+  "keyPair": {
+    "privateKey": "1ef3caa0298adacb1fa17c5947b999af4f25b939b81ed13e4365303df246a60e",
+    "publicKey": "02526ebd2aa4a4198b9b39ce7f2f03d6a61a866035b9a5db7b6b81d46c27191769"
+  },
+  "enableCrashRecovery": false,
+  "ontologyPath": "/opt/cacti/satp-hermes/ontologies"
+}

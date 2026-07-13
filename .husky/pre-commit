@@ -1,0 +1,14 @@
+#!/bin/sh
+STAGE=pre-commit
+HOOK_DIR="$(cd "$(dirname "$0")" && pwd)"
+D="$HOOK_DIR/$STAGE.d"
+
+[ -d "$D" ] || exit 0
+
+for script in "$D"/*.sh; do
+	[ -e "$script" ] || continue
+	[ -x "$script" ] || continue
+	name="$(basename "$script")"
+	echo "[$STAGE] >>> $name"
+	"$script" "$@"
+done

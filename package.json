@@ -1,0 +1,36 @@
+{
+  "name": "cacti-demos",
+  "private": true,
+  "packageManager": "yarn@4.13.0",
+  "workspaces": [
+    "utils/*",
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "configure": "yarn install && yarn git-hooks:install && yarn build:dev:backend",
+    "git-hooks:install": "husky",
+    "lint": "run-s format:eslint format:prettier spellcheck",
+    "format:eslint": "eslint '**/*.{js,ts}' --quiet --fix",
+    "format:prettier": "prettier --write --config .prettierrc.js './**/{*.ts,*.js,*.json,*.md}'",
+    "spellcheck": "cspell lint --no-progress \"**/*.{js,ts,md,json}\"",
+    "build:dev:backend": "tsc --build",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
+    "cspell": "8.10.4",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
+    "husky": "^9.1.7",
+    "lerna": "^8.1.2",
+    "lint-staged": "^17.0.8",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.9.4",
+    "typescript": "^5.4.5"
+  }
+}
