@@ -8,7 +8,8 @@
     "examples/*"
   ],
   "scripts": {
-    "configure": "yarn install && yarn build:dev:backend",
+    "configure": "yarn install && yarn git-hooks:install && yarn build:dev:backend",
+    "git-hooks:install": "husky",
     "lint": "run-s format:eslint format:prettier spellcheck",
     "format:eslint": "eslint '**/*.{js,ts}' --quiet --fix",
     "format:prettier": "prettier --write --config .prettierrc.js './**/{*.ts,*.js,*.json,*.md}'",
