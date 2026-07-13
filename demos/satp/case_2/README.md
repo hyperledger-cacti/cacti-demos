@@ -4,7 +4,6 @@ This test case demonstrates how the Gateway can run the Secure Asset Transfer Pr
 
 For this, we will use the `SATPNonFungibleTokenContract` contract, which is a simple contract that resembles a token contract following the ERC721 standard.
 
-
 ## Terminal Overview
 
 Before starting, here is a summary of what each terminal will be used for in this case:
@@ -16,6 +15,7 @@ Before starting, here is a summary of what each terminal will be used for in thi
 - **Terminal 5:** Run SATP protocol scripts (integration checks, transactions, status, audit)
 
 This pattern is similar in other SATP and Oracle cases:
+
 - **Gateway terminals** (usually Terminal 1): Always run the Gateway via Docker Compose
 - **EVM/Hardhat terminals** (usually Terminals 2, 3): Start one or more local blockchains
 - **Deployment/Script terminals** (Terminals 4+): Deploy contracts and run interaction scripts
@@ -23,7 +23,6 @@ This pattern is similar in other SATP and Oracle cases:
 Refer to each case's README for the exact mapping and steps.
 
 ## Setup Instructions
-
 
 ### 1. Start the Hardhat EVM Blockchains
 
@@ -54,6 +53,7 @@ This will start both gateways with the corresponding configuration file located 
 **Expected Result**: In Terminal 2 and 3 (both lockchains), observe a contract being deployed. This is the bridge contract `SATPWrapper` that allows the Gateway to interact with the client contracts deployed in EVM-based blockchains.
 
 ### 2.5 (Optional) Check the blockchains to which each Gateway is connected
+
 In terminal 5, from this directory:
 
 ```bash
@@ -63,7 +63,6 @@ python3 satp-evm-get-integrations.py
 > This script sends a GET request to the Gateway to retrieve the list of integrations (in this case blockchains) to which each Gateway is connected. It will return the list of blockchains and a simplified description.
 
 **Expected Result**: The output should show the two EVM blockchains (Hardhat1 and Hardhat2).
-
 
 ### 3. Deploy the Token Smart Contracts
 
@@ -97,8 +96,8 @@ python3 satp-evm-check-status.py <SESSION_ID>
 
 **Expected Output**:
 
-* Status: `DONE`
-* Current Step: `transfer-complete-message` (the last step of the SATP)
+- Status: `DONE`
+- Current Step: `transfer-complete-message` (the last step of the SATP)
 
 ---
 

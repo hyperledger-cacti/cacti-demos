@@ -3,6 +3,7 @@
 This file shows how to run the carbon-credit-extension.py test flow that buys and retires TCO2s using the Gateway. Before running the main script you must fund the test account with USDC using Hardhat impersonation.
 
 The main script performs these high-level actions:
+
 - Requests available TCO2s ordered by supply.
 - Selects 3 TCO2 tokens with at least 400 units (18 decimals) of liquidity in the NCT contract.
 - Performs a specific buy of 3 TCO2s (400 units each) paying with USDC and checks asset amounts (expected 360 units after fees).
@@ -16,11 +17,11 @@ The main script performs these high-level actions:
 2. Ensure the Gateway config (config/config.json) has the CARBON_CREDIT extension enabled
 3. Use fund-usdc-to-address.py to impersonate and fund the testing account with USDC.
 4. Run carbon-credit-extension.py — it will:
-    - call get-available-tco2s,
-    - choose three qualifying TCO2s,
-    - call specific_buy_request,
-    - call retire_request,
-    - verify on-chain retirement certificate amounts.
+   - call get-available-tco2s,
+   - choose three qualifying TCO2s,
+   - call specific_buy_request,
+   - call retire_request,
+   - verify on-chain retirement certificate amounts.
 5. Inspect printed output and any Gateway / node logs for transaction hashes and verification messages.
 
 ---
@@ -38,6 +39,7 @@ docker compose up
 This will start 2 different services.
 
 1. The Gateway using your environment config. There are **2 important files/directories**:
+
 - [config/config.json](config/config.json) — contains the configuration used to start the Gateway, including RPC URLs, and key pairs.
   - The extensions section must include the CARBON_CREDIT extension, for the endpoints to be available.
 - [satp-hermes-gateway/logs/](satp-hermes-gateway/logs/) — contains Gateway logs, useful for debugging requests/responses.
@@ -55,6 +57,7 @@ python3 fund-usdc-to-address.py
 ```
 
 **Expected Result**:
+
 - The script impersonates a rich USDC holder (via Hardhat) and transfers sufficient USDC to the test address.
 - You should see logs confirming the USDC transfer and the recipient address balance.
 
@@ -71,6 +74,7 @@ python3 carbon-credit-extension.py
 **Expected Result**:
 
 What to expect (key printed lines from the script):
+
 - "Requesting TCO2s ordered by supply..."
 - Logs showing selected TCO2 addresses and projectId values.
 - "Performing specific buy..." and details including txHashSwap, buyTxHash, assetAmounts.
@@ -78,6 +82,7 @@ What to expect (key printed lines from the script):
 - "Verifying retirement certificate amounts on-chain..." with on-chain retired amounts and a final success message.
 
 The script will raise exceptions and exit if:
+
 - No TCO2s are returned.
 - Fewer than 3 TCO2s have sufficient NCT liquidity.
 - specificBuy response lacks expected fields or amounts.

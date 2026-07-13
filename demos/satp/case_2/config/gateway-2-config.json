@@ -74,9 +74,7 @@
         "connectorOptions": {
           "rpcApiHttpHost": "http://host.docker.internal:8546"
         },
-        "claimFormats": [
-          1
-        ]
+        "claimFormats": [1]
       }
     ]
   },

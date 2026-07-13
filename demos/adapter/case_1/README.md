@@ -158,6 +158,7 @@ make -f "$MAKEFILE" deploy-bridge
 ```
 
 This will:
+
 1. Deploy SATPWrapperContract to both Besu networks
 2. Generate config files for both gateways in `/tmp`
 3. Build the Docker image (if not already built)
@@ -181,10 +182,10 @@ make -f "$MAKEFILE" run-both
 
 ### Gateway Ports
 
-| Gateway | API Port | Server Port | Client Port |
-|---------|----------|-------------|-------------|
-| Gateway 1 | 4010 | 3010 | 3011 |
-| Gateway 2 | 4020 | 3020 | 3021 |
+| Gateway   | API Port | Server Port | Client Port |
+| --------- | -------- | ----------- | ----------- |
+| Gateway 1 | 4010     | 3010        | 3011        |
+| Gateway 2 | 4020     | 3020        | 3021        |
 
 ### Health Checks
 
@@ -235,6 +236,7 @@ There are two ways to configure gateways:
 **Location:** `src/examples/config/satp-gateway1-simple-deployed-adapter.config.json`
 
 This JSON file configures the gateway with:
+
 - Gateway identity (ID, name, public key)
 - Connected DLTs (Besu in this example)
 - Counter-party gateways
@@ -242,6 +244,7 @@ This JSON file configures the gateway with:
 - **Adapter configuration path** pointing to the YAML file
 
 Key configuration:
+
 ```json
 {
   "gid": {
@@ -261,6 +264,7 @@ Key configuration:
 **Location:** `tmp/gateway1-config.json` and `tmp/gateway2-config.json`
 
 Generated configs include full multi-gateway setup with:
+
 - Unique gateway identifiers
 - Counter-party gateway references
 - Besu network connection details
@@ -268,6 +272,7 @@ Generated configs include full multi-gateway setup with:
 - Key pairs for signing
 
 Example structure:
+
 ```json
 {
   "gid": {
@@ -352,92 +357,95 @@ The `src/examples/docker-adapter-test.mk` makefile provides the following comman
 
 ### Build Operations
 
-| Command | Description |
-|---------|-------------|
-| `make -f src/examples/docker-adapter-test.mk build` | Build the Docker image |
+| Command                                                      | Description                |
+| ------------------------------------------------------------ | -------------------------- |
+| `make -f src/examples/docker-adapter-test.mk build`          | Build the Docker image     |
 | `make -f src/examples/docker-adapter-test.mk build-no-cache` | Build without Docker cache |
 
 ### Contract Deployment
 
-| Command | Description |
-|---------|-------------|
-| `make -f src/examples/docker-adapter-test.mk deploy-contracts` | Deploy SATPWrapperContract to both Besu networks |
-| `make -f src/examples/docker-adapter-test.mk deploy-contracts-besu1` | Deploy to Besu network 1 (port 8545) |
-| `make -f src/examples/docker-adapter-test.mk deploy-contracts-besu2` | Deploy to Besu network 2 (port 8547) |
-| `make -f src/examples/docker-adapter-test.mk init-bridge` | Initialize bridge connections between gateways |
+| Command                                                              | Description                                      |
+| -------------------------------------------------------------------- | ------------------------------------------------ |
+| `make -f src/examples/docker-adapter-test.mk deploy-contracts`       | Deploy SATPWrapperContract to both Besu networks |
+| `make -f src/examples/docker-adapter-test.mk deploy-contracts-besu1` | Deploy to Besu network 1 (port 8545)             |
+| `make -f src/examples/docker-adapter-test.mk deploy-contracts-besu2` | Deploy to Besu network 2 (port 8547)             |
+| `make -f src/examples/docker-adapter-test.mk init-bridge`            | Initialize bridge connections between gateways   |
 
 ### Config Generation
 
-| Command | Description |
-|---------|-------------|
-| `make -f src/examples/docker-adapter-test.mk create-temp-dir` | Create temp directory for configs |
-| `make -f src/examples/docker-adapter-test.mk create-configs` | Generate all config files (JSON + YAML) |
-| `make -f src/examples/docker-adapter-test.mk create-config-gw1` | Generate gateway 1 JSON config |
-| `make -f src/examples/docker-adapter-test.mk create-config-gw2` | Generate gateway 2 JSON config |
+| Command                                                          | Description                                     |
+| ---------------------------------------------------------------- | ----------------------------------------------- |
+| `make -f src/examples/docker-adapter-test.mk create-temp-dir`    | Create temp directory for configs               |
+| `make -f src/examples/docker-adapter-test.mk create-configs`     | Generate all config files (JSON + YAML)         |
+| `make -f src/examples/docker-adapter-test.mk create-config-gw1`  | Generate gateway 1 JSON config                  |
+| `make -f src/examples/docker-adapter-test.mk create-config-gw2`  | Generate gateway 2 JSON config                  |
 | `make -f src/examples/docker-adapter-test.mk create-adapter-gw1` | Generate gateway 1 adapter YAML (5-min timeout) |
 | `make -f src/examples/docker-adapter-test.mk create-adapter-gw2` | Generate gateway 2 adapter YAML (5-min timeout) |
-| `make -f src/examples/docker-adapter-test.mk clean-configs` | Remove generated config files |
+| `make -f src/examples/docker-adapter-test.mk clean-configs`      | Remove generated config files                   |
 
 ### Single Gateway Operations
 
-| Command | Description |
-|---------|-------------|
-| `make -f src/examples/docker-adapter-test.mk run` | Run container in detached mode |
+| Command                                                       | Description                       |
+| ------------------------------------------------------------- | --------------------------------- |
+| `make -f src/examples/docker-adapter-test.mk run`             | Run container in detached mode    |
 | `make -f src/examples/docker-adapter-test.mk run-interactive` | Run container in interactive mode |
-| `make -f src/examples/docker-adapter-test.mk stop` | Stop the running container |
-| `make -f src/examples/docker-adapter-test.mk logs` | View container logs (follow) |
-| `make -f src/examples/docker-adapter-test.mk logs-tail` | View last 100 lines of logs |
-| `make -f src/examples/docker-adapter-test.mk shell` | Open shell in running container |
+| `make -f src/examples/docker-adapter-test.mk stop`            | Stop the running container        |
+| `make -f src/examples/docker-adapter-test.mk logs`            | View container logs (follow)      |
+| `make -f src/examples/docker-adapter-test.mk logs-tail`       | View last 100 lines of logs       |
+| `make -f src/examples/docker-adapter-test.mk shell`           | Open shell in running container   |
 
 ### Multi-Gateway Operations
 
-| Command | Description |
-|---------|-------------|
-| `make -f src/examples/docker-adapter-test.mk run-gateway1` | Run gateway 1 (ports 3010/3011/4010) |
-| `make -f src/examples/docker-adapter-test.mk run-gateway2` | Run gateway 2 (ports 3020/3021/4020) |
-| `make -f src/examples/docker-adapter-test.mk run-both` | Run both gateways simultaneously |
-| `make -f src/examples/docker-adapter-test.mk stop-gateway1` | Stop gateway 1 container |
-| `make -f src/examples/docker-adapter-test.mk stop-gateway2` | Stop gateway 2 container |
-| `make -f src/examples/docker-adapter-test.mk stop-all` | Stop both gateway containers |
-| `make -f src/examples/docker-adapter-test.mk logs-gw1` | View gateway 1 logs |
-| `make -f src/examples/docker-adapter-test.mk logs-gw2` | View gateway 2 logs |
-| `make -f src/examples/docker-adapter-test.mk healthcheck-gw1` | Health check gateway 1 |
-| `make -f src/examples/docker-adapter-test.mk healthcheck-gw2` | Health check gateway 2 |
+| Command                                                       | Description                          |
+| ------------------------------------------------------------- | ------------------------------------ |
+| `make -f src/examples/docker-adapter-test.mk run-gateway1`    | Run gateway 1 (ports 3010/3011/4010) |
+| `make -f src/examples/docker-adapter-test.mk run-gateway2`    | Run gateway 2 (ports 3020/3021/4020) |
+| `make -f src/examples/docker-adapter-test.mk run-both`        | Run both gateways simultaneously     |
+| `make -f src/examples/docker-adapter-test.mk stop-gateway1`   | Stop gateway 1 container             |
+| `make -f src/examples/docker-adapter-test.mk stop-gateway2`   | Stop gateway 2 container             |
+| `make -f src/examples/docker-adapter-test.mk stop-all`        | Stop both gateway containers         |
+| `make -f src/examples/docker-adapter-test.mk logs-gw1`        | View gateway 1 logs                  |
+| `make -f src/examples/docker-adapter-test.mk logs-gw2`        | View gateway 2 logs                  |
+| `make -f src/examples/docker-adapter-test.mk healthcheck-gw1` | Health check gateway 1               |
+| `make -f src/examples/docker-adapter-test.mk healthcheck-gw2` | Health check gateway 2               |
 
 ### Full Deployment Pipeline
 
-| Command | Description |
-|---------|-------------|
+| Command                                                     | Description                                          |
+| ----------------------------------------------------------- | ---------------------------------------------------- |
 | `make -f src/examples/docker-adapter-test.mk deploy-bridge` | Full deployment: contracts → configs → both gateways |
-| `make -f src/examples/docker-adapter-test.mk setup` | Build image and run single container |
+| `make -f src/examples/docker-adapter-test.mk setup`         | Build image and run single container                 |
 
 ### Test Operations
 
-| Command | Description |
-|---------|-------------|
-| `make -f src/examples/docker-adapter-test.mk healthcheck` | Check gateway health |
+| Command                                                    | Description              |
+| ---------------------------------------------------------- | ------------------------ |
+| `make -f src/examples/docker-adapter-test.mk healthcheck`  | Check gateway health     |
 | `make -f src/examples/docker-adapter-test.mk integrations` | Get gateway integrations |
-| `make -f src/examples/docker-adapter-test.mk sessions` | Get all sessions |
-| `make -f src/examples/docker-adapter-test.mk test` | Run all adapter tests |
+| `make -f src/examples/docker-adapter-test.mk sessions`     | Get all sessions         |
+| `make -f src/examples/docker-adapter-test.mk test`         | Run all adapter tests    |
 
 ### Cleanup Operations
 
-| Command | Description |
-|---------|-------------|
-| `make -f src/examples/docker-adapter-test.mk clean` | Stop container and remove image |
-| `make -f src/examples/docker-adapter-test.mk clean-all` | Remove all related images |
-| `make -f src/examples/docker-adapter-test.mk clean-configs` | Remove generated config files |
-| `make -f src/examples/docker-adapter-test.mk clean-full` | Full cleanup: containers + configs + images |
+| Command                                                     | Description                                 |
+| ----------------------------------------------------------- | ------------------------------------------- |
+| `make -f src/examples/docker-adapter-test.mk clean`         | Stop container and remove image             |
+| `make -f src/examples/docker-adapter-test.mk clean-all`     | Remove all related images                   |
+| `make -f src/examples/docker-adapter-test.mk clean-configs` | Remove generated config files               |
+| `make -f src/examples/docker-adapter-test.mk clean-full`    | Full cleanup: containers + configs + images |
 
 ## API Endpoints
 
 Once the gateway is running, the following endpoints are available:
 
 ### Health Check
+
 ```bash
 curl -s http://localhost:4010/api/v1/@hyperledger/cactus-plugin-satp-hermes/healthcheck | jq .
 ```
+
 **Response:**
+
 ```json
 {
   "status": "AVAILABLE"
@@ -445,21 +453,25 @@ curl -s http://localhost:4010/api/v1/@hyperledger/cactus-plugin-satp-hermes/heal
 ```
 
 ### Get Integrations
+
 ```bash
 curl -s http://localhost:4010/api/v1/@hyperledger/cactus-plugin-satp-hermes/integrations | jq .
 ```
 
 ### Get All Sessions
+
 ```bash
 curl -s http://localhost:4010/api/v1/@hyperledger/cactus-plugin-satp-hermes/get-sessions-ids | jq .
 ```
 
 ### Get Session Status
+
 ```bash
 curl -s "http://localhost:4010/api/v1/@hyperledger/cactus-plugin-satp-hermes/status?sessionId=<SESSION_ID>" | jq .
 ```
 
 ### Initiate Transaction
+
 ```bash
 curl -X POST http://localhost:4010/api/v1/@hyperledger/cactus-plugin-satp-hermes/transact \
   -H "Content-Type: application/json" \
@@ -470,10 +482,10 @@ curl -X POST http://localhost:4010/api/v1/@hyperledger/cactus-plugin-satp-hermes
 
 ### Adapter Types
 
-| Type | Direction | Purpose |
-|------|-----------|---------|
-| **Outbound Webhooks** | Gateway → External System | Notify external systems about SATP events |
-| **Inbound Webhooks** | External System → Gateway | Allow external systems to approve/reject transfers |
+| Type                  | Direction                 | Purpose                                            |
+| --------------------- | ------------------------- | -------------------------------------------------- |
+| **Outbound Webhooks** | Gateway → External System | Notify external systems about SATP events          |
+| **Inbound Webhooks**  | External System → Gateway | Allow external systems to approve/reject transfers |
 
 ### Execution Points
 
@@ -487,20 +499,21 @@ Adapters can be configured to execute at specific points:
 
 The following adapter configuration fixtures are available in `src/test/yaml/fixtures/`:
 
-| File | Description |
-|------|-------------|
-| `adapter-configuration-newSessionRequest.yml` | Stage 0 newSessionRequest focused |
-| `adapter-configuration-simple.example.yml` | Simple adapter example |
-| `adapter-configuration.example.yml` | Full comprehensive example |
-| `adapter-configuration-integration-test.yml` | Integration test configuration |
-| `adapter-configuration-test-server.yml` | E2E test server configuration |
-| `adapter-configuration-test-server-simple.yml` | Simplified test server config |
+| File                                           | Description                       |
+| ---------------------------------------------- | --------------------------------- |
+| `adapter-configuration-newSessionRequest.yml`  | Stage 0 newSessionRequest focused |
+| `adapter-configuration-simple.example.yml`     | Simple adapter example            |
+| `adapter-configuration.example.yml`            | Full comprehensive example        |
+| `adapter-configuration-integration-test.yml`   | Integration test configuration    |
+| `adapter-configuration-test-server.yml`        | E2E test server configuration     |
+| `adapter-configuration-test-server-simple.yml` | Simplified test server config     |
 
 ### Generated Adapter Configuration (5-Minute Timeout)
 
 When using `make -f src/examples/docker-adapter-test.mk create-configs`, the generated adapter configs use a **5-minute (300,000ms) timeout** for all webhook operations. This extended timeout is useful for manual testing and debugging.
 
 Example generated config (`tmp/gateway1-adapter-config.yml`):
+
 ```yaml
 adapters:
   - id: "outbound-webhook-adapter"
@@ -541,36 +554,36 @@ The makefile supports customization through environment variables:
 
 ### Gateway Configuration
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `GW1_GID` | `gateway1-besu-adapter` | Gateway 1 identifier |
-| `GW1_NAME` | `BesuGateway1` | Gateway 1 display name |
-| `GW1_SERVER_PORT` | `3010` | Gateway 1 server port |
-| `GW1_CLIENT_PORT` | `3011` | Gateway 1 client port |
-| `GW1_API_PORT` | `4010` | Gateway 1 API port |
-| `GW2_GID` | `gateway2-besu-adapter` | Gateway 2 identifier |
-| `GW2_NAME` | `BesuGateway2` | Gateway 2 display name |
-| `GW2_SERVER_PORT` | `3020` | Gateway 2 server port |
-| `GW2_CLIENT_PORT` | `3021` | Gateway 2 client port |
-| `GW2_API_PORT` | `4020` | Gateway 2 API port |
+| Variable          | Default                 | Description            |
+| ----------------- | ----------------------- | ---------------------- |
+| `GW1_GID`         | `gateway1-besu-adapter` | Gateway 1 identifier   |
+| `GW1_NAME`        | `BesuGateway1`          | Gateway 1 display name |
+| `GW1_SERVER_PORT` | `3010`                  | Gateway 1 server port  |
+| `GW1_CLIENT_PORT` | `3011`                  | Gateway 1 client port  |
+| `GW1_API_PORT`    | `4010`                  | Gateway 1 API port     |
+| `GW2_GID`         | `gateway2-besu-adapter` | Gateway 2 identifier   |
+| `GW2_NAME`        | `BesuGateway2`          | Gateway 2 display name |
+| `GW2_SERVER_PORT` | `3020`                  | Gateway 2 server port  |
+| `GW2_CLIENT_PORT` | `3021`                  | Gateway 2 client port  |
+| `GW2_API_PORT`    | `4020`                  | Gateway 2 API port     |
 
 ### Besu Network Configuration
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `BESU1_RPC_HTTP` | `http://host.docker.internal:8545` | Besu network 1 RPC endpoint |
-| `BESU1_RPC_WS` | `ws://host.docker.internal:8546` | Besu network 1 WebSocket endpoint |
-| `BESU2_RPC_HTTP` | `http://host.docker.internal:8547` | Besu network 2 RPC endpoint |
-| `BESU2_RPC_WS` | `ws://host.docker.internal:8548` | Besu network 2 WebSocket endpoint |
-| `ETH_ACCOUNT` | `0xf39Fd6e...` | Ethereum account for contract deployment |
-| `ETH_PRIVATE_KEY` | `0xac0974...` | Private key for contract deployment |
+| Variable          | Default                            | Description                              |
+| ----------------- | ---------------------------------- | ---------------------------------------- |
+| `BESU1_RPC_HTTP`  | `http://host.docker.internal:8545` | Besu network 1 RPC endpoint              |
+| `BESU1_RPC_WS`    | `ws://host.docker.internal:8546`   | Besu network 1 WebSocket endpoint        |
+| `BESU2_RPC_HTTP`  | `http://host.docker.internal:8547` | Besu network 2 RPC endpoint              |
+| `BESU2_RPC_WS`    | `ws://host.docker.internal:8548`   | Besu network 2 WebSocket endpoint        |
+| `ETH_ACCOUNT`     | `0xf39Fd6e...`                     | Ethereum account for contract deployment |
+| `ETH_PRIVATE_KEY` | `0xac0974...`                      | Private key for contract deployment      |
 
 ### Adapter Configuration
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `ADAPTER_TIMEOUT_MS` | `300000` | Webhook timeout in milliseconds (5 minutes) |
-| `WEBHOOK_SERVER_PORT` | `9223` | Port for the local webhook test server |
+| Variable              | Default                | Description                                       |
+| --------------------- | ---------------------- | ------------------------------------------------- |
+| `ADAPTER_TIMEOUT_MS`  | `300000`               | Webhook timeout in milliseconds (5 minutes)       |
+| `WEBHOOK_SERVER_PORT` | `9223`                 | Port for the local webhook test server            |
 | `WEBHOOK_SERVER_HOST` | `host.docker.internal` | Host used by gateways to reach the webhook server |
 
 ### Customization Example
@@ -588,6 +601,7 @@ BESU1_RPC_HTTP=http://host.docker.internal:9545 make -f src/examples/docker-adap
 ### Container Won't Start
 
 1. Check if ports are already in use:
+
    ```bash
    lsof -i :3010 -i :3011 -i :4010
    ```
@@ -600,6 +614,7 @@ BESU1_RPC_HTTP=http://host.docker.internal:9545 make -f src/examples/docker-adap
 ### Makefile Build Path Error
 
 If you encounter this error when running `make -f src/examples/docker-adapter-test.mk build`:
+
 ```
 ERROR: failed to build: unable to prepare context: path "packages/cactus-plugin-satp-hermes" not found
 ```
@@ -619,16 +634,19 @@ docker build --pull --rm \
 ### WSL 2 Docker Not Found
 
 If you see this error in WSL 2:
+
 ```
 The command 'docker' could not be found in this WSL 2 distro.
 ```
 
 Ensure Docker Desktop has WSL 2 integration enabled:
+
 1. Open Docker Desktop → Settings → Resources → WSL Integration
 2. Enable integration for your WSL 2 distro
 3. Restart your terminal and verify with `docker --version`
 
 Alternatively, if Docker is installed but not in PATH, check:
+
 ```bash
 which docker && docker info
 ```
@@ -636,11 +654,13 @@ which docker && docker info
 ### Configuration Not Found Error
 
 Ensure the configuration files are mounted correctly:
+
 ```bash
 docker inspect satp-test-adapter | jq '.[0].Mounts'
 ```
 
 The gateway expects:
+
 - Gateway config at: `/opt/cacti/satp-hermes/config/config.json`
 - Adapter config at: `/opt/cacti/satp-hermes/config/adapter-config.yml`
 
@@ -648,6 +668,7 @@ The gateway expects:
 
 1. Wait for the gateway to fully start (usually 5-10 seconds)
 2. Check if the container is running:
+
    ```bash
    docker ps | grep satp-test-adapter
    ```
@@ -660,6 +681,7 @@ The gateway expects:
 ### Docker-in-Docker Warnings
 
 You may see warnings about `dockerd` failing inside the container. This is expected when running without Docker socket access and does not affect gateway functionality:
+
 ```
 WARN exited: dockerd (exit status 1; not expected)
 ```
@@ -667,6 +689,7 @@ WARN exited: dockerd (exit status 1; not expected)
 ### Clean Restart
 
 For a fresh start:
+
 ```bash
 make -f src/examples/docker-adapter-test.mk clean
 make -f src/examples/docker-adapter-test.mk build-no-cache

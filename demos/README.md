@@ -1,6 +1,7 @@
 # Getting Started with SATP (Secure Asset Transfer Protocol)
 
 ## Table of Contents
+
 - [Getting Started with SATP (Secure Asset Transfer Protocol)](#getting-started-with-satp-secure-asset-transfer-protocol)
   - [Table of Contents](#table-of-contents)
   - [Setting Up Your Gateway](#setting-up-your-gateway)
@@ -92,7 +93,7 @@ You'll need to configure the gateway to be created and fill in <GATEWAY_CONFIG> 
   "keyPair": {
     "privateKey": "XXX",
     "publicKey": "XXX"
-  },
+  }
 }
 ```
 
@@ -119,6 +120,7 @@ You may need to configure the local and remote repositories to be created and fi
 You'll need to configure each blockchain you want to connect to and fill in <NETWORK_CONFIG_X>.
 
 #### For EVM Networks:
+
 ```json
 {
   "networkIdentification": {
@@ -150,8 +152,9 @@ You'll need to configure each blockchain you want to connect to and fill in <NET
 ## Using Docker Compose
 
 1. Create a `docker-compose.yml`:
+
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   satp-gateway:
     image: aaugusto11/cacti-satp-hermes-gateway:215ad342b-2025-05-29
@@ -165,6 +168,7 @@ services:
 ```
 
 2. Start the services:
+
 ```bash
 # Interactive mode
 docker-compose up
@@ -174,6 +178,7 @@ docker-compose up -d
 ```
 
 3. Stop the services:
+
 ```bash
 docker-compose down
 ```

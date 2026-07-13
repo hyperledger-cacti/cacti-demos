@@ -31,7 +31,7 @@
     "identificationCredential": {
       "signingAlgorithm": "SECP256K1",
       "pubKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
-    }  
+    }
   },
   "logLevel": "TRACE",
   "counterPartyGateways": [
@@ -66,7 +66,7 @@
       "gatewayOapiPort": 4010,
       "identificationCredential": {
         "signingAlgorithm": "SECP256K1",
-        "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"    
+        "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"
       }
     }
   ],
@@ -90,9 +90,7 @@
         "connectorOptions": {
           "rpcApiHttpHost": "http://host.docker.internal:8545"
         },
-        "claimFormats": [
-          1
-        ],
+        "claimFormats": [1],
         "leafId": "leaf1"
       },
       {
@@ -112,9 +110,7 @@
         "connectorOptions": {
           "rpcApiHttpHost": "http://host.docker.internal:8546"
         },
-        "claimFormats": [
-          1
-        ],
+        "claimFormats": [1],
         "leafId": "leaf2"
       },
       {
@@ -134,9 +130,7 @@
         "connectorOptions": {
           "rpcApiHttpHost": "http://host.docker.internal:8547"
         },
-        "claimFormats": [
-          1
-        ],
+        "claimFormats": [1],
         "leafId": "leaf3"
       }
     ]

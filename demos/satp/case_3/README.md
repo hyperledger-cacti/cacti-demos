@@ -4,7 +4,6 @@ This test case demonstrates how the Gateway can run the Secure Asset Transfer Pr
 
 For this, we will use the `SATPTokenContract` contract, which is a simple contract that resembles a token contract following the ERC20 standard.
 
-
 ## Terminal Overview
 
 Before starting, here is a summary of what each terminal will be used for in this case:
@@ -17,6 +16,7 @@ Before starting, here is a summary of what each terminal will be used for in thi
 - **Terminal 6:** Run SATP protocol scripts (integration checks, transactions, status, audit)
 
 This pattern is similar in other SATP and Oracle cases:
+
 - **Gateway terminals** (usually Terminal 1): Always run the Gateway via Docker Compose
 - **EVM/Hardhat terminals** (usually Terminals 2, 3 and 4, in this case): Start one or more local blockchains
 - **Deployment/Script terminals** (Terminals 5+): Deploy contracts and run interaction scripts
@@ -24,7 +24,6 @@ This pattern is similar in other SATP and Oracle cases:
 Refer to each case's README for the exact mapping and steps.
 
 ## Setup Instructions
-
 
 ### 1. Start the Hardhat EVM Blockchains
 
@@ -58,10 +57,11 @@ docker compose up
 
 This will start both gateways with the corresponding configuration file located in `./config/gateway-1-config.json` and `./config/gateway-2-config.json`.
 
-**Expected Result**: In Terminal 2, 3 and 4 (blockchains), observe a contract being deployed. This is the bridge contract `SATPWrapper` that allows the Gateway to interact with the client contracts deployed in EVM-based blockchains. 
+**Expected Result**: In Terminal 2, 3 and 4 (blockchains), observe a contract being deployed. This is the bridge contract `SATPWrapper` that allows the Gateway to interact with the client contracts deployed in EVM-based blockchains.
 Only Gateway 1 will deploy these contracts. Gateway 2 should use the contract deployed by its counterparty.
 
 ### 2.5 (Optional) Check the blockchains to which each Gateway is connected
+
 In terminal 5, from this directory:
 
 ```bash
@@ -110,8 +110,8 @@ python3 satp-evm-check-status.py <SESSION_ID>
 
 **Expected Output**:
 
-* Status: `DONE`
-* Current Step: `transfer-complete-message` (the last step of the SATP)
+- Status: `DONE`
+- Current Step: `transfer-complete-message` (the last step of the SATP)
 
 ---
 
@@ -124,7 +124,7 @@ cd ../../../utils/test-ledgers && node scripts/SATPTokenContractCase3.js 1
 ```
 
 > This deploys the `SATPTokenContract` to the running Hardhat networks (`hardhat1`, `hardhat2` and `hardhat3` which should be configured in `hardhat.config.js` to point to `http://0.0.0.0:8545`, `http://0.0.0.0:8546` and `http://0.0.0.0:8547` respectively). Additionally, it will perform the necessary contract calls necessary to set up the SATP protocol. Check the file to see the details of the operations performed.
-> It requires a command line integer input 1, 2 or 3, depending on which transaction is to be executed out of the three (chain1 -> chain2, chain2 -> chain3, chain3 -> chain1). 
+> It requires a command line integer input 1, 2 or 3, depending on which transaction is to be executed out of the three (chain1 -> chain2, chain2 -> chain3, chain3 -> chain1).
 
 ---
 
@@ -151,8 +151,8 @@ python3 satp-evm-check-status.py <SESSION_ID>
 
 **Expected Output**:
 
-* Status: `DONE`
-* Current Step: `transfer-complete-message` (the last step of the SATP)
+- Status: `DONE`
+- Current Step: `transfer-complete-message` (the last step of the SATP)
 
 ---
 
@@ -179,8 +179,8 @@ python3 satp-evm-check-status.py <SESSION_ID>
 
 **Expected Output**:
 
-* Status: `DONE`
-* Current Step: `transfer-complete-message` (the last step of the SATP)
+- Status: `DONE`
+- Current Step: `transfer-complete-message` (the last step of the SATP)
 
 > This shows that the same Gateway pair can orchestrate SAT sessions between different blockchain pairs, as long as they are connected to the relevant blockchains for the transaction.
 

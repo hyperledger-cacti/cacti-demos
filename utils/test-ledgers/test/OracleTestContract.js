@@ -5,7 +5,6 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("OracleTestContract", function () {
-
   async function deployOracleContract() {
     const [owner, otherAccount] = await ethers.getSigners();
 
@@ -17,23 +16,17 @@ describe("OracleTestContract", function () {
 
   describe("Deployment", function () {
     it("Should set the right owner", async function () {
-      const { oracle, owner } = await loadFixture(deployOracleContract);
-
+      // const { oracle, owner } = await loadFixture(deployOracleContract);
       // expect(await oracle.owner()).to.equal(owner.address);
     });
 
     it("Should write and read data", async function () {
-      const { oracle, owner } = await loadFixture(
-        deployOracleContract
-      );
+      const { oracle } = await loadFixture(deployOracleContract);
 
       const newData = "Hello, world!";
       await oracle.setData(newData);
 
-      const encodedData = (new ethers.AbiCoder()).encode(
-        ["string"],
-        [newData]
-      );
+      const encodedData = new ethers.AbiCoder().encode(["string"], [newData]);
 
       const hash_newData = ethers.keccak256(encodedData);
 
@@ -41,16 +34,11 @@ describe("OracleTestContract", function () {
     });
 
     it("Should emit UpdatedData event", async function () {
-      const { oracle, owner } = await loadFixture(
-        deployOracleContract
-      );
+      const { oracle } = await loadFixture(deployOracleContract);
 
       const newData = "Hello, world 1!";
 
-      const encodedData = (new ethers.AbiCoder()).encode(
-        ["string"],
-        [newData]
-      );
+      const encodedData = new ethers.AbiCoder().encode(["string"], [newData]);
 
       const hash_newData = ethers.keccak256(encodedData);
 
@@ -58,22 +46,20 @@ describe("OracleTestContract", function () {
         .to.emit(oracle, "UpdatedData")
         .withArgs(hash_newData, newData, 1);
     });
-    
+
     it("Should revert if data is not found", async function () {
-      const { oracle } = await loadFixture(
-        deployOracleContract
-      );
-      
-      const encodedData = (new ethers.AbiCoder()).encode(
+      const { oracle } = await loadFixture(deployOracleContract);
+
+      const encodedData = new ethers.AbiCoder().encode(
         ["string"],
-        ["Invalid Id"]
+        ["Invalid Id"],
       );
 
       const hash_invalid_data = ethers.keccak256(encodedData);
 
       await expect(oracle.getData(hash_invalid_data)).to.be.revertedWith(
-        "Data not found"
+        "Data not found",
       );
-    });  
+    });
   });
 });

@@ -4,13 +4,13 @@ This example demonstrates how to use the SATP Hermes Gateway as middleware to pe
 
 For this case, we use the standard **`asset-transfer-basic`** chaincode deployed on Fabric, which provides functions for managing assets:
 
-* **`InitLedger()`** – Initializes the ledger with sample assets
-* **`CreateAsset(id, color, size, owner, value)`** – Creates a new asset on the ledger
-* **`ReadAsset(id)`** – Retrieves an asset by its ID
-* **`UpdateAsset(id, color, size, owner, value)`** – Updates an existing asset
-* **`GetAllAssets()`** – Retrieves all assets from the ledger
-* **`TransferAsset(id, newOwner)`** – Transfers asset ownership
-* **`DeleteAsset(id)`** – Removes an asset from the ledger
+- **`InitLedger()`** – Initializes the ledger with sample assets
+- **`CreateAsset(id, color, size, owner, value)`** – Creates a new asset on the ledger
+- **`ReadAsset(id)`** – Retrieves an asset by its ID
+- **`UpdateAsset(id, color, size, owner, value)`** – Updates an existing asset
+- **`GetAllAssets()`** – Retrieves all assets from the ledger
+- **`TransferAsset(id, newOwner)`** – Transfers asset ownership
+- **`DeleteAsset(id)`** – Removes an asset from the ledger
 
 ## Requirements
 
@@ -44,6 +44,7 @@ Before starting, here is a summary of what each terminal will be used for:
 ### 1. Start Hyperledger Fabric Network
 
 In terminal 1, navigate to your Fabric samples directory and start the network:
+
 ```bash
 cd fabric-samples/test-network
 ./network.sh down  # Clean up any existing network if needed
@@ -57,6 +58,7 @@ This creates a Fabric network with two organizations (Org1 and Org2) and a chann
 ### 2. Deploy the Asset-Transfer-Basic Chaincode
 
 In terminal 1, from the same directory:
+
 ```bash
 ./network.sh deployCC -ccn basic -ccp ../asset-transfer-basic/chaincode-typescript -ccl typescript
 ```
@@ -75,33 +77,39 @@ In terminal 2, navigate to your Fabric samples directory:
 cd utils
 chmod +x getcert.sh && ./getcert.sh > certs.txt
 ```
+
 And a txt file will be created where you can just copy the keys to the placeholders in [`config/gateway-fabric-config.json`](config/gateway-fabric-config.json).
 
 #### Option 2: Manual Retrieval
 
 In terminal 2, navigate to your Fabric samples directory:
 
-Admin Certificate     -> userIdentity.credentials.certificate
+Admin Certificate -> userIdentity.credentials.certificate
+
 ```bash
 cat organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/*.pem
 ```
 
-Admin Private Key     -> userIdentity.credentials.privateKey
+Admin Private Key -> userIdentity.credentials.privateKey
+
 ```bash
 cat organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/*_sk
 ```
 
-Peer0 Org1 CA Cert    -> connectionProfile.peers.peer0.org1.example.com.tlsCACerts.pem
+Peer0 Org1 CA Cert -> connectionProfile.peers.peer0.org1.example.com.tlsCACerts.pem
+
 ```bash
 cat organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 ```
 
-CA Org1 Certificate   -> connectionProfile.certificateAuthorities.ca.org1.example.com.tlsCACerts.pem[0]
+CA Org1 Certificate -> connectionProfile.certificateAuthorities.ca.org1.example.com.tlsCACerts.pem[0]
+
 ```bash
 cat organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
 ```
 
 Orderer CA Certificate -> connectionProfile.orderers.orderer.example.com.tlsCACerts.pem
+
 ```bash
 cat organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 ```
@@ -111,21 +119,25 @@ cat organizations/ordererOrganizations/example.com/orderers/orderer.example.com/
 ### 4. Start the Gateway (Docker)
 
 In terminal 3:
+
 ```bash
 docker compose up
 ```
+
 This will start the Gateway with the Fabric configuration file.
 
 ```bash
 docker ps
 ```
-And check if kubaya/cacti-satp-hermes-gateway is healthy, if it procceed
+
+And check if kubaya/cacti-satp-hermes-gateway is healthy, if it proceed
 
 ---
 
 ### 5. Run the Oracle Execute Script
 
 In terminal 4, from this directory:
+
 ```bash
 python3 oracle-execute-fabric.py
 ```
@@ -143,4 +155,3 @@ This script sends POST requests to the Gateway to trigger chaincode functions vi
 5. **Update Asset** – Updates the asset and verifies the changes
 6. **Transfer Asset** – Transfers ownership and verifies the new owner
 7. **Delete Asset** – Deletes the asset and verifies removal
-

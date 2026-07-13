@@ -1,25 +1,16 @@
 {
-  "include": [
-    "src",
-    "src/**/*.json"
-  ],
+  "include": ["src", "src/**/*.json"],
   "compilerOptions": {
     "incremental": true,
     "target": "ES2022",
     "module": "CommonJS",
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
+    "lib": ["ES2022", "dom"],
     "declaration": true,
     "removeComments": false,
     "strict": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./typings"
-    ],
+    "typeRoots": ["./node_modules/@types", "./typings"],
     "esModuleInterop": true,
     "inlineSourceMap": true,
     "forceConsistentCasingInFileNames": true,

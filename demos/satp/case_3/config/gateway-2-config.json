@@ -90,9 +90,7 @@
         "connectorOptions": {
           "rpcApiHttpHost": "http://host.docker.internal:8545"
         },
-        "claimFormats": [
-          1
-        ],
+        "claimFormats": [1],
         "wrapperContractName": "leaf1-wrapper-contract",
         "wrapperContractAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3"
       },
@@ -113,9 +111,7 @@
         "connectorOptions": {
           "rpcApiHttpHost": "http://host.docker.internal:8546"
         },
-        "claimFormats": [
-          1
-        ],
+        "claimFormats": [1],
         "wrapperContractName": "leaf2-wrapper-contract",
         "wrapperContractAddress": "0x8464135c8f25da09e49bc8782676a84730c318bc"
       },
@@ -136,9 +132,7 @@
         "connectorOptions": {
           "rpcApiHttpHost": "http://host.docker.internal:8547"
         },
-        "claimFormats": [
-          1
-        ],
+        "claimFormats": [1],
         "wrapperContractName": "leaf3-wrapper-contract",
         "wrapperContractAddress": "0x663f3ad617193148711d28f5334ee4ed07016602"
       }

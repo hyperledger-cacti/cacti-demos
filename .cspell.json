@@ -17,18 +17,37 @@
     "fabric",
     "erc20",
     "erc721",
-    "ipfs"
+    "ipfs",
+    "keccak",
+    "approveformyorg",
+    "foundryup",
+    "dlts",
+    "oapi",
+    "mspid",
+    "adminpw",
+    "mychannel",
+    "localmspid",
+    "mspconfig",
+    "tlscacerts",
+    "tlsca",
+    "mspconfigpath",
+    "grpcs",
+    "allfortx",
+    "kubaya",
+    "unregisters",
+    "aaugusto"
   ],
-  "dictionaries": [
-    "typescript",
-    "node",
-    "npm"
-  ],
+  "dictionaries": ["typescript", "node", "npm"],
   "ignorePaths": [
     "**/node_modules/**",
     "**/build/**",
     "**/dist/**",
     "yarn.lock",
-    ".yarn/**"
+    ".yarn/**",
+    "**/build-info/**",
+    "**/deployments/**",
+    "**/artifacts/**",
+    "**/cache/**",
+    "**/npm-shrinkwrap.json"
   ]
 }

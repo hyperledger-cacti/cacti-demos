@@ -54,6 +54,7 @@ Refer to each script for specific usage and configuration details.
 ## Network Configuration
 
 The `hardhat.config.js` file defines two networks:
+
 - `hardhat1`: http://0.0.0.0:8545
 - `hardhat2`: http://0.0.0.0:8546
 
