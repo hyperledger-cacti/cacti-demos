@@ -3,3 +3,4 @@ dist/
 build/
 .yarn/
 utils/contracts/
+examples/cactus-common-example-server/

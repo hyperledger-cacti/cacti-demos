@@ -5,5 +5,9 @@
     "baseUrl": "."
   },
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./examples/cactus-common-example-server/tsconfig.json"
+    }
+  ]
 }

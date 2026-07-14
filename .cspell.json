@@ -48,6 +48,7 @@
     "**/deployments/**",
     "**/artifacts/**",
     "**/cache/**",
-    "**/npm-shrinkwrap.json"
+    "**/npm-shrinkwrap.json",
+    "examples/cactus-common-example-server/**"
   ]
 }

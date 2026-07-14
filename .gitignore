@@ -3,6 +3,9 @@
 **/outputs
 # Node and Yarn
 node_modules/
-.yarn/cache/
-.yarn/install-state.gz
+.yarn/*
 .pnp.*
+
+# Build caches
+.build-cache/
+.tsbuildinfo
