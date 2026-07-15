@@ -5,7 +5,7 @@
 node_modules/
 .yarn/*
 .pnp.*
-
 # Build caches
 .build-cache/
 .tsbuildinfo
+dist/
