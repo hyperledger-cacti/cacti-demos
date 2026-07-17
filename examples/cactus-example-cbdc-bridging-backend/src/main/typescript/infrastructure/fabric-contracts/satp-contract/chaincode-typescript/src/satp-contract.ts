@@ -141,9 +141,9 @@ export class SATPContract
     bridge = bridge ? bridge : Buffer.from("");
 
     const clientMSPID = await ctx.clientIdentity.getMSPID();
-    if (
-      !(clientMSPID == owner.toString() || clientMSPID == bridge.toString())
-    ) {
+    if (!(
+      clientMSPID == owner.toString() || clientMSPID == bridge.toString()
+    )) {
       throw new Error(
         `client is not authorized to perform the operation. ${clientMSPID}`,
       );
@@ -162,9 +162,9 @@ export class SATPContract
 
     bridge = bridge ? bridge : Buffer.from("");
 
-    if (
-      !(clientMSPID == owner.toString() || clientMSPID == bridge.toString())
-    ) {
+    if (!(
+      clientMSPID == owner.toString() || clientMSPID == bridge.toString()
+    )) {
       throw new Error(
         `client is not authorized to perform the operation. ${clientMSPID}`,
       );

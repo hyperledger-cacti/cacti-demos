@@ -11,9 +11,7 @@ On the terminal, issue the following commands in the project root:
 
 Wait for the output to show the message `CbdcBridgingApp running...`
 
-In a second terminal run the following commands from the project root:
-3. `cd examples/cactus-example-cbdc-bridging-backend`
-4. `yarn run test`
+In a second terminal run the following commands from the project root: 3. `cd examples/cactus-example-cbdc-bridging-backend` 4. `yarn run test`
 
 ## Running the Example Application Locally
 
@@ -29,6 +27,7 @@ Wait for the output to show the message `CbdcBridgingApp running...`
 ## Running with a different configuration
 
 There is a `process.env` file where you can change the following variables:
+
 ```
 API_HOST=localhost // the path where the backend will be running
 API_SERVER_1_PORT=4000 // port assign to the FabricConnectorApi

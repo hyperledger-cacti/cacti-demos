@@ -1,4 +1,5 @@
-{ "info": {
+{
+  "info": {
     "description": "this file contains data to be used for testing purposes only. It should not be changed. It should remain consistent with the crypto material in the fabric chaincode"
   },
   "accounts": {

@@ -18,5 +18,20 @@ jobs:
       - uses: ./.github/actions/configure-repo
       - name: Build TypeScript
         run: yarn build:dev:backend
-      - name: Lint
+      - name: Build EVM Contracts
+        run: yarn build:evm
+      - name: Lint (JS/TS + Solidity)
         run: yarn lint
+
+  lint-python:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install flake8
+        run: pip install flake8
+      - name: Lint Python
+        run: flake8 .
