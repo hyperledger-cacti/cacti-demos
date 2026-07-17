@@ -4,4 +4,5 @@ build/
 .yarn/
 utils/contracts/
 examples/cactus-common-example-server/
+examples/cactus-example-cbdc-bridging-frontend/
 examples/cactus-example-cbdc-bridging-backend/
