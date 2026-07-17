@@ -10,7 +10,6 @@
     "strict": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "./typings"],
     "esModuleInterop": true,
     "inlineSourceMap": true,
     "forceConsistentCasingInFileNames": true,

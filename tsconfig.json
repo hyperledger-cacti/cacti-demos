@@ -8,6 +8,9 @@
   "references": [
     {
       "path": "./examples/cactus-common-example-server/tsconfig.json"
+    },
+    {
+      "path": "./examples/cactus-example-cbdc-bridging-backend/tsconfig.json"
     }
   ]
 }
