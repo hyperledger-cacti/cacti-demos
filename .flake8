@@ -1,0 +1,20 @@
+[flake8]
+max-line-length = 200
+exclude =
+    node_modules,
+    .yarn,
+    .build-cache,
+    dist,
+    build,
+    .git,
+    __pycache__,
+    .venv,
+    venv
+# W503: line break before binary operator (PEP 8 now recommends this)
+# E203: whitespace before ':' (conflicts with black-style formatting)
+# E302, E303, E305: blank lines
+# E201, E202, E261, E265: whitespace inside/before comments and braces
+# W291, W292, W293: trailing whitespace and missing EOF newlines
+# F401: unused imports (many existing demos have unused imports)
+# F541: f-string without placeholders
+extend-ignore = W503, E203, E302, E303, E305, E201, E202, E261, E265, W291, W292, W293, F401, F541

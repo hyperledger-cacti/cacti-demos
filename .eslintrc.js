@@ -24,5 +24,7 @@ module.exports = {
     semi: ["error", "always"],
     "new-cap": ["off"],
     "comma-dangle": ["warn", "always-multiline"],
+    "@typescript-eslint/no-require-imports": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
   },
 };

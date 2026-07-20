@@ -10,11 +10,13 @@
   "scripts": {
     "configure": "yarn install && yarn git-hooks:install && yarn build:dev:backend",
     "git-hooks:install": "husky",
-    "lint": "run-s format:eslint format:prettier spellcheck",
+    "lint": "run-s format:eslint format:prettier spellcheck lint:solidity",
+    "lint:solidity": "solhint 'utils/test-ledgers/contracts/**/*.sol' 'examples/**/contracts/**/*.sol' 'examples/**/solidity/contracts/**/*.sol'",
     "format:eslint": "eslint '**/*.{js,ts}' --quiet --fix",
     "format:prettier": "prettier --write --config .prettierrc.js './**/{*.ts,*.js,*.json,*.md}'",
     "spellcheck": "cspell lint --no-progress \"**/*.{js,ts,md,json}\"",
     "build:dev:backend": "tsc --build",
+    "build:evm": "cd utils/test-ledgers && yarn run compile",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -23,7 +25,7 @@
     "@typescript-eslint/eslint-plugin": "8.64.0",
     "@typescript-eslint/parser": "8.64.0",
     "cspell": "10.0.1",
-    "eslint": "10.7.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
     "husky": "^9.1.7",
@@ -31,6 +33,7 @@
     "lint-staged": "^17.0.8",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.9.4",
+    "solhint": "^5.0.0",
     "typescript": "^5.4.5"
   }
 }

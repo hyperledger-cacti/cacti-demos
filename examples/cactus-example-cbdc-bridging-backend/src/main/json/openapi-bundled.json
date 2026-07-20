@@ -26,9 +26,7 @@
   "paths": {
     "/api/v1/@hyperledger-cacti/cactus-example-cbdc/transact": {
       "post": {
-        "tags": [
-          "transact"
-        ],
+        "tags": ["transact"],
         "x-hyperledger-cacti": {
           "http": {
             "verbLowerCase": "post",
@@ -67,10 +65,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": [
-                          "FABRIC",
-                          "BESU"
-                        ]
+                        "enum": ["FABRIC", "BESU"]
                       }
                     }
                   },
@@ -80,10 +75,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": [
-                          "FABRIC",
-                          "BESU"
-                        ]
+                        "enum": ["FABRIC", "BESU"]
                       }
                     }
                   },
@@ -124,14 +116,10 @@
                           ]
                         }
                       },
-                      "required": [
-                        "status"
-                      ]
+                      "required": ["status"]
                     }
                   },
-                  "required": [
-                    "statusResponse"
-                  ]
+                  "required": ["statusResponse"]
                 }
               }
             }
@@ -189,9 +177,7 @@
     },
     "/api/v1/@hyperledger-cacti/cactus-example-cbdc/get-sessions-references": {
       "get": {
-        "tags": [
-          "get-sessions-references"
-        ],
+        "tags": ["get-sessions-references"],
         "summary": "Get SATP current sessions data",
         "description": "Retrieve the status of a SATP sessions of a gateway",
         "operationId": "GetSessionsReferences",
@@ -207,10 +193,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": [
-                "FABRIC",
-                "BESU"
-              ]
+              "enum": ["FABRIC", "BESU"]
             },
             "description": "Unique identifier for the session."
           }
@@ -265,9 +248,7 @@
     },
     "/api/v1/@hyperledger-cacti/cactus-example-cbdc/get-balance": {
       "get": {
-        "tags": [
-          "get-balance"
-        ],
+        "tags": ["get-balance"],
         "x-hyperledger-cacti": {
           "http": {
             "verbLowerCase": "get",
@@ -288,10 +269,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": [
-                "FABRIC",
-                "BESU"
-              ]
+              "enum": ["FABRIC", "BESU"]
             }
           }
         ],
@@ -309,9 +287,7 @@
                       "example": "100"
                     }
                   },
-                  "required": [
-                    "amount"
-                  ]
+                  "required": ["amount"]
                 }
               }
             }
@@ -330,9 +306,7 @@
     },
     "/api/v1/@hyperledger-cacti/cactus-example-cbdc/mint-tokens": {
       "post": {
-        "tags": [
-          "mint"
-        ],
+        "tags": ["mint"],
         "x-hyperledger-cacti": {
           "http": {
             "verbLowerCase": "post",
@@ -364,19 +338,12 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": [
-                          "FABRIC",
-                          "BESU"
-                        ]
+                        "enum": ["FABRIC", "BESU"]
                       }
                     }
                   }
                 },
-                "required": [
-                  "user",
-                  "amount",
-                  "ledger"
-                ]
+                "required": ["user", "amount", "ledger"]
               }
             }
           }
@@ -447,9 +414,7 @@
     },
     "/api/v1/@hyperledger-cacti/cactus-example-cbdc/approve-tokens": {
       "post": {
-        "tags": [
-          "approve"
-        ],
+        "tags": ["approve"],
         "x-hyperledger-cacti": {
           "http": {
             "verbLowerCase": "post",
@@ -481,19 +446,12 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": [
-                          "FABRIC",
-                          "BESU"
-                        ]
+                        "enum": ["FABRIC", "BESU"]
                       }
                     }
                   }
                 },
-                "required": [
-                  "user",
-                  "amount",
-                  "ledger"
-                ]
+                "required": ["user", "amount", "ledger"]
               }
             }
           }
@@ -564,9 +522,7 @@
     },
     "/api/v1/@hyperledger-cacti/cactus-example-cbdc/get-amount-approved": {
       "get": {
-        "tags": [
-          "get-amount-approved"
-        ],
+        "tags": ["get-amount-approved"],
         "x-hyperledger-cacti": {
           "http": {
             "verbLowerCase": "get",
@@ -589,10 +545,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": [
-                "FABRIC",
-                "BESU"
-              ]
+              "enum": ["FABRIC", "BESU"]
             }
           }
         ],
@@ -622,9 +575,7 @@
     },
     "/api/v1/@hyperledger-cacti/cactus-example-cbdc/transfer-tokens": {
       "post": {
-        "tags": [
-          "transfer"
-        ],
+        "tags": ["transfer"],
         "x-hyperledger-cacti": {
           "http": {
             "verbLowerCase": "post",
@@ -656,10 +607,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": [
-                          "FABRIC",
-                          "BESU"
-                        ]
+                        "enum": ["FABRIC", "BESU"]
                       }
                     }
                   },
@@ -669,10 +617,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": [
-                          "FABRIC",
-                          "BESU"
-                        ]
+                        "enum": ["FABRIC", "BESU"]
                       }
                     }
                   },
