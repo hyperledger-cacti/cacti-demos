@@ -4292,6 +4292,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hyperledger-cacti/cacti-starter@workspace:examples/cacti-starter":
+  version: 0.0.0-use.local
+  resolution: "@hyperledger-cacti/cacti-starter@workspace:examples/cacti-starter"
+  dependencies:
+    "@hyperledger-cacti/cactus-cmd-api-server": "npm:3.0.0-beta.1"
+    "@hyperledger-cacti/cactus-plugin-keychain-memory": "npm:3.0.0-beta.1"
+  languageName: unknown
+  linkType: soft
+
 "@hyperledger-cacti/cactus-api-client@npm:3.0.0-beta.1":
   version: 3.0.0-beta.1
   resolution: "@hyperledger-cacti/cactus-api-client@npm:3.0.0-beta.1"

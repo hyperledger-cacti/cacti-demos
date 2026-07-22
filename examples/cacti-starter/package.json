@@ -1,0 +1,13 @@
+{
+  "name": "@hyperledger-cacti/cacti-starter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal Level 2 onboarding template for Hyperledger Cacti",
+  "scripts": {
+    "start": "yarn node start.js --config-file .config.json"
+  },
+  "dependencies": {
+    "@hyperledger-cacti/cactus-cmd-api-server": "3.0.0-beta.1",
+    "@hyperledger-cacti/cactus-plugin-keychain-memory": "3.0.0-beta.1"
+  }
+}
