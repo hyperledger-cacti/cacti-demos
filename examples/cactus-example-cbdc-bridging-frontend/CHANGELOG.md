@@ -7,7 +7,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* renaming JS/TS package namespaces ([ed4e680](https://github.com/hyperledger-cacti/cacti/commit/ed4e680f2c0d44ffad4e55d88118e7e042d257d0))
+- renaming JS/TS package namespaces ([ed4e680](https://github.com/hyperledger-cacti/cacti/commit/ed4e680f2c0d44ffad4e55d88118e7e042d257d0))
 
 # [2.0.0](https://github.com/hyperledger-cacti/cacti/compare/v2.0.0-rc.7...v2.0.0) (2024-10-15)
 
@@ -25,23 +25,24 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **security:** address CVE-2024-39338 SSRF in axios >= 1.3.2, <= 1.7.3 ([7e7bb44](https://github.com/hyperledger/cacti/commit/7e7bb44c01a2d19306ecaaaa2ba2e3c574039c87))
+- **security:** address CVE-2024-39338 SSRF in axios >= 1.3.2, <= 1.7.3 ([7e7bb44](https://github.com/hyperledger/cacti/commit/7e7bb44c01a2d19306ecaaaa2ba2e3c574039c87))
 
 # [2.0.0-rc.3](https://github.com/hyperledger/cacti/compare/v2.0.0-rc.2...v2.0.0-rc.3) (2024-07-21)
 
 ### Build System
 
-* bump uuid@10.0.0 fs-extra@11.2.0 @bufbuild/protobuf@1.10.0 ([9970352](https://github.com/hyperledger/cacti/commit/997035216694fe335215b8a3586488ac8c12447f))
+- bump uuid@10.0.0 fs-extra@11.2.0 @bufbuild/protobuf@1.10.0 ([9970352](https://github.com/hyperledger/cacti/commit/997035216694fe335215b8a3586488ac8c12447f))
 
 ### BREAKING CHANGES
 
-* Renamed classes to fix typos in their name: `PluginFactoryPersistanceFabric`
-This is being done in this pull request because for some reason (that I still don't understand)
-the spell checker started failing on these only in the context of this pull request.
-The typos were present on the main branch already somehow having passed spellchecking earlier
-and every other time since then.
+- Renamed classes to fix typos in their name: `PluginFactoryPersistanceFabric`
+  This is being done in this pull request because for some reason (that I still don't understand)
+  the spell checker started failing on these only in the context of this pull request.
+  The typos were present on the main branch already somehow having passed spellchecking earlier
+  and every other time since then.
 
 And also
+
 - prom-clien@15.1.3
 - del-cli@5.1.0
 - cspell@8.10.4
@@ -66,6 +67,6 @@ Signed-off-by: Peter Somogyvari <peter.somogyvari@accenture.com>
 
 ### Features
 
-* **cbdc-bridging:** add frontend code for the CBDC example ([5ad0ebf](https://github.com/hyperledger/cacti/commit/5ad0ebffe9de0eabbdfabb8ce8fa5c426519ee33))
-* **indy-sdk:** replace indy SDK with AFJ ([3291dcc](https://github.com/hyperledger/cacti/commit/3291dcc57e9e4eb04e0b9abab4134e1a5e2b0bbf)), closes [#2859](https://github.com/hyperledger/cacti/issues/2859) [#2860](https://github.com/hyperledger/cacti/issues/2860)
-* **plugin-satp-hermes:** replace IPFS dependency in SATP package ([3bb7157](https://github.com/hyperledger/cacti/commit/3bb7157b8c910c31aa3fe125ecfb3437c2bef5bb)), closes [#2984](https://github.com/hyperledger/cacti/issues/2984) [#3006](https://github.com/hyperledger/cacti/issues/3006)
+- **cbdc-bridging:** add frontend code for the CBDC example ([5ad0ebf](https://github.com/hyperledger/cacti/commit/5ad0ebffe9de0eabbdfabb8ce8fa5c426519ee33))
+- **indy-sdk:** replace indy SDK with AFJ ([3291dcc](https://github.com/hyperledger/cacti/commit/3291dcc57e9e4eb04e0b9abab4134e1a5e2b0bbf)), closes [#2859](https://github.com/hyperledger/cacti/issues/2859) [#2860](https://github.com/hyperledger/cacti/issues/2860)
+- **plugin-satp-hermes:** replace IPFS dependency in SATP package ([3bb7157](https://github.com/hyperledger/cacti/commit/3bb7157b8c910c31aa3fe125ecfb3437c2bef5bb)), closes [#2984](https://github.com/hyperledger/cacti/issues/2984) [#3006](https://github.com/hyperledger/cacti/issues/3006)

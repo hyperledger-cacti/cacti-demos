@@ -316,13 +316,13 @@ export class CbdcBridgingAppDummyInfrastructure {
         ? ({
             client: this.db_local_config1.client,
             connection: this.db_local_config1.connection,
-          } as Knex.Config)
+          } as any)
         : undefined,
       remoteRepository: this.db_remote_config1
         ? ({
             client: this.db_remote_config1.client,
             connection: this.db_remote_config1.connection,
-          } as Knex.Config)
+          } as any)
         : undefined,
       environment: "production",
       ccConfig: {
@@ -344,13 +344,13 @@ export class CbdcBridgingAppDummyInfrastructure {
         ? ({
             client: this.db_local_config2.client,
             connection: this.db_local_config2.connection,
-          } as Knex.Config)
+          } as any)
         : undefined,
       remoteRepository: this.db_remote_config2
         ? ({
             client: this.db_remote_config2.client,
             connection: this.db_remote_config2.connection,
-          } as Knex.Config)
+          } as any)
         : undefined,
       environment: "production",
       ccConfig: {

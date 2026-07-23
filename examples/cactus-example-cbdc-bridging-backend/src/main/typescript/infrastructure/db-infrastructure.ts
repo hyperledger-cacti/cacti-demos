@@ -71,7 +71,7 @@ export async function createPGDatabase(
           ["5432/tcp"]: {},
         },
         HostConfig: hostConfig,
-        Healthcheck: healthCheck,
+        Healthcheck: healthCheck as any,
         Env: [
           `POSTGRES_USER=${postgresUser}`,
           `POSTGRES_PASSWORD=${postgresPassword}`,
