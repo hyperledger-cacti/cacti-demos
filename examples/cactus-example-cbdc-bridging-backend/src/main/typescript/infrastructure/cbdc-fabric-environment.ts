@@ -663,7 +663,7 @@ export class FabricEnvironment {
           fs.mkdirSync(destDir, { recursive: true });
         }
         // Ensure fileContent is a string or Buffer
-        await fs.writeFile(destPath, Buffer.from(file.body, "base64"));
+        await fs.writeFile(destPath, Buffer.from(file.body, "base64") as any);
       }
     }
 
@@ -680,7 +680,10 @@ export class FabricEnvironment {
     );
 
     // core.yaml
-    await fs.writeFile(coreYamlPath, Buffer.from(this.coreFile.body, "base64"));
+    await fs.writeFile(
+      coreYamlPath,
+      Buffer.from(this.coreFile.body, "base64") as any,
+    );
 
     // targetOrganizations array
     const basePath = path.join("/opt/cacti/satp-hermes/config", "certs");

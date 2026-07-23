@@ -7,7 +7,5 @@
     "rootDir": "./src",
     "tsBuildInfoFile": "../../.build-cache/cactus-workshop-examples-2022-11-14.tsbuildinfo"
   },
-  "include": [
-    "./src",
-    "src/**/*.json"
-  ],
+  "include": ["./src", "src/**/*.json"]
+}

@@ -7,7 +7,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* renaming JS/TS package namespaces ([ed4e680](https://github.com/hyperledger-cacti/cacti/commit/ed4e680f2c0d44ffad4e55d88118e7e042d257d0))
+- renaming JS/TS package namespaces ([ed4e680](https://github.com/hyperledger-cacti/cacti/commit/ed4e680f2c0d44ffad4e55d88118e7e042d257d0))
 
 # [2.1.0](https://github.com/hyperledger/cacti/compare/v2.0.0...v2.1.0) (2024-12-01)
 
@@ -33,17 +33,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Build System
 
-* bump uuid@10.0.0 fs-extra@11.2.0 @bufbuild/protobuf@1.10.0 ([9970352](https://github.com/hyperledger/cacti/commit/997035216694fe335215b8a3586488ac8c12447f))
+- bump uuid@10.0.0 fs-extra@11.2.0 @bufbuild/protobuf@1.10.0 ([9970352](https://github.com/hyperledger/cacti/commit/997035216694fe335215b8a3586488ac8c12447f))
 
 ### BREAKING CHANGES
 
-* Renamed classes to fix typos in their name: `PluginFactoryPersistanceFabric`
-This is being done in this pull request because for some reason (that I still don't understand)
-the spell checker started failing on these only in the context of this pull request.
-The typos were present on the main branch already somehow having passed spellchecking earlier
-and every other time since then.
+- Renamed classes to fix typos in their name: `PluginFactoryPersistanceFabric`
+  This is being done in this pull request because for some reason (that I still don't understand)
+  the spell checker started failing on these only in the context of this pull request.
+  The typos were present on the main branch already somehow having passed spellchecking earlier
+  and every other time since then.
 
 And also
+
 - prom-clien@15.1.3
 - del-cli@5.1.0
 - cspell@8.10.4
@@ -68,14 +69,14 @@ Signed-off-by: Peter Somogyvari <peter.somogyvari@accenture.com>
 
 ### Bug Fixes
 
-* **deps:** bulk add missing dependencies - 2023-11-02 ([8addb01](https://github.com/hyperledger/cacti/commit/8addb018b6d124d54d9d948bbaeba6ea33b67153)), closes [#2857](https://github.com/hyperledger/cacti/issues/2857)
+- **deps:** bulk add missing dependencies - 2023-11-02 ([8addb01](https://github.com/hyperledger/cacti/commit/8addb018b6d124d54d9d948bbaeba6ea33b67153)), closes [#2857](https://github.com/hyperledger/cacti/issues/2857)
 
 # [2.0.0-alpha.2](https://github.com/hyperledger/cacti/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2023-09-27)
 
 ### Bug Fixes
 
-* use common conventions: tsconfig.json, package.json ([50f5c02](https://github.com/hyperledger/cacti/commit/50f5c02190ba28b77492c09e81f5d5ba6578e862)), closes [#2216](https://github.com/hyperledger/cacti/issues/2216)
-* **webpack:** fix broken bundling - cannot find webpack.config.js ([794f0b4](https://github.com/hyperledger/cacti/commit/794f0b4db6f352849b2d012c5034f0ed8d1903af))
+- use common conventions: tsconfig.json, package.json ([50f5c02](https://github.com/hyperledger/cacti/commit/50f5c02190ba28b77492c09e81f5d5ba6578e862)), closes [#2216](https://github.com/hyperledger/cacti/issues/2216)
+- **webpack:** fix broken bundling - cannot find webpack.config.js ([794f0b4](https://github.com/hyperledger/cacti/commit/794f0b4db6f352849b2d012c5034f0ed8d1903af))
 
 # [2.0.0-alpha.1](https://github.com/hyperledger/cacti/compare/v2.0.0-alpha-prerelease...v2.0.0-alpha.1) (2023-05-19)
 

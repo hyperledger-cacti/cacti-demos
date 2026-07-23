@@ -19,7 +19,8 @@ docker run -p 2000:2000 cbdc-app-frontend
 ```
 yarn start
 ```
-### Config Variables  
+
+### Config Variables
 
 ```
 PORT=2000 // port where the frontend will be running

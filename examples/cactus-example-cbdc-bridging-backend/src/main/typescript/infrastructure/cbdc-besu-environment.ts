@@ -11,7 +11,7 @@ import {
 } from "@hyperledger-cacti/cactus-plugin-satp-hermes";
 import { BesuTestLedger } from "@hyperledger-cacti/cactus-test-tooling";
 import Docker from "dockerode";
-import { Account } from "web3-core";
+
 import { randomUUID as uuidv4 } from "node:crypto";
 import { PluginKeychainMemory } from "@hyperledger-cacti/cactus-plugin-keychain-memory";
 import SATPTokenContract from "../../solidity/generated/SATPTokenContract.sol/SATPTokenContract.json";
@@ -48,7 +48,7 @@ export class BesuEnvironment {
   private connectorOptions?: IPluginLedgerConnectorBesuOptions;
 
   private firstHighNetWorthAccount!: string;
-  private bridgeEthAccount?: Account;
+  private bridgeEthAccount?: any;
   public besuKeyPair?: { privateKey: string };
   public keychainEntryKey?: string;
   public keychainEntryValue?: string;
