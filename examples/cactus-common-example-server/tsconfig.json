@@ -15,5 +15,7 @@
     "./src/main/typescript/routing-interface/**/*.ts"
   ],
   "exclude": ["copyStaticAssets.ts"],
-  "references": []
+  "references": [
+    { "path": "../../packages/cactus-test-tooling/tsconfig.json" }
+  ]
 }

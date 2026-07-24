@@ -14,5 +14,5 @@
   },
   "include": ["./src", "src/**/*.json"],
   "exclude": ["./src/main/typescript/infrastructure/fabric-contracts"],
-  "references": []
+  "references": [{ "path": "../../packages/cactus-test-tooling/tsconfig.json" }]
 }

@@ -57,7 +57,7 @@
     "@hyperledger-cacti/cactus-common": "3.0.0-beta.1",
     "@hyperledger-cacti/cactus-core": "3.0.0-beta.1",
     "@hyperledger-cacti/cactus-core-api": "3.0.0-beta.1",
-    "@hyperledger-cacti/cactus-test-tooling": "3.0.0-beta.1",
+    "@hyperledger-cacti/cactus-test-tooling": "workspace:*",
     "kubo-rpc-client": "7.1.0",
     "typescript-optional": "2.0.1",
     "uuid": "14.0.1"
