@@ -14,7 +14,7 @@ jobs:
   build-and-lint:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/configure-repo
       - name: Build TypeScript
         run: yarn build:dev:backend
@@ -26,7 +26,7 @@ jobs:
   lint-python:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
