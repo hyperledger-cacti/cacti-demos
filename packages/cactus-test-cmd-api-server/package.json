@@ -50,7 +50,7 @@
     "@hyperledger-cacti/cactus-core": "3.0.0-beta.1",
     "@hyperledger-cacti/cactus-core-api": "3.0.0-beta.1",
     "express-jwt-authz": "2.4.1",
-    "jose": "6.2.5",
+    "jose": "6.2.8",
     "uuid": "14.0.1"
   },
   "devDependencies": {
