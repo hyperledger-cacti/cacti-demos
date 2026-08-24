@@ -7,7 +7,7 @@
     "start": "yarn node start.js --config-file .config.json"
   },
   "dependencies": {
-    "@hyperledger-cacti/cactus-cmd-api-server": "3.0.0-beta.1",
-    "@hyperledger-cacti/cactus-plugin-keychain-memory": "3.0.0-beta.1"
+    "@hyperledger-cacti/cactus-cmd-api-server": "3.0.0",
+    "@hyperledger-cacti/cactus-plugin-keychain-memory": "3.0.0"
   }
 }
