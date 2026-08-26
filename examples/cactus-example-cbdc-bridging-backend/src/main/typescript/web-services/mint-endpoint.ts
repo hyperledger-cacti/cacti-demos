@@ -86,8 +86,7 @@ export class MintEndpointV1 implements IWebServiceEndpoint {
     try {
       let result;
       if (
-        reqBody.ledger.assetType ===
-        TransactRequestSourceChainAssetTypeEnum.Besu
+        reqBody.ledger.assetType === TransactRequestSourceChainAssetTypeEnum.A
       ) {
         result = await this.options.infrastructure
           .getBesuEnvironment()

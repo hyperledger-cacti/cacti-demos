@@ -8,7 +8,7 @@ info:
     name: Hyperledger Cacti
   x-logo:
     altText: Cacti logo
-    backgroundColor: '#fafafa'
+    backgroundColor: "#fafafa"
     url: https://github.com/hyperledger/cacti/blob/main/images/HL_Cacti_Logo_Color.png
 tags:
   - name: transaction
@@ -34,7 +34,7 @@ paths:
             schema:
               $ref: ./schemas.yml#/TransactRequest
       responses:
-        '200':
+        "200":
           description: Transaction successfully queued
           content:
             application/json:
@@ -49,7 +49,7 @@ paths:
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/get-sessions-references:
     get:
       tags:
-          - get-sessions-references
+        - get-sessions-references
       summary: Get SATP current sessions data
       description: Retrieve the status of a SATP sessions of a gateway
       operationId: GetSessionsReferences
@@ -63,56 +63,56 @@ paths:
           schema:
             type: string
             enum:
-              - FABRIC
-              - BESU
+              - BESU_A
+              - BESU_B
           description: Unique identifier for the session.
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: ./schemas.yml#/SessionsReferencesResponse
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/get-balance:
-      get:
-        tags:
-          - get-balance
-        x-hyperledger-cacti:
-          http:
-            verbLowerCase: get
-            path: /api/v1/@hyperledger-cacti/cactus-example-cbdc/get-balance
-        operationId: GetBalance
-        parameters:
-            - name: user
-              in: query
+    get:
+      tags:
+        - get-balance
+      x-hyperledger-cacti:
+        http:
+          verbLowerCase: get
+          path: /api/v1/@hyperledger-cacti/cactus-example-cbdc/get-balance
+      operationId: GetBalance
+      parameters:
+        - name: user
+          in: query
+          schema:
+            type: string
+        - name: chain
+          in: query
+          schema:
+            type: string
+            enum:
+              - BESU_A
+              - BESU_B
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
               schema:
-                type: string
-            - name: chain
-              in: query
-              schema:
-                type: string
-                enum:
-                  - FABRIC
-                  - BESU
-        responses:
-          '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: ./schemas.yml#/BalanceResponse
-          '400':
-            description: Bad request
-          '404':
-            description: Transaction not found
-          '500':
-            description: Internal server error
+                $ref: ./schemas.yml#/BalanceResponse
+        "400":
+          description: Bad request
+        "404":
+          description: Transaction not found
+        "500":
+          description: Internal server error
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/mint-tokens:
     post:
       tags:
@@ -131,13 +131,13 @@ paths:
             schema:
               $ref: ./schemas.yml#/MintRequest
       responses:
-        '200':
+        "200":
           description: Transaction successfully queued
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
         default:
           description: An error occurred
@@ -163,13 +163,13 @@ paths:
             schema:
               $ref: ./schemas.yml#/ApproveRequest
       responses:
-        '200':
+        "200":
           description: Transaction successfully queued
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
         default:
           description: An error occurred
@@ -180,7 +180,7 @@ paths:
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/get-amount-approved:
     get:
       tags:
-      - get-amount-approved
+        - get-amount-approved
       x-hyperledger-cacti:
         http:
           verbLowerCase: get
@@ -198,21 +198,21 @@ paths:
           schema:
             type: string
             enum:
-              - FABRIC
-              - BESU
+              - BESU_A
+              - BESU_B
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: string
                 example: "100"
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/transfer-tokens:
     post:
@@ -232,13 +232,13 @@ paths:
             schema:
               $ref: ./schemas.yml#/TransferRequest
       responses:
-        '200':
+        "200":
           description: Transaction successfully queued
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
         default:
           description: An error occurred

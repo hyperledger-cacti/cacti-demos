@@ -65,7 +65,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": ["FABRIC", "BESU"]
+                        "enum": ["BESU_A", "BESU_B"]
                       }
                     }
                   },
@@ -75,7 +75,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": ["FABRIC", "BESU"]
+                        "enum": ["BESU_A", "BESU_B"]
                       }
                     }
                   },
@@ -193,7 +193,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": ["FABRIC", "BESU"]
+              "enum": ["BESU_A", "BESU_B"]
             },
             "description": "Unique identifier for the session."
           }
@@ -269,7 +269,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": ["FABRIC", "BESU"]
+              "enum": ["BESU_A", "BESU_B"]
             }
           }
         ],
@@ -338,7 +338,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": ["FABRIC", "BESU"]
+                        "enum": ["BESU_A", "BESU_B"]
                       }
                     }
                   }
@@ -446,7 +446,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": ["FABRIC", "BESU"]
+                        "enum": ["BESU_A", "BESU_B"]
                       }
                     }
                   }
@@ -545,7 +545,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": ["FABRIC", "BESU"]
+              "enum": ["BESU_A", "BESU_B"]
             }
           }
         ],
@@ -607,7 +607,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": ["FABRIC", "BESU"]
+                        "enum": ["BESU_A", "BESU_B"]
                       }
                     }
                   },
@@ -617,7 +617,7 @@
                     "properties": {
                       "assetType": {
                         "type": "string",
-                        "enum": ["FABRIC", "BESU"]
+                        "enum": ["BESU_A", "BESU_B"]
                       }
                     }
                   },

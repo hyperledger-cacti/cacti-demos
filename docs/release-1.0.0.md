@@ -73,30 +73,30 @@ This document tracks cacti-demos version updates.
 
 ## Release Summary
 
-| Metric | Value |
-|--------|-------|
-| Tag | `1.0.0` |
-| Previous tag | [`0.0.1`](https://github.com/hyperledger-cacti/cacti-demos/releases/tag/0.0.1) |
-| Date range | 2025-11-12 (0.0.1) - 2026-08-03 |
-| Total commits | 35 |
-| Non-merge commits | 34 |
-| Files changed | 582 |
-| Lines added | +142,616 |
-| Lines removed | -450 |
-| Referenced PR/issue IDs | 16 |
-| Contributors (author identities) | 7 |
-| Unique contributor emails | 6 |
+| Metric                           | Value                                                                          |
+| -------------------------------- | ------------------------------------------------------------------------------ |
+| Tag                              | `1.0.0`                                                                        |
+| Previous tag                     | [`0.0.1`](https://github.com/hyperledger-cacti/cacti-demos/releases/tag/0.0.1) |
+| Date range                       | 2025-11-12 (0.0.1) - 2026-08-03                                                |
+| Total commits                    | 35                                                                             |
+| Non-merge commits                | 34                                                                             |
+| Files changed                    | 582                                                                            |
+| Lines added                      | +142,616                                                                       |
+| Lines removed                    | -450                                                                           |
+| Referenced PR/issue IDs          | 16                                                                             |
+| Contributors (author identities) | 7                                                                              |
+| Unique contributor emails        | 6                                                                              |
 
 ### Contributions by type
 
-| Category | Count |
-|----------|------:|
-| Features | 8 |
-| Bug Fixes | 1 |
-| Documentation | 6 |
-| Refactors | 10 |
-| Chores / CI / Dependency updates | 9 |
-| Merge commits | 1 |
+| Category                         | Count |
+| -------------------------------- | ----: |
+| Features                         |     8 |
+| Bug Fixes                        |     1 |
+| Documentation                    |     6 |
+| Refactors                        |    10 |
+| Chores / CI / Dependency updates |     9 |
+| Merge commits                    |     1 |
 
 ## Contributors
 

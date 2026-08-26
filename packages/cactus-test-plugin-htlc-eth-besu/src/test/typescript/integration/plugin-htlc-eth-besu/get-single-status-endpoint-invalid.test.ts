@@ -193,8 +193,7 @@ describe(testCase, () => {
     expect(resp.status).toEqual(200);
 
     const balance2 = await web3.eth.getBalance(firstHighNetWorthAccount);
-
-    expect(parseInt(balance)).toEqual(parseInt(balance2) - 10);
+    expect(balance).toEqual(balance2 - 10n);
     try {
       const fakeId = "0x66616b654964";
       const res = await api.getSingleStatusV1({

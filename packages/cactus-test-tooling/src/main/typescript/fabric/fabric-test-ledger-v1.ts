@@ -893,11 +893,7 @@ export class FabricTestLedgerV1 implements ITestLedger {
 
           const dumpCouch = yaml.dump(dataCouch, {
             flowLevel: -1,
-            quotingType: '"',
-            styles: {
-              "!!int": "decimal",
-              "!!null": "camelcase",
-            },
+            quoteStyle: "double",
           });
 
           createdFile.filename = `docker-compose-couch-${orgName}.yaml`;
@@ -1007,11 +1003,7 @@ export class FabricTestLedgerV1 implements ITestLedger {
           log.debug(dataCompose);
           const dumpCompose = yaml.dump(dataCompose, {
             flowLevel: -1,
-            quotingType: '"',
-            styles: {
-              "!!int": "decimal",
-              "!!null": "camelcase",
-            },
+            quoteStyle: "double",
           });
 
           const nullRegex = new RegExp(/Null/g);
@@ -1065,11 +1057,7 @@ export class FabricTestLedgerV1 implements ITestLedger {
           log.debug(dataCa);
           const dumpCa = yaml.dump(dataCa, {
             flowLevel: -1,
-            quotingType: '"',
-            styles: {
-              "!!int": "decimal",
-              "!!null": "camelcase",
-            },
+            quoteStyle: "double",
           });
 
           createdFile.filename = `docker-compose-ca-${orgName}.yaml`;
@@ -1098,11 +1086,7 @@ export class FabricTestLedgerV1 implements ITestLedger {
           log.debug(dataCrypto);
           const dumpCrypto = yaml.dump(dataCrypto, {
             flowLevel: -1,
-            quotingType: '"',
-            styles: {
-              "!!int": "decimal",
-              "!!null": "camelcase",
-            },
+            quoteStyle: "double",
           });
 
           createdFile.filename = `${orgName}-crypto.yaml`;
@@ -1154,11 +1138,7 @@ export class FabricTestLedgerV1 implements ITestLedger {
 
           const dumpConfigTxGen = yaml.dump(dataConfigTxGen, {
             flowLevel: -1,
-            quotingType: '"',
-            styles: {
-              "!!int": "decimal",
-              "!!null": "camelcase",
-            },
+            quoteStyle: "double",
           });
 
           // TODO

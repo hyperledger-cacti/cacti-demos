@@ -214,11 +214,7 @@ test(testCase, async (t: Test) => {
 
   const balance2 = await web3.eth.getBalance(firstHighNetWorthAccount);
 
-  t.equal(
-    parseInt(balance),
-    parseInt(balance2) - 10,
-    "Balance of account is OK",
-  );
+  expect(balance).toEqual(balance2 - 10n);
 
   const res = await api.getSingleStatusV1({
     id: callOutput as string,

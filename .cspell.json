@@ -27,6 +27,9 @@
     "adminpw",
     "mychannel",
     "localmspid",
+    "Atharva",
+    "Kathe",
+    "Parth",
     "mspconfig",
     "tlscacerts",
     "tlsca",
@@ -117,6 +120,7 @@
     "**/npm-shrinkwrap.json",
     "examples/cactus-common-example-server/**",
     "examples/cactus-example-cbdc-bridging-frontend/**",
-    "examples/cactus-example-cbdc-bridging-backend/**"
+    "examples/cactus-example-cbdc-bridging-backend/**",
+    "examples/cactus-example-cbdc-bridging/**"
   ]
 }

@@ -42,7 +42,7 @@
     "test:view": "yarn run --top-level test:jest:all ./src/test/typescript/integration/test-copm-getverifiedview.test.ts"
   },
   "dependencies": {
-    "@connectrpc/connect": "2.1.2",
+    "@connectrpc/connect": "1.4.0",
     "@connectrpc/connect-node": "2.1.2",
     "@hyperledger-cacti/cacti-copm-core": "3.0.0-beta.1",
     "@hyperledger-cacti/cacti-plugin-copm-corda": "3.0.0-beta.1",
@@ -60,7 +60,7 @@
     "dotenv": "17.4.2",
     "fabric-ca-client": "2.5.0-snapshot.23",
     "fabric-common": "2.2.20",
-    "fabric-network": "2.5.0-snapshot.23",
+    "fabric-network": "2.2.20",
     "fs-extra": "11.4.0",
     "jest-extended": "7.0.0",
     "uuid": "14.0.1"

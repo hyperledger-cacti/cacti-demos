@@ -80,7 +80,7 @@ export class GetAmountApprovedEndpointV1 implements IWebServiceEndpoint {
     this.log.debug(reqTag);
     try {
       let result;
-      if (req.query.chain === TransactRequestSourceChainAssetTypeEnum.Besu) {
+      if (req.query.chain === TransactRequestSourceChainAssetTypeEnum.A) {
         result = await this.options.infrastructure
           .getBesuEnvironment()
           .getAmountApprovedBesu(req.query.user as string);

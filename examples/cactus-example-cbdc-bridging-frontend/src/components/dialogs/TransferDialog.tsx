@@ -69,7 +69,7 @@ export default function TransferDialog(props: ITransferDialogOptions) {
     } else {
       setSending(true);
 
-      if (props.ledger !== "FABRIC" && props.ledger !== "BESU") {
+      if (props.ledger !== "BESU_A" && props.ledger !== "BESU_B") {
         setErrorMessage("Invalid ledger");
         return;
       }

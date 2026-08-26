@@ -87,9 +87,9 @@ export class TransferEndpointV1 implements IWebServiceEndpoint {
       let result;
       if (
         reqBody.sourceChain.assetType ===
-          TransactRequestSourceChainAssetTypeEnum.Besu &&
+          TransactRequestSourceChainAssetTypeEnum.A &&
         reqBody.receiverChain.assetType ===
-          TransactRequestSourceChainAssetTypeEnum.Fabric
+          TransactRequestSourceChainAssetTypeEnum.B
       ) {
         result = await this.options.infrastructure
           .getBesuEnvironment()
@@ -100,9 +100,9 @@ export class TransferEndpointV1 implements IWebServiceEndpoint {
           );
       } else if (
         reqBody.sourceChain.assetType ===
-          TransactRequestSourceChainAssetTypeEnum.Fabric &&
+          TransactRequestSourceChainAssetTypeEnum.B &&
         reqBody.receiverChain.assetType ===
-          TransactRequestSourceChainAssetTypeEnum.Besu
+          TransactRequestSourceChainAssetTypeEnum.A
       ) {
         result = await this.options.infrastructure
           .getFabricEnvironment()

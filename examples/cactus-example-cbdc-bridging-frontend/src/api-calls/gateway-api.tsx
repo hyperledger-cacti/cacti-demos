@@ -9,7 +9,7 @@ import { Configuration } from "@hyperledger/cactus-example-cbdc-bridging-backend
 
 export async function getSessionReferencesBridge(
   path: string,
-  type: "BESU" | "FABRIC",
+  type: "BESU_A" | "BESU_B",
 ): Promise<SessionReference[]> {
   const getSessionReferencesApi = new GetSessionsReferencesApi(
     new Configuration({ basePath: path }),
@@ -40,8 +40,8 @@ export async function transactTokens(
   path: string,
   sender: string,
   receiver: string,
-  sourceChain: "FABRIC" | "BESU",
-  receiverChain: "FABRIC" | "BESU",
+  sourceChain: "BESU_A" | "BESU_B",
+  receiverChain: "BESU_A" | "BESU_B",
   amount: string,
 ) {
   const transactApi = new TransactApi(new Configuration({ basePath: path }));

@@ -73,7 +73,7 @@ export default function CrossChainTransferDialog(
       setErrorMessage("Amounts must be a positive value");
     } else {
       setSending(true);
-      if (props.ledger !== "FABRIC" && props.ledger !== "BESU") {
+      if (props.ledger !== "BESU_A" && props.ledger !== "BESU_B") {
         setErrorMessage("Invalid ledger");
         return;
       }
@@ -84,7 +84,7 @@ export default function CrossChainTransferDialog(
           props.user,
           recipient,
           props.ledger,
-          props.ledger === "FABRIC" ? "BESU" : "FABRIC",
+          props.ledger === "BESU_A" ? "BESU_B" : "BESU_A",
           amount.toString(),
         )
       ) {

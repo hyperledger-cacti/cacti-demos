@@ -8,10 +8,9 @@ import {
   exportSPKI,
   exportPKCS8,
   GenerateKeyPairResult,
-  KeyLike,
   JWK,
 } from "jose";
-import Web3 from "web3";
+import Web3, { Web3Account } from "web3";
 
 import { ApiClient } from "@hyperledger-cacti/cactus-api-client";
 import {
@@ -46,7 +45,6 @@ import {
   PluginConsortiumStatic,
   generateES256JWK,
 } from "@hyperledger-cacti/cacti-plugin-consortium-static";
-import { Account } from "web3-core";
 
 const logLevel: LogLevelDesc = "TRACE";
 const testCase = "Routes to correct node based on ledger ID";
@@ -62,8 +60,8 @@ describe(testCase, () => {
 
   let initialFundsAccount1: string;
   let initialFundsAccount2: string;
-  let keyPair1: GenerateKeyPairResult<KeyLike>;
-  let keyPair2: GenerateKeyPairResult<KeyLike>;
+  let keyPair1: GenerateKeyPairResult;
+  let keyPair2: GenerateKeyPairResult;
   let addressInfo1: AddressInfo;
   let addressInfo2: AddressInfo;
   let httpServer1: Server;
@@ -71,7 +69,7 @@ describe(testCase, () => {
 
   let apiServer1: ApiServer;
   let apiServer2: ApiServer;
-  let testEthAccount1: Account;
+  let testEthAccount1: Web3Account;
 
   let node1: CactusNode;
   let node2: CactusNode;
@@ -310,7 +308,7 @@ describe(testCase, () => {
   });
   test(testCase2, async () => {
     const apiClient1 = await mainApiClient.ofLedger(ledger1.id, BesuApi, {});
-    const testAccount1 = new Web3().eth.accounts.create(uuidV4());
+    const testAccount1 = new Web3().eth.accounts.create();
     const res = await apiClient1.runTransactionV1({
       transactionConfig: {
         from: initialFundsAccount1,
@@ -336,7 +334,7 @@ describe(testCase, () => {
 
   test(testCase3, async () => {
     const apiClient2 = await mainApiClient.ofLedger(ledger2.id, BesuApi, {});
-    const testAccount2 = new Web3().eth.accounts.create(uuidV4());
+    const testAccount2 = new Web3().eth.accounts.create();
     const res = await apiClient2.runTransactionV1({
       transactionConfig: {
         from: initialFundsAccount2,

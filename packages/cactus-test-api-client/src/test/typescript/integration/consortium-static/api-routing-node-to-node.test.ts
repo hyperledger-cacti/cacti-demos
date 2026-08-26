@@ -3,7 +3,7 @@ import { AddressInfo } from "net";
 import "jest-extended";
 import { v4 as uuidV4 } from "uuid";
 import { generateKeyPair, exportSPKI, exportPKCS8 } from "jose";
-import Web3 from "web3";
+import Web3, { Web3Account } from "web3";
 
 import { ApiClient } from "@hyperledger-cacti/cactus-api-client";
 import {
@@ -41,8 +41,6 @@ import {
 } from "@hyperledger-cacti/cactus-test-tooling";
 import { LogLevelDesc, Servers } from "@hyperledger-cacti/cactus-common";
 
-import { Account } from "web3-core";
-
 const logLevel: LogLevelDesc = "TRACE";
 const testCase = "Routes to correct node based on ledger ID";
 const testCase1 = "Set Up Test ledgers, Consortium, Cactus Nodes";
@@ -72,7 +70,7 @@ describe(testCase, () => {
 
   let apiServer1: ApiServer;
   let apiServer2: ApiServer;
-  let testEthAccount1: Account;
+  let testEthAccount1: Web3Account;
 
   let entitiesJWK: any;
   let entity1JWK: any;
@@ -336,7 +334,7 @@ describe(testCase, () => {
         apiClient: mainApiClient.extendWith(ConsortiumStaticApi),
       }),
     );
-    const testAccount1 = new Web3().eth.accounts.create(uuidV4());
+    const testAccount1 = new Web3().eth.accounts.create();
     const res = await apiClient1.runTransactionV1({
       transactionConfig: {
         from: initialFundsAccount1,
@@ -369,7 +367,7 @@ describe(testCase, () => {
         apiClient: mainApiClient.extendWith(ConsortiumStaticApi),
       }),
     );
-    const testAccount2 = new Web3().eth.accounts.create(uuidV4());
+    const testAccount2 = new Web3().eth.accounts.create();
     const res = await apiClient2.runTransactionV1({
       transactionConfig: {
         from: initialFundsAccount2,

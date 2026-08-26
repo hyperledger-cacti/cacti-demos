@@ -233,7 +233,7 @@ describe(testCase, () => {
     expect(refundResponse.status).toEqual(200);
 
     const balance = await web3.eth.getBalance(firstHighNetWorthAccount);
-    expect(parseInt(balance)).toEqual(parseInt(balance1) - 10);
+    expect(balance).toEqual(balance1 - 10n);
     const balance2 = await web3.eth.getBalance(firstHighNetWorthAccount);
     expect(balance1).toEqual(balance2);
     const res = await api.getSingleStatusV1({

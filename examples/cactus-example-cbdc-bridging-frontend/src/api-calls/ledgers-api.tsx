@@ -10,7 +10,7 @@ import { Configuration } from "@hyperledger/cactus-example-cbdc-bridging-backend
 
 export async function approveNTokens(
   path: string,
-  ledger: "FABRIC" | "BESU",
+  ledger: "BESU_A" | "BESU_B",
   frontendUserFrom: string,
   amount: string,
 ) {
@@ -37,7 +37,7 @@ export async function approveNTokens(
 
 export async function fetchAmountApprovedToBridge(
   path: string,
-  ledger: "FABRIC" | "BESU",
+  ledger: "BESU_A" | "BESU_B",
   frontendUser: string,
 ) {
   const getAmountApprovedApi = new GetAmountApprovedApi(
@@ -61,16 +61,16 @@ export async function fetchAmountApprovedToBridge(
 
 export async function transferTokens(
   path: string,
-  ledger: "FABRIC" | "BESU",
+  ledger: "BESU_A" | "BESU_B",
   frontendUserFrom: string,
   frontendUserTo: string,
   amount: string,
 ) {
-  let receiverLedger: "FABRIC" | "BESU";
-  if (ledger === "FABRIC") {
-    receiverLedger = "BESU";
+  let receiverLedger: "BESU_A" | "BESU_B";
+  if (ledger === "BESU_A") {
+    receiverLedger = "BESU_B";
   } else {
-    receiverLedger = "FABRIC";
+    receiverLedger = "BESU_A";
   }
   const transferApi = new TransferApi(new Configuration({ basePath: path }));
   try {
@@ -98,7 +98,7 @@ export async function transferTokens(
 
 export async function getBalance(
   path: string,
-  ledger: "FABRIC" | "BESU",
+  ledger: "BESU_A" | "BESU_B",
   frontendUser: string,
 ) {
   const getBalanceApi = new GetBalanceApi(
@@ -121,7 +121,7 @@ export async function getBalance(
 }
 export async function mintTokens(
   path: string,
-  ledger: "FABRIC" | "BESU",
+  ledger: "BESU_A" | "BESU_B",
   user: string,
   amount: string,
 ) {

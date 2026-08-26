@@ -81,8 +81,7 @@ export class GetBalanceEndpointV1 implements IWebServiceEndpoint {
     try {
       let result;
       if (
-        (req.query.chain as string) ==
-        TransactRequestSourceChainAssetTypeEnum.Besu
+        (req.query.chain as string) == TransactRequestSourceChainAssetTypeEnum.A
       ) {
         result = await this.options.infrastructure
           .getBesuEnvironment()

@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import Docker, { Container } from "dockerode";
-import { v4 as internalIpV4 } from "internal-ip";
+import { internalIpV4 } from "internal-ip";
 import type { IndyVdrPoolConfig } from "@aries-framework/indy-vdr";
 
 import {

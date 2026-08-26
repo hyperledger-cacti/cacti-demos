@@ -158,7 +158,10 @@ describe(testCase, () => {
 
     const transactionHash = receipt.transactionHash;
     const request: GetTransactionV1Request = {
-      transactionHash: transactionHash,
+      transactionHash:
+        typeof transactionHash === "string"
+          ? transactionHash
+          : Web3.utils.bytesToHex(transactionHash),
     };
 
     const configuration = new BesuApiClientOptions({ basePath: node1Host });

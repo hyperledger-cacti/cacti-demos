@@ -219,7 +219,7 @@ describe(testCase, () => {
     const balance2 = await web3.eth.getBalance(
       "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0",
     );
-    expect(parseInt(balance1, 10) + 10).toEqual(parseInt(balance2, 10));
+    expect(balance1 + 10n).toEqual(balance2);
     const resStatus = await api.getSingleStatusV1({
       id: callOutput as string,
       web3SigningCredential,

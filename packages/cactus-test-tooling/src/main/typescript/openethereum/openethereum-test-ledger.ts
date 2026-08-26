@@ -1,10 +1,8 @@
 import { EventEmitter } from "events";
 import Docker, { Container } from "dockerode";
-import { v4 as internalIpV4 } from "internal-ip";
-import Web3 from "web3";
+import { internalIpV4 } from "internal-ip";
 import { AbiItem } from "web3-utils";
-import { Account, TransactionReceipt } from "web3-core";
-import { v4 as uuidv4 } from "uuid";
+import Web3, { TransactionReceipt, Web3Account, ContractAbi } from "web3";
 
 import {
   Logger,
@@ -207,8 +205,8 @@ export class OpenEthereumTestLedger {
    *
    * @param [seedMoney=10e8] The amount of money to seed the new test account with.
    */
-  public async createEthTestAccount(seedMoney = 10e8): Promise<Account> {
-    const ethTestAccount = this.web3.eth.accounts.create(uuidv4());
+  public async createEthTestAccount(seedMoney = 10e8): Promise<Web3Account> {
+    const ethTestAccount = this.web3.eth.accounts.create();
 
     const receipt = await this.transferAssetFromCoinbase(
       ethTestAccount.address,
@@ -290,7 +288,7 @@ export class OpenEthereumTestLedger {
     args?: any[],
   ): Promise<TransactionReceipt> {
     // Encode ABI
-    const contractProxy = new this.web3.eth.Contract(abi);
+    const contractProxy = new this.web3.eth.Contract(abi as ContractAbi);
     const contractTx = contractProxy.deploy({
       data: bytecode,
       arguments: args,

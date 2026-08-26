@@ -5,8 +5,8 @@ AssetType:
     assetType:
       type: string
       enum:
-        - FABRIC
-        - BESU
+        - BESU_A
+        - BESU_B
 TransactRequest:
   description: "Request schema for initiating a transaction. Includes details such as the transaction context, mode (data or transfer), payload, and information about the source and receiver DLT networks."
   type: object
@@ -24,9 +24,9 @@ TransactRequest:
       type: string
       example: "user2"
     sourceChain:
-      $ref: '#/AssetType'
+      $ref: "#/AssetType"
     receiverChain:
-      $ref: '#/AssetType'
+      $ref: "#/AssetType"
     amount:
       type: string
       example: "100"
@@ -35,7 +35,7 @@ TransactResponse:
   type: object
   properties:
     statusResponse:
-      $ref: '#/StatusResponse'
+      $ref: "#/StatusResponse"
   required:
     - statusResponse
 StatusResponse:
@@ -92,19 +92,19 @@ SessionsReferencesResponse:
   description: "Response schema for a transaction status request."
   type: array
   items:
-    $ref: '#/SessionReference'
+    $ref: "#/SessionReference"
 SessionReference:
   type: object
   properties:
-      id:
-        type: string
-        example: "123e4567-e89b-12d3-a456-426614174000"
-      status:
-        type: string
-      sourceLedger:
-        type: string
-      receiverLedger:
-        type: string
+    id:
+      type: string
+      example: "123e4567-e89b-12d3-a456-426614174000"
+    status:
+      type: string
+    sourceLedger:
+      type: string
+    receiverLedger:
+      type: string
   required:
     - status
     - id
@@ -122,7 +122,7 @@ MintRequest:
       type: string
       example: "100"
     ledger:
-      $ref: '#/AssetType'
+      $ref: "#/AssetType"
   required:
     - user
     - amount
@@ -135,7 +135,7 @@ BalanceResponse:
       type: string
       example: "100"
   required:
-    - amount 
+    - amount
 TransferRequest:
   description: "Request schema for transferring an asset."
   type: object
@@ -147,9 +147,9 @@ TransferRequest:
       type: string
       example: "user2"
     sourceChain:
-      $ref: '#/AssetType'
+      $ref: "#/AssetType"
     receiverChain:
-      $ref: '#/AssetType'
+      $ref: "#/AssetType"
     amount:
       type: string
       example: "100"
@@ -170,10 +170,8 @@ ApproveRequest:
       type: string
       example: "100"
     ledger:
-      $ref: '#/AssetType'
+      $ref: "#/AssetType"
   required:
     - user
     - amount
     - ledger
-    
-    

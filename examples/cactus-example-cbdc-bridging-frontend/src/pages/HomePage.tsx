@@ -22,13 +22,13 @@ export default function HomePage(props: IHomePageOptions) {
         }}
       >
         <Grid item sm={12} md={5}>
-          <Ledger path={props.path} ledger={"FABRIC"} />
+          <Ledger path={props.path} ledger={"BESU_A"} />
         </Grid>
         <Grid item sm={12} md={2}>
           <BridgeImage />
         </Grid>
         <Grid item sm={12} md={5}>
-          <Ledger path={props.path} ledger={"BESU"} />
+          <Ledger path={props.path} ledger={"BESU_B"} />
         </Grid>
       </Grid>
       <ConnectionErrorDialog

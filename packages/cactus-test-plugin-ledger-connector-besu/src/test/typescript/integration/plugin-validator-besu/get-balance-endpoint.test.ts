@@ -8,7 +8,7 @@ import "jest-extended";
 import { StatusCodes } from "http-status-codes";
 import { v4 as uuidv4 } from "uuid";
 import KeyEncoder from "key-encoder";
-import { Account } from "web3-core";
+import type { Web3Account } from "web3";
 
 import {
   ApiServer,
@@ -62,7 +62,7 @@ describe("PluginLedgerConnectorBesu", () => {
 
   let ledger: BesuTestLedger;
   let apiServer: ApiServer;
-  let testAccount: Account;
+  let testAccount: Web3Account;
   let node1Host: string;
 
   beforeAll(async () => {

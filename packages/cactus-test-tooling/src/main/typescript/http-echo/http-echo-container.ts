@@ -1,5 +1,4 @@
 import Docker, { Container, ContainerInfo } from "dockerode";
-// @ts-expect-error - no type declarations available for is-port-reachable
 import isPortReachable from "is-port-reachable";
 import Joi from "joi";
 import { ITestLedger } from "../i-test-ledger";

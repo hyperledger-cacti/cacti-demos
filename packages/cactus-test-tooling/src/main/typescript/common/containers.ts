@@ -4,10 +4,10 @@ import { IncomingMessage } from "http";
 import throttle from "lodash/throttle";
 import { Container, ContainerInfo } from "dockerode";
 import Dockerode from "dockerode";
-import execa from "execa";
+import { execa } from "execa";
 import tar from "tar-stream";
 import fs from "fs-extra";
-import pRetry from "p-retry";
+import pRetry, { type Options as PRetryOptions } from "p-retry";
 import { RuntimeError } from "run-time-error-cjs";
 import { Streams } from "../common/streams";
 import {
@@ -437,7 +437,7 @@ export class Containers {
     };
     const log = LoggerProvider.getOrCreate(defaultLoggerOptions);
     const task = () => Containers.tryPullImage(imageFqn, options, logLevel);
-    const retryOptions: pRetry.Options & { retries: number } = {
+    const retryOptions: PRetryOptions = {
       retries: 6,
       onFailedAttempt: async (ex) => {
         log.debug(`Failed attempt at pulling container image ${imageFqn}`, ex);

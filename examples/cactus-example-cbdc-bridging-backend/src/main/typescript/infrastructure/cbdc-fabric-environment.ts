@@ -220,7 +220,18 @@ export class FabricEnvironment {
       "peer0",
     );
 
-    const filePath = path.join(__dirname, "../../yml/resources/core.yml");
+    let filePath: string;
+    if (process.cwd().includes("cactus-example-cbdc-bridging-backend")) {
+      // Running from the backend package folder
+      filePath = path.join(__dirname, "../../yml/resources/core.yml");
+    } else {
+      // Running from root project
+      filePath = path.join(
+        __dirname,
+        "../../../../../src/main/yml/resources/core.yml",
+      );
+    }
+
     const buffer = await fs.readFile(filePath);
     this.coreFile = {
       body: buffer.toString("base64"),
@@ -230,9 +241,20 @@ export class FabricEnvironment {
 
   // Deploys smart contracts and sets up configurations for testing
   public async deployAndSetupContracts() {
-    const satpContractRelPath =
-      "./fabric-contracts/satp-contract/chaincode-typescript";
-    const satpContractDir = path.join(__dirname, satpContractRelPath);
+    let satpContractDir: string;
+    if (process.cwd().includes("cactus-example-cbdc-bridging-backend")) {
+      // Running from the backend package folder
+      satpContractDir = path.join(
+        __dirname,
+        "./fabric-contracts/satp-contract/chaincode-typescript",
+      );
+    } else {
+      // Running from root project
+      satpContractDir = path.join(
+        __dirname,
+        "../../../../../src/main/typescript/infrastructure/fabric-contracts/satp-contract/chaincode-typescript",
+      );
+    }
 
     // ├── package.json
     // ├── src
@@ -451,7 +473,7 @@ export class FabricEnvironment {
         `Fabric - Minting tokens for user: ${frontendUser} is ${JSON.stringify(response)}`,
       );
     } catch (error) {
-      this.log.error("Failed to mint tokens");
+      this.log.error(error.msg);
       throw new Error("Failed to mint tokens");
     }
   }
@@ -565,7 +587,7 @@ export class FabricEnvironment {
         },
       });
     } catch (error) {
-      this.log.error("Failed to transfer tokens");
+      this.log.error(error.msg);
       throw new Error("Failed to transfer tokens");
     }
   }

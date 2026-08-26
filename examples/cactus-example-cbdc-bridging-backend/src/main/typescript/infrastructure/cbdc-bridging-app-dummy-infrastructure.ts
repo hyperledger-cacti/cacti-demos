@@ -37,7 +37,6 @@ import {
   TransactionApi,
   TransactRequest,
 } from "@hyperledger-cacti/cactus-plugin-satp-hermes";
-import { FabricEnvironment } from "./cbdc-fabric-environment";
 import { BesuEnvironment } from "./cbdc-besu-environment";
 import { Container } from "dockerode";
 import { createPGDatabase, setupDBTable } from "./db-infrastructure";
@@ -46,7 +45,7 @@ import {
   DEFAULT_PORT_GATEWAY_SERVER,
   DEFAULT_PORT_GATEWAY_OAPI,
 } from "@hyperledger-cacti/cactus-plugin-satp-hermes";
-import { getTestConfigFilesDirectory, setupGatewayDockerFiles } from "./utils";
+import { setupGatewayDockerFiles } from "./utils";
 import {
   ISATPGatewayRunnerConstructorOptions,
   SATPGatewayRunner,
@@ -55,6 +54,8 @@ import {
 import Docker from "dockerode";
 
 import http from "node:http";
+import { createMonitorSystem } from "./monitoring-infrastructure";
+import { LedgerId } from "../types";
 
 export interface ICbdcBridgingAppDummyInfrastructureOptions {
   logLevel?: LogLevelDesc;
@@ -65,15 +66,14 @@ export class CbdcBridgingAppDummyInfrastructure {
 
   private static readonly networkName = "CDBC_Network";
 
-  private static readonly DOCKER_IMAGE_VERSION = "612643f9f-2026-06-07";
-  private static readonly DOCKER_IMAGE_NAME =
-    "rafaelapb/cacti-satp-hermes-gateway";
+  private static readonly DOCKER_IMAGE_VERSION = "2026-02-02-1458";
+  private static readonly DOCKER_IMAGE_NAME = "tomassilva2187/satp-gateway";
 
   private readonly log: Logger;
   private readonly logLevel: LogLevelDesc;
 
-  private readonly besuEnvironment: BesuEnvironment;
-  private readonly fabricEnvironment: FabricEnvironment;
+  private readonly besuAEnvironment: BesuEnvironment;
+  private readonly besuBEnvironment: BesuEnvironment;
 
   private db_local_config1?: Knex.Config;
   private db_remote_config1?: Knex.Config;
@@ -83,20 +83,21 @@ export class CbdcBridgingAppDummyInfrastructure {
   private db_remote1?: Container;
   private db_local2?: Container;
   private db_remote2?: Container;
+  private monitorService?: Container;
 
-  private besuGatewayRunner?: SATPGatewayRunner;
-  private fabricGatewayRunner?: SATPGatewayRunner;
+  private besuAGatewayRunner?: SATPGatewayRunner;
+  private besuBGatewayRunner?: SATPGatewayRunner;
 
-  private besuGatewayAddress = "besu-gateway.satp-hermes";
-  private fabricGatewayAddress = "fabric-gateway.satp-hermes";
+  private besuAGatewayAddress = "besu-a-gateway.satp-hermes";
+  private besuBGatewayAddress = "besu-b-gateway.satp-hermes";
 
-  private besuGatewayApproveAddress?: string;
-  private fabricGatewayApproveAddress?: string;
+  private besuAGatewayApproveAddress?: string;
+  private besuBGatewayApproveAddress?: string;
 
-  private besuGatewayTransactApi?: TransactionApi;
-  private besuGatewayAdminApi?: AdminApi;
-  private fabricGatewayTransactApi?: TransactionApi;
-  private fabricGatewayAdminApi?: AdminApi;
+  private besuAGatewayTransactApi?: TransactionApi;
+  private besuAGatewayAdminApi?: AdminApi;
+  private besuBGatewayTransactApi?: TransactionApi;
+  private besuBGatewayAdminApi?: AdminApi;
 
   private endpoints?: IWebServiceEndpoint[];
 
@@ -118,14 +119,20 @@ export class CbdcBridgingAppDummyInfrastructure {
 
     this.log = LoggerProvider.getOrCreate({ level: this.logLevel, label });
 
-    this.besuEnvironment = new BesuEnvironment(
-      this.logLevel,
-      CbdcBridgingAppDummyInfrastructure.networkName,
-    );
-    this.fabricEnvironment = new FabricEnvironment(
-      this.logLevel,
-      CbdcBridgingAppDummyInfrastructure.networkName,
-    );
+    this.besuAEnvironment = new BesuEnvironment(this.logLevel, {
+      dockerNetwork: CbdcBridgingAppDummyInfrastructure.networkName,
+      networkId: "BesuLedgerCBDCNetworkA",
+      assetId: "BesuCBDCAssetA",
+      assetReferenceId: "SATP-ERC20-BESU",
+      label: "BesuEnvironmentA",
+    });
+    this.besuBEnvironment = new BesuEnvironment(this.logLevel, {
+      dockerNetwork: CbdcBridgingAppDummyInfrastructure.networkName,
+      networkId: "BesuLedgerCBDCNetworkB",
+      assetId: "BesuCBDCAssetB",
+      assetReferenceId: "SATP-ERC20-BESU",
+      label: "BesuEnvironmentB",
+    });
   }
 
   public async start(): Promise<void> {
@@ -146,16 +153,18 @@ export class CbdcBridgingAppDummyInfrastructure {
       }
 
       await Promise.all([
-        this.besuEnvironment.init(),
-        this.fabricEnvironment.init(),
+        this.besuAEnvironment.init(),
+        this.besuBEnvironment.init(),
       ]);
       this.log.info(`Deploying contracts...`);
       await Promise.all([
-        this.besuEnvironment.deployAndSetupContracts(),
-        this.fabricEnvironment.deployAndSetupContracts(),
+        this.besuAEnvironment.deployAndSetupContracts(),
+        this.besuBEnvironment.deployAndSetupContracts(),
       ]);
       this.log.info(`Creating databases...`);
       await this.createDBs();
+      this.log.info(`Creating Monitoring Service...`);
+      await this.createMonitorSystem();
       this.log.info(`Creating SATP Gateways...`);
       await this.createSATPGateways();
       this.log.debug("creating api server...");
@@ -171,12 +180,12 @@ export class CbdcBridgingAppDummyInfrastructure {
     try {
       this.log.info(`Stopping...`);
       await Promise.all([
-        this.besuGatewayRunner?.stop(),
-        this.fabricGatewayRunner?.stop(),
+        this.besuAGatewayRunner?.stop(),
+        this.besuBGatewayRunner?.stop(),
       ]);
       await Promise.all([
-        this.besuGatewayRunner?.destroy(),
-        this.fabricGatewayRunner?.destroy(),
+        this.besuAGatewayRunner?.destroy(),
+        this.besuBGatewayRunner?.destroy(),
       ]);
 
       await this.db_local1?.stop();
@@ -187,10 +196,12 @@ export class CbdcBridgingAppDummyInfrastructure {
       await this.db_local2?.remove();
       await this.db_remote2?.stop();
       await this.db_remote2?.remove();
+      await this.monitorService?.stop();
+      await this.monitorService?.remove();
 
       await Promise.all([
-        this.besuEnvironment.tearDown(),
-        this.fabricEnvironment.tearDown(),
+        this.besuAEnvironment.tearDown(),
+        this.besuBEnvironment.tearDown(),
       ]);
 
       if (this.webServer) {
@@ -247,15 +258,19 @@ export class CbdcBridgingAppDummyInfrastructure {
     await setupDBTable(this.db_remote_config2);
   }
 
+  private async createMonitorSystem(): Promise<void> {
+    this.monitorService = await createMonitorSystem({});
+  }
+
   public async createSATPGateways(): Promise<void> {
     const fnTag = `${this.className}#createSATPGateways()`;
     this.log.info(`${fnTag} Creating SATP Gateways...`);
 
-    const fabricGatewayKeyPair = Secp256k1Keys.generateKeyPairsBuffer();
-    const besuGatewayKeyPair = Secp256k1Keys.generateKeyPairsBuffer();
+    const besuAGatewayKeyPair = Secp256k1Keys.generateKeyPairsBuffer();
+    const besuBGatewayKeyPair = Secp256k1Keys.generateKeyPairsBuffer();
 
-    const fabricGatewayIdentity = {
-      id: "FabricGateway",
+    const besuAGatewayIdentity = {
+      id: "BesuAGateway",
       name: "CustomGateway",
       version: [
         {
@@ -266,20 +281,20 @@ export class CbdcBridgingAppDummyInfrastructure {
       ],
       connectedDLTs: [
         {
-          id: FabricEnvironment.FABRIC_NETWORK_ID,
-          ledgerType: LedgerType.Fabric2,
+          id: this.besuAEnvironment.network.id,
+          ledgerType: LedgerType.Besu2X,
         },
       ],
       proofID: "mockProofID10",
-      address: `http://${this.fabricGatewayAddress}`,
+      address: `http://${this.besuAGatewayAddress}`,
       gatewayClientPort: DEFAULT_PORT_GATEWAY_CLIENT,
       gatewayServerPort: DEFAULT_PORT_GATEWAY_SERVER,
       gatewayOapiPort: DEFAULT_PORT_GATEWAY_OAPI,
-      pubKey: Buffer.from(fabricGatewayKeyPair.publicKey).toString("hex"),
+      pubKey: Buffer.from(besuAGatewayKeyPair.publicKey).toString("hex"),
     } as GatewayIdentity;
 
-    const besuGatewayIdentity = {
-      id: "BesuGateway",
+    const besuBGatewayIdentity = {
+      id: "BesuBGateway",
       name: "CustomGateway",
       version: [
         {
@@ -290,28 +305,27 @@ export class CbdcBridgingAppDummyInfrastructure {
       ],
       connectedDLTs: [
         {
-          id: BesuEnvironment.BESU_NETWORK_ID,
+          id: this.besuBEnvironment.network.id,
           ledgerType: LedgerType.Besu2X,
         },
       ],
       proofID: "mockProofID11",
-      address: `http://${this.besuGatewayAddress}`,
+      address: `http://${this.besuBGatewayAddress}`,
+      // Keep in-container SATP ports at defaults to match the gateway image's
+      // internal listeners and healthcheck expectations.
       gatewayClientPort: DEFAULT_PORT_GATEWAY_CLIENT,
       gatewayServerPort: DEFAULT_PORT_GATEWAY_SERVER,
       gatewayOapiPort: DEFAULT_PORT_GATEWAY_OAPI,
-      pubKey: Buffer.from(besuGatewayKeyPair.publicKey).toString("hex"),
+      pubKey: Buffer.from(besuBGatewayKeyPair.publicKey).toString("hex"),
     } as GatewayIdentity;
 
-    const fabricConfig = await this.fabricEnvironment.createFabricDockerConfig(
-      getTestConfigFilesDirectory(`gateway-info-${fabricGatewayIdentity.id}`),
-    );
+    const besuAConfig = await this.besuAEnvironment.createBesuDockerConfig();
+    const besuBConfig = await this.besuBEnvironment.createBesuDockerConfig();
 
-    const besuConfig = await this.besuEnvironment.createBesuDockerConfig();
-
-    const besuGatewayOptions: Partial<SATPGatewayConfig> = {
-      gid: besuGatewayIdentity,
+    const besuAGatewayOptions: Partial<SATPGatewayConfig> = {
+      gid: besuAGatewayIdentity,
       logLevel: this.logLevel,
-      counterPartyGateways: [fabricGatewayIdentity],
+      counterPartyGateways: [besuBGatewayIdentity],
       localRepository: this.db_local_config1
         ? ({
             client: this.db_local_config1.client,
@@ -326,20 +340,20 @@ export class CbdcBridgingAppDummyInfrastructure {
         : undefined,
       environment: "production",
       ccConfig: {
-        bridgeConfig: [besuConfig],
+        bridgeConfig: [besuAConfig],
       },
       enableCrashRecovery: false,
       keyPair: {
-        publicKey: Buffer.from(besuGatewayKeyPair.publicKey).toString("hex"),
-        privateKey: besuGatewayKeyPair.privateKey.toString("hex"),
+        publicKey: Buffer.from(besuAGatewayKeyPair.publicKey).toString("hex"),
+        privateKey: besuAGatewayKeyPair.privateKey.toString("hex"),
       },
       ontologyPath: "/opt/cacti/satp-hermes/ontologies",
     };
 
-    const fabricGatewayOptions: Partial<SATPGatewayConfig> = {
-      gid: fabricGatewayIdentity,
+    const besuBGatewayOptions: Partial<SATPGatewayConfig> = {
+      gid: besuBGatewayIdentity,
       logLevel: this.logLevel,
-      counterPartyGateways: [besuGatewayIdentity],
+      counterPartyGateways: [besuAGatewayIdentity],
       localRepository: this.db_local_config2
         ? ({
             client: this.db_local_config2.client,
@@ -354,21 +368,22 @@ export class CbdcBridgingAppDummyInfrastructure {
         : undefined,
       environment: "production",
       ccConfig: {
-        bridgeConfig: [fabricConfig],
+        bridgeConfig: [besuBConfig],
       },
       enableCrashRecovery: false,
       keyPair: {
-        publicKey: Buffer.from(fabricGatewayKeyPair.publicKey).toString("hex"),
-        privateKey: fabricGatewayKeyPair.privateKey.toString("hex"),
+        publicKey: Buffer.from(besuBGatewayKeyPair.publicKey).toString("hex"),
+        privateKey: besuBGatewayKeyPair.privateKey.toString("hex"),
       },
       ontologyPath: "/opt/cacti/satp-hermes/ontologies",
     };
 
-    const besuGatewayDockerFiles = setupGatewayDockerFiles(besuGatewayOptions);
-    const fabricGatewayDockerFiles =
-      setupGatewayDockerFiles(fabricGatewayOptions);
+    const besuAGatewayDockerFiles =
+      setupGatewayDockerFiles(besuAGatewayOptions);
+    const besuBGatewayDockerFiles =
+      setupGatewayDockerFiles(besuBGatewayOptions);
 
-    const besuGatewayRunnerOptions: ISATPGatewayRunnerConstructorOptions = {
+    const besuAGatewayRunnerOptions: ISATPGatewayRunnerConstructorOptions = {
       containerImageVersion:
         CbdcBridgingAppDummyInfrastructure.DOCKER_IMAGE_VERSION,
       containerImageName: CbdcBridgingAppDummyInfrastructure.DOCKER_IMAGE_NAME,
@@ -377,14 +392,14 @@ export class CbdcBridgingAppDummyInfrastructure {
       oapiPort: DEFAULT_PORT_GATEWAY_OAPI,
       logLevel: this.logLevel,
       emitContainerLogs: true,
-      configPath: besuGatewayDockerFiles.configPath,
-      logsPath: besuGatewayDockerFiles.logsPath,
-      ontologiesPath: besuGatewayDockerFiles.ontologiesPath,
+      configPath: besuAGatewayDockerFiles.configPath,
+      logsPath: besuAGatewayDockerFiles.logsPath,
+      ontologiesPath: besuAGatewayDockerFiles.ontologiesPath,
       networkName: CbdcBridgingAppDummyInfrastructure.networkName,
-      url: this.besuGatewayAddress,
+      url: this.besuAGatewayAddress,
     };
 
-    const fabricGatewayRunnerOptions: ISATPGatewayRunnerConstructorOptions = {
+    const besuBGatewayRunnerOptions: ISATPGatewayRunnerConstructorOptions = {
       containerImageVersion:
         CbdcBridgingAppDummyInfrastructure.DOCKER_IMAGE_VERSION,
       containerImageName: CbdcBridgingAppDummyInfrastructure.DOCKER_IMAGE_NAME,
@@ -393,115 +408,163 @@ export class CbdcBridgingAppDummyInfrastructure {
       oapiPort: DEFAULT_PORT_GATEWAY_OAPI + 100,
       logLevel: this.logLevel,
       emitContainerLogs: true,
-      configPath: fabricGatewayDockerFiles.configPath,
-      logsPath: fabricGatewayDockerFiles.logsPath,
-      ontologiesPath: fabricGatewayDockerFiles.ontologiesPath,
+      configPath: besuBGatewayDockerFiles.configPath,
+      logsPath: besuBGatewayDockerFiles.logsPath,
+      ontologiesPath: besuBGatewayDockerFiles.ontologiesPath,
       networkName: CbdcBridgingAppDummyInfrastructure.networkName,
-      url: this.fabricGatewayAddress,
+      url: this.besuBGatewayAddress,
     };
 
-    this.besuGatewayRunner = new SATPGatewayRunner(besuGatewayRunnerOptions);
+    this.besuAGatewayRunner = new SATPGatewayRunner(besuAGatewayRunnerOptions);
     this.log.debug("starting gatewayRunner...");
-    await this.besuGatewayRunner.start();
+    await this.besuAGatewayRunner.start();
     this.log.debug("gatewayRunner started successfully");
 
-    this.fabricGatewayRunner = new SATPGatewayRunner(
-      fabricGatewayRunnerOptions,
-    );
+    this.besuBGatewayRunner = new SATPGatewayRunner(besuBGatewayRunnerOptions);
     this.log.debug("starting gatewayRunner...");
-    await this.fabricGatewayRunner.start();
+    await this.besuBGatewayRunner.start();
     this.log.debug("gatewayRunner started successfully");
 
-    const besuGatewayApproveAddressApi = new GetApproveAddressApi(
+    const besuAGatewayApproveAddressApi = new GetApproveAddressApi(
       new Configuration({
-        basePath: `http://${await this.besuGatewayRunner.getOApiHost()}`,
+        basePath: `http://${await this.besuAGatewayRunner.getOApiHost()}`,
       }),
     );
 
-    const reqApproveBesuAddress =
-      await besuGatewayApproveAddressApi.getApproveAddress(
+    const reqApproveBesuAAddress =
+      await besuAGatewayApproveAddressApi.getApproveAddress(
         {
-          id: BesuEnvironment.BESU_NETWORK_ID,
+          id: this.besuAEnvironment.network.id,
           ledgerType: LedgerType.Besu2X,
         },
         TokenType.Fungible,
       );
 
-    if (!reqApproveBesuAddress?.data.approveAddress) {
+    if (!reqApproveBesuAAddress?.data.approveAddress) {
       throw new Error("Approve address is undefined");
     }
 
-    this.besuGatewayApproveAddress = reqApproveBesuAddress.data.approveAddress;
-    if (!this.besuGatewayApproveAddress) {
-      throw new Error("Besu approve address is undefined");
-    }
+    this.besuAGatewayApproveAddress =
+      reqApproveBesuAAddress.data.approveAddress;
+    this.besuAEnvironment.setApproveAddress(this.besuAGatewayApproveAddress);
 
-    this.besuEnvironment.setApproveAddress(
-      reqApproveBesuAddress.data.approveAddress,
-    );
-
-    const fabricGatewayApproveAddressApi = new GetApproveAddressApi(
+    const besuBGatewayApproveAddressApi = new GetApproveAddressApi(
       new Configuration({
-        basePath: `http://${await this.fabricGatewayRunner.getOApiHost()}`,
+        basePath: `http://${await this.besuBGatewayRunner.getOApiHost()}`,
       }),
     );
-    const reqApproveFabricAddress =
-      await fabricGatewayApproveAddressApi.getApproveAddress(
+    const reqApproveBesuBAddress =
+      await besuBGatewayApproveAddressApi.getApproveAddress(
         {
-          id: FabricEnvironment.FABRIC_NETWORK_ID,
-          ledgerType: LedgerType.Fabric2,
+          id: this.besuBEnvironment.network.id,
+          ledgerType: LedgerType.Besu2X,
         },
         TokenType.Fungible,
       );
 
-    if (!reqApproveFabricAddress?.data.approveAddress) {
+    if (!reqApproveBesuBAddress?.data.approveAddress) {
       throw new Error("Approve address is undefined");
     }
 
-    this.fabricGatewayApproveAddress =
-      reqApproveFabricAddress.data.approveAddress;
+    this.besuBGatewayApproveAddress =
+      reqApproveBesuBAddress.data.approveAddress;
+    this.besuBEnvironment.setApproveAddress(this.besuBGatewayApproveAddress);
 
-    if (!this.fabricGatewayApproveAddress) {
-      throw new Error("Fabric approve address is undefined");
+    if (!this.besuAGatewayApproveAddress) {
+      throw new Error("Besu A approve address is undefined");
     }
-    this.fabricEnvironment.setApproveAddress(this.fabricGatewayApproveAddress);
-
-    if (!this.besuGatewayApproveAddress) {
-      throw new Error("Besu approve address is undefined");
+    if (!this.besuBGatewayApproveAddress) {
+      throw new Error("Besu B approve address is undefined");
     }
-    await this.besuEnvironment.giveRoleToBridge(this.besuGatewayApproveAddress);
 
-    await this.fabricEnvironment.giveRoleToBridge("Org2MSP");
+    await this.besuAEnvironment.giveRoleToBridge(
+      this.besuAGatewayApproveAddress,
+    );
+    await this.besuBEnvironment.giveRoleToBridge(
+      this.besuBGatewayApproveAddress,
+    );
 
-    this.besuGatewayTransactApi = new TransactionApi(
+    this.besuAGatewayTransactApi = new TransactionApi(
       new Configuration({
-        basePath: `http://${await this.besuGatewayRunner.getOApiHost()}`,
+        basePath: `http://${await this.besuAGatewayRunner.getOApiHost()}`,
       }),
     );
-    this.besuGatewayAdminApi = new AdminApi(
+    this.besuAGatewayAdminApi = new AdminApi(
       new Configuration({
-        basePath: `http://${await this.besuGatewayRunner.getOApiHost()}`,
+        basePath: `http://${await this.besuAGatewayRunner.getOApiHost()}`,
       }),
     );
-    this.fabricGatewayTransactApi = new TransactionApi(
+    this.besuBGatewayTransactApi = new TransactionApi(
       new Configuration({
-        basePath: `http://${await this.fabricGatewayRunner.getOApiHost()}`,
+        basePath: `http://${await this.besuBGatewayRunner.getOApiHost()}`,
       }),
     );
-    this.fabricGatewayAdminApi = new AdminApi(
+    this.besuBGatewayAdminApi = new AdminApi(
       new Configuration({
-        basePath: `http://${await this.fabricGatewayRunner.getOApiHost()}`,
+        basePath: `http://${await this.besuBGatewayRunner.getOApiHost()}`,
       }),
     );
 
     this.log.info(`SATP Gateways created`);
   }
 
-  public getFabricEnvironment(): FabricEnvironment {
-    return this.fabricEnvironment;
+  public getBesuAEnvironment(): BesuEnvironment {
+    return this.besuAEnvironment;
   }
+
+  public getBesuBEnvironment(): BesuEnvironment {
+    return this.besuBEnvironment;
+  }
+
+  // Backwards-compatible accessor retained for callers that still use this name.
   public getBesuEnvironment(): BesuEnvironment {
-    return this.besuEnvironment;
+    return this.besuAEnvironment;
+  }
+
+  // Backwards-compatible accessor retained for callers that still use this name.
+  public getFabricEnvironment(): BesuEnvironment {
+    return this.besuBEnvironment;
+  }
+
+  public async mintTokens(
+    ledgerId: LedgerId,
+    user: string,
+    amount: number,
+  ): Promise<void> {
+    const ledger = this.getEnvironmentByLedgerId(ledgerId);
+    await ledger.mintTokensBesu(user, amount);
+  }
+
+  public async approveTokens(
+    ledgerId: LedgerId,
+    user: string,
+    amount: number,
+  ): Promise<void> {
+    const ledger = this.getEnvironmentByLedgerId(ledgerId);
+    await ledger.approveNTokensBesu(user, amount);
+  }
+
+  public async getBalance(ledgerId: LedgerId, user: string): Promise<number> {
+    const ledger = this.getEnvironmentByLedgerId(ledgerId);
+    return ledger.getBesuBalance(user);
+  }
+
+  public async getAmountApproved(
+    ledgerId: LedgerId,
+    user: string,
+  ): Promise<string> {
+    const ledger = this.getEnvironmentByLedgerId(ledgerId);
+    return ledger.getAmountApprovedBesu(user);
+  }
+
+  public async transferTokens(
+    ledgerId: LedgerId,
+    from: string,
+    to: string,
+    amount: number,
+  ): Promise<void> {
+    const ledger = this.getEnvironmentByLedgerId(ledgerId);
+    await ledger.transferTokensBesu(from, to, amount);
   }
 
   private async createApiServer(): Promise<void> {
@@ -595,12 +658,7 @@ export class CbdcBridgingAppDummyInfrastructure {
 
   public async getSessionsData(gateway: string): Promise<SessionReference[]> {
     this.log.debug(`Getting sessions data from ${gateway}`);
-    let api;
-    if (gateway === "FABRIC") {
-      api = this.fabricGatewayAdminApi;
-    } else {
-      api = this.besuGatewayAdminApi;
-    }
+    const api = this.getAdminApiByLedgerId(gateway as LedgerId);
     try {
       if (api === undefined) {
         throw new Error("API is undefined");
@@ -669,53 +727,24 @@ export class CbdcBridgingAppDummyInfrastructure {
     this.log.debug(
       `Bridging tokens from ${sourceChain} to ${destinationChain}`,
     );
-    let sourceAsset;
-    let receiverAsset;
-
-    let api;
-
-    if (sourceChain === "FABRIC") {
-      const fabricSenderAddress = this.fabricEnvironment.getFabricId(sender);
-      if (!fabricSenderAddress) {
-        throw new Error(`Fabric sender address not found for ${sender}`);
-      }
-      sourceAsset = this.fabricEnvironment.getFabricAsset(
-        fabricSenderAddress,
-        amount.toString(),
-      );
-      api = this.fabricGatewayTransactApi;
-    } else {
-      const besuSenderAddress = this.besuEnvironment.getEthAddress(sender);
-      if (!besuSenderAddress) {
-        throw new Error(`Besu sender address not found for ${sender}`);
-      }
-      sourceAsset = this.besuEnvironment.getBesuAsset(
-        besuSenderAddress,
-        amount.toString(),
-      );
-      api = this.besuGatewayTransactApi;
-    }
-
-    if (destinationChain === "BESU") {
-      const besuReceiverAddress = this.besuEnvironment.getEthAddress(recipient);
-      if (!besuReceiverAddress) {
-        throw new Error(`Besu recipient address not found for ${recipient}`);
-      }
-      receiverAsset = this.besuEnvironment.getBesuAsset(
-        besuReceiverAddress,
-        amount.toString(),
-      );
-    } else {
-      const fabricReceiverAddress =
-        this.fabricEnvironment.getFabricId(recipient);
-      if (!fabricReceiverAddress) {
-        throw new Error(`Fabric recipient address not found for ${recipient}`);
-      }
-      receiverAsset = this.fabricEnvironment.getFabricAsset(
-        fabricReceiverAddress,
-        amount.toString(),
+    if (sourceChain === destinationChain) {
+      throw new Error(
+        `Bridge operation requires different ledgers. Received ${sourceChain}`,
       );
     }
+
+    const sourceLedger = this.getEnvironmentByLedgerId(sourceChain as LedgerId);
+    const destinationLedger = this.getEnvironmentByLedgerId(
+      destinationChain as LedgerId,
+    );
+    const sourceAddress = sourceLedger.getEthAddress(sender);
+    const destinationAddress = destinationLedger.getEthAddress(recipient);
+    const sourceAsset = sourceLedger.getBesuAsset(sourceAddress, `${amount}`);
+    const receiverAsset = destinationLedger.getBesuAsset(
+      destinationAddress,
+      `${amount}`,
+    );
+    const api = this.getTransactApiByLedgerId(sourceChain as LedgerId);
 
     if (api === undefined) {
       throw new Error("API is undefined");
@@ -734,5 +763,37 @@ export class CbdcBridgingAppDummyInfrastructure {
       );
       throw error;
     }
+  }
+
+  private getEnvironmentByLedgerId(ledgerId: LedgerId): BesuEnvironment {
+    if (ledgerId === "BESU_A") {
+      return this.besuAEnvironment;
+    }
+    if (ledgerId === "BESU_B") {
+      return this.besuBEnvironment;
+    }
+    throw new Error(`Unsupported ledger id: ${ledgerId}`);
+  }
+
+  private getTransactApiByLedgerId(
+    ledgerId: LedgerId,
+  ): TransactionApi | undefined {
+    if (ledgerId === "BESU_A") {
+      return this.besuAGatewayTransactApi;
+    }
+    if (ledgerId === "BESU_B") {
+      return this.besuBGatewayTransactApi;
+    }
+    return undefined;
+  }
+
+  private getAdminApiByLedgerId(ledgerId: LedgerId): AdminApi | undefined {
+    if (ledgerId === "BESU_A") {
+      return this.besuAGatewayAdminApi;
+    }
+    if (ledgerId === "BESU_B") {
+      return this.besuBGatewayAdminApi;
+    }
+    return undefined;
   }
 }

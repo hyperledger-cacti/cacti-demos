@@ -13,21 +13,20 @@ export default function Helper() {
       </Typography>
       <Typography sx={{ marginTop: "2rem" }} align="left" variant="h6">
         This application is a demonstration of a Central Bank Digital Currency
-        (CBDC) bridging solution between two blockchains (Hyperledger Fabric and
-        Hyperledger Besu) using the Secure Asset Transfer Protocol (SATP). The
-        application allows users to transfer tokens between the two blockchains.
+        (CBDC) bridging solution between two Hyperledger Besu ledgers (Besu A
+        and Besu B) using the Secure Asset Transfer Protocol (SATP). The
+        application allows users to transfer tokens between both ledgers.
       </Typography>
 
       <Typography sx={{ marginTop: "3rem" }} align="center" variant="h4">
         How to Use
       </Typography>
       <Typography sx={{ marginTop: "2rem" }} align="left" variant="h6">
-        Each user starts with a balance of 0 CBDC tokens on both Fabric and
-        Besu. Each user has a box that displays the user's name, the balance of
-        CBDC tokens, and the actions that the user can perform. The actions have
-        different colors based on being related to local actions (i.e., in the
-        same blockchain) (in blue) or related to cross-chain functionality
-        (red).
+        Each user starts with a balance of 0 CBDC tokens on both Besu A and
+        Besu B. Each user has a box that displays the user's name, the balance
+        of CBDC tokens, and the actions that the user can perform. The actions
+        have different colors based on being related to local actions (same
+        ledger) (in blue) or cross-ledger functionality (red).
       </Typography>
       <Box sx={{ marginTop: "2rem", marginBottom: "2rem" }}>
         <DummyActionsContainer />
@@ -96,8 +95,7 @@ export default function Helper() {
           </li>
           <li>
             <a href="https://ieeexplore.ieee.org/document/10174953">
-              CBDC Bridging between Hyperledger Fabric and Permissioned
-              EVM-based Blockchains
+              CBDC Bridging between Permissioned EVM-based Blockchains
             </a>
           </li>
         </ul>

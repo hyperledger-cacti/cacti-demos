@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import Docker, { Container } from "dockerode";
-import { v4 as internalIpV4 } from "internal-ip";
+import { internalIpV4 } from "internal-ip";
 import { v4 as uuidv4 } from "uuid";
 import KcAdminClient from "keycloak-admin";
 import UserRepresentation from "keycloak-admin/lib/defs/userRepresentation";

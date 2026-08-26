@@ -48,7 +48,7 @@ export default function MintDialog(props: IMintDialogOptions) {
       setErrorMessage("Amount must be a positive value");
     } else {
       setSending(true);
-      if (props.ledger !== "FABRIC" && props.ledger !== "BESU") {
+      if (props.ledger !== "BESU_A" && props.ledger !== "BESU_B") {
         setErrorMessage("Invalid ledger");
         return;
       }

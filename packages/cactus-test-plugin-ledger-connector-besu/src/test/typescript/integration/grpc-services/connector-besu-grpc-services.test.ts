@@ -4,8 +4,7 @@ import { AddressInfo } from "node:net";
 import "jest-extended";
 import * as grpc from "@grpc/grpc-js";
 import { v4 as uuidv4 } from "uuid";
-import Web3 from "web3";
-import { Account } from "web3-core";
+import Web3, { Web3Account } from "web3";
 
 import {
   LogLevelDesc,
@@ -56,7 +55,7 @@ describe("BesuGrpcSvcOpenApi", () => {
   let connector: PluginLedgerConnectorBesu;
   let grpcClientDefaultSvc: default_service.org.hyperledger.cacti.plugin.ledger.connector.besu.services.defaultservice.DefaultServiceClient;
   let grpcClientBesuSvc: besu_grpc_svc_streams.org.hyperledger.cacti.plugin.ledger.connector.besu.services.besuservice.BesuGrpcSvcStreamsClient;
-  let targetEthAccount: Account;
+  let targetEthAccount: Web3Account;
   let apiServer: ApiServer;
   let addressInfo: AddressInfo;
 
@@ -82,7 +81,7 @@ describe("BesuGrpcSvcOpenApi", () => {
 
     // Target account - create new
     const web3 = new Web3(rpcApiHttpHost);
-    targetEthAccount = web3.eth.accounts.create(uuidv4());
+    targetEthAccount = web3.eth.accounts.create();
 
     const keychainEntryKey = uuidv4();
     const keychainEntryValue = targetEthAccount.privateKey;

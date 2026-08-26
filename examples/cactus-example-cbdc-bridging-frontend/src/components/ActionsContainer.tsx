@@ -30,8 +30,8 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
-      if (props.ledger !== "FABRIC" && props.ledger !== "BESU") {
+    async function fetchData() {      
+      if (props.ledger !== "BESU_A" && props.ledger !== "BESU_B") {
         setErrorMessage("Invalid ledger");
         return;
       }
@@ -98,7 +98,7 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
           )}
           {props.user === "Bridge" ? (
             <Grid item xs={12} lg={12}></Grid>
-          ) : props.ledger === "Besu" ? (
+          ) : props.ledger === "Besu A" ? (
             <Grid item xs={12} lg={6}>
               <NormalButton
                 variant="contained"
@@ -141,10 +141,10 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
               </CriticalButton>
             </Grid>
           )}
-          {props.ledger === "Fabric" && props.user !== "Bridge" && (
+          {props.ledger === "Besu A" && props.user !== "Bridge" && (
             <Grid item xs={12} lg={6}></Grid>
           )}
-          {props.ledger === "Besu" && props.user !== "Bridge" && (
+          {props.ledger === "Besu B" && props.user !== "Bridge" && (
             <Grid item xs={12} lg={6}></Grid>
           )}
         </Grid>

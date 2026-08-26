@@ -195,7 +195,7 @@ describe(testCase, () => {
     });
     const balance2 = await web3.eth.getBalance(firstHighNetWorthAccount);
 
-    expect(parseInt(balance)).toEqual(parseInt(balance2) - 10);
+    expect(balance).toEqual(balance2 - 10n);
 
     try {
       const ids = [responseTxId.callOutput as string];

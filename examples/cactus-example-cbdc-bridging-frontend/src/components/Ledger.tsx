@@ -24,7 +24,7 @@ export default function Ledger(props: ILedgerOptions) {
 
   useEffect(() => {
     async function fetchData() {
-      if (props.ledger !== "FABRIC" && props.ledger !== "BESU") {
+      if (props.ledger !== "BESU_A" && props.ledger !== "BESU_B") {
         console.log("Invalid ledger");
         return;
       }
@@ -60,7 +60,7 @@ export default function Ledger(props: ILedgerOptions) {
         padding: "0 1rem 1rem 1rem",
       }}
     >
-      <h2>Hyperledger {props.ledger}</h2>
+      <h2>{props.ledger === "BESU_A" ? "Hyperledger Besu A" : "Hyperledger Besu B"}</h2>
       <Grid container spacing={2}>
         <Grid item sm={12} md={6}>
           <ActionsContainer

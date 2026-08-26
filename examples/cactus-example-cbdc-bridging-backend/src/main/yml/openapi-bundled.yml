@@ -8,8 +8,8 @@ info:
     name: Hyperledger Cacti
   x-logo:
     altText: Cacti logo
-    backgroundColor: '#fafafa'
-    url: 'https://github.com/hyperledger/cacti/blob/main/images/HL_Cacti_Logo_Color.png'
+    backgroundColor: "#fafafa"
+    url: "https://github.com/hyperledger/cacti/blob/main/images/HL_Cacti_Logo_Color.png"
 tags:
   - name: transaction
     description: API endpoints for interacting with blockchains via gateways
@@ -32,7 +32,7 @@ paths:
         content:
           application/json:
             schema:
-              description: 'Request schema for initiating a transaction. Includes details such as the transaction context, mode (data or transfer), payload, and information about the source and receiver DLT networks.'
+              description: "Request schema for initiating a transaction. Includes details such as the transaction context, mode (data or transfer), payload, and information about the source and receiver DLT networks."
               type: object
               required:
                 - sender
@@ -54,8 +54,8 @@ paths:
                     assetType:
                       type: string
                       enum:
-                        - FABRIC
-                        - BESU
+                        - BESU_A
+                        - BESU_B
                 receiverChain:
                   description: Enum for the type of asset being transferred.
                   type: object
@@ -63,13 +63,13 @@ paths:
                     assetType:
                       type: string
                       enum:
-                        - FABRIC
-                        - BESU
+                        - BESU_A
+                        - BESU_B
                 amount:
                   type: string
-                  example: '100'
+                  example: "100"
       responses:
-        '200':
+        "200":
           description: Transaction successfully queued
           content:
             application/json:
@@ -132,7 +132,7 @@ paths:
                   timestamp:
                     type: string
                     description: Timestamp of the error
-                    example: '2021-07-21T17:32:28Z'
+                    example: "2021-07-21T17:32:28Z"
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/get-sessions-references:
     get:
       tags:
@@ -150,11 +150,11 @@ paths:
           schema:
             type: string
             enum:
-              - FABRIC
-              - BESU
+              - BESU_A
+              - BESU_B
           description: Unique identifier for the session.
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -178,11 +178,11 @@ paths:
                     - id
                     - sourceLedger
                     - receiverLedger
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/get-balance:
     get:
@@ -203,10 +203,10 @@ paths:
           schema:
             type: string
             enum:
-              - FABRIC
-              - BESU
+              - BESU_A
+              - BESU_B
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -216,14 +216,14 @@ paths:
                 properties:
                   amount:
                     type: string
-                    example: '100'
+                    example: "100"
                 required:
                   - amount
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/mint-tokens:
     post:
@@ -249,7 +249,7 @@ paths:
                   example: user1
                 amount:
                   type: string
-                  example: '100'
+                  example: "100"
                 ledger:
                   description: Enum for the type of asset being transferred.
                   type: object
@@ -257,20 +257,20 @@ paths:
                     assetType:
                       type: string
                       enum:
-                        - FABRIC
-                        - BESU
+                        - BESU_A
+                        - BESU_B
               required:
                 - user
                 - amount
                 - ledger
       responses:
-        '200':
+        "200":
           description: Transaction successfully queued
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
         default:
           description: An error occurred
@@ -308,7 +308,7 @@ paths:
                   timestamp:
                     type: string
                     description: Timestamp of the error
-                    example: '2021-07-21T17:32:28Z'
+                    example: "2021-07-21T17:32:28Z"
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/approve-tokens:
     post:
       tags:
@@ -333,7 +333,7 @@ paths:
                   example: user1
                 amount:
                   type: string
-                  example: '100'
+                  example: "100"
                 ledger:
                   description: Enum for the type of asset being transferred.
                   type: object
@@ -341,20 +341,20 @@ paths:
                     assetType:
                       type: string
                       enum:
-                        - FABRIC
-                        - BESU
+                        - BESU_A
+                        - BESU_B
               required:
                 - user
                 - amount
                 - ledger
       responses:
-        '200':
+        "200":
           description: Transaction successfully queued
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
         default:
           description: An error occurred
@@ -392,7 +392,7 @@ paths:
                   timestamp:
                     type: string
                     description: Timestamp of the error
-                    example: '2021-07-21T17:32:28Z'
+                    example: "2021-07-21T17:32:28Z"
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/get-amount-approved:
     get:
       tags:
@@ -414,21 +414,21 @@ paths:
           schema:
             type: string
             enum:
-              - FABRIC
-              - BESU
+              - BESU_A
+              - BESU_B
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: string
-                example: '100'
-        '400':
+                example: "100"
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
   /api/v1/@hyperledger-cacti/cactus-example-cbdc/transfer-tokens:
     post:
@@ -462,8 +462,8 @@ paths:
                     assetType:
                       type: string
                       enum:
-                        - FABRIC
-                        - BESU
+                        - BESU_A
+                        - BESU_B
                 receiverChain:
                   description: Enum for the type of asset being transferred.
                   type: object
@@ -471,11 +471,11 @@ paths:
                     assetType:
                       type: string
                       enum:
-                        - FABRIC
-                        - BESU
+                        - BESU_A
+                        - BESU_B
                 amount:
                   type: string
-                  example: '100'
+                  example: "100"
               required:
                 - from
                 - to
@@ -483,13 +483,13 @@ paths:
                 - sourceChain
                 - receiverChain
       responses:
-        '200':
+        "200":
           description: Transaction successfully queued
-        '400':
+        "400":
           description: Bad request
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal server error
         default:
           description: An error occurred
@@ -527,4 +527,4 @@ paths:
                   timestamp:
                     type: string
                     description: Timestamp of the error
-                    example: '2021-07-21T17:32:28Z'
+                    example: "2021-07-21T17:32:28Z"

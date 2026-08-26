@@ -33,6 +33,14 @@ import CryptoMaterial from "../../../crypto-material/crypto-material.json";
 import { getUserFromPseudonim } from "./utils";
 import ExampleOntology from "../../json/ontologies/ontology-satp-erc20-interact-besu.json";
 
+export interface IBesuEnvironmentOptions {
+  dockerNetwork?: string;
+  networkId?: string;
+  assetId?: string;
+  assetReferenceId?: string;
+  label?: string;
+}
+
 export class BesuEnvironment {
   public static readonly BESU_ASSET_ID: string = "BesuCBDCAsset";
   public static readonly BESU_NETWORK_ID: string = "BesuLedgerCBDCNetwork";
@@ -57,25 +65,36 @@ export class BesuEnvironment {
   public keychainPlugin1!: PluginKeychainMemory;
   public keychainPlugin2!: PluginKeychainMemory;
 
-  public readonly network: NetworkId = {
-    id: BesuEnvironment.BESU_NETWORK_ID,
-    ledgerType: LedgerType.Besu2X,
-  };
+  public readonly network: NetworkId;
+  public readonly assetId: string;
+  public readonly assetReferenceId: string;
 
   private dockerContainerIP?: string;
 
   private approveAddress?: string;
 
   private readonly logLevel: LogLevelDesc;
+  private readonly label: string;
 
-  public constructor(logLevel: LogLevelDesc, network?: string) {
-    if (network) {
-      this.dockerNetwork = network;
-    }
+  public constructor(
+    logLevel: LogLevelDesc,
+    options: IBesuEnvironmentOptions = {},
+  ) {
+    this.dockerNetwork = options.dockerNetwork ?? this.dockerNetwork;
+    this.assetId = options.assetId ?? BesuEnvironment.BESU_ASSET_ID;
+    this.assetReferenceId =
+      options.assetReferenceId ?? BesuEnvironment.BESU_ASSET_REFERENCE_ID;
+    this.label = options.label ?? "BesuEnvironment";
+    this.network = {
+      id: options.networkId ?? BesuEnvironment.BESU_NETWORK_ID,
+      ledgerType: LedgerType.Besu2X,
+    };
 
     this.logLevel = logLevel || "INFO";
-    const label = "BesuEnvironment";
-    this.log = LoggerProvider.getOrCreate({ level: this.logLevel, label });
+    this.log = LoggerProvider.getOrCreate({
+      level: this.logLevel,
+      label: this.label,
+    });
   }
 
   // Initializes the Besu ledger, accounts, and connector for testing
@@ -84,8 +103,8 @@ export class BesuEnvironment {
       emitContainerLogs: true,
       envVars: ["BESU_NETWORK=dev"],
       networkName: this.dockerNetwork,
-      containerImageVersion: "2024-06-09-cc2f9c5",
-      containerImageName: "ghcr.io/hyperledger/cactus-besu-all-in-one",
+      containerImageVersion: "v2.2.0-rc.2",
+      containerImageName: "ghcr.io/hyperledger-cacti/besu-all-in-one",
     });
 
     const docker = new Docker();
@@ -226,6 +245,11 @@ export class BesuEnvironment {
     }
   }
 
+  // Backwards-compatibility alias retained for callers not yet migrated.
+  public async mintTokensFabric(user: string, amount: string): Promise<void> {
+    await this.mintTokensBesu(user, parseInt(amount));
+  }
+
   public async giveRoleToBridge(wrapperAddress: string): Promise<void> {
     const giveRoleRes = await this.connector?.invokeContract({
       contractName: BesuEnvironment.SATP_CONTRACT_NAME,
@@ -321,7 +345,7 @@ export class BesuEnvironment {
       return parseInt(response.callOutput);
     } catch (error) {
       this.log.error(
-        `BESU - Error getting balance user: ${frontendUser} with error: ${error}`,
+        `${this.label} - Error getting balance user: ${frontendUser} with error: ${error}`,
       );
       return -1;
     }
@@ -357,9 +381,22 @@ export class BesuEnvironment {
         gas: 1000000,
       });
     } catch (error) {
-      this.log.error("Failed to transfer tokens");
+      this.log.error(error);
       throw new Error("Failed to transfer tokens");
     }
+  }
+
+  // Backwards-compatibility alias retained for callers not yet migrated.
+  public async transferTokensFabric(
+    frontendUserFrom: string,
+    frontendUserTo: string,
+    amount: string,
+  ): Promise<void> {
+    await this.transferTokensBesu(
+      frontendUserFrom,
+      frontendUserTo,
+      parseInt(amount),
+    );
   }
 
   public async approveNTokensBesu(frontendUserFrom: string, amount: number) {
@@ -388,6 +425,14 @@ export class BesuEnvironment {
       this.log.error(error);
       return -1;
     }
+  }
+
+  // Backwards-compatibility alias retained for callers not yet migrated.
+  public async approveNTokensFabric(
+    frontendUserFrom: string,
+    amount: string,
+  ): Promise<void | number> {
+    return this.approveNTokensBesu(frontendUserFrom, parseInt(amount));
   }
 
   public async getAmountApprovedBesu(frontendUser: string) {
@@ -421,20 +466,30 @@ export class BesuEnvironment {
     }
   }
 
+  // Backwards-compatibility alias retained for callers not yet migrated.
+  public async getAmountApprovedFabric(frontendUser: string): Promise<string> {
+    return this.getAmountApprovedBesu(frontendUser);
+  }
+
   public getBesuAsset(owner: string, amount: string) {
     return {
       owner: owner,
       contractName: BesuEnvironment.SATP_CONTRACT_NAME,
       contractAddress: this.assetContractAddress,
-      id: BesuEnvironment.BESU_ASSET_ID,
-      referenceId: BesuEnvironment.BESU_ASSET_REFERENCE_ID,
+      id: this.assetId,
+      referenceId: this.assetReferenceId,
       amount,
       tokenType: TokenType.Fungible,
       networkId: {
-        id: BesuEnvironment.BESU_NETWORK_ID,
+        id: this.network.id,
         ledgerType: NetworkIdLedgerTypeEnum.Besu2X,
       },
     } as TransactRequestSourceAsset;
+  }
+
+  // Backwards-compatibility alias retained for callers not yet migrated.
+  public getFabricAsset(owner: string, amount: string) {
+    return this.getBesuAsset(owner, amount);
   }
 
   public getEthAddress(user: string) {
@@ -448,6 +503,16 @@ export class BesuEnvironment {
       default:
         throw new Error("User not found");
     }
+  }
+
+  // Backwards-compatibility alias retained for callers not yet migrated.
+  public getFabricId(user: string): string {
+    return this.getEthAddress(user);
+  }
+
+  // Backwards-compatibility alias retained for callers not yet migrated.
+  public async getFabricBalance(frontendUser: string): Promise<number> {
+    return this.getBesuBalance(frontendUser);
   }
 
   private getEthUserPrKey(user: string) {
