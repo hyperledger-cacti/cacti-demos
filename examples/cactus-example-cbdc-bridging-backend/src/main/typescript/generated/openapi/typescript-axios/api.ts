@@ -20,6 +20,10 @@ import globalAxios from "axios";
 import {
   DUMMY_BASE_URL,
   assertParamExists,
+  setApiKeyToObject,
+  setBasicAuthToObject,
+  setBearerAuthToObject,
+  setOAuthToObject,
   setSearchParams,
   serializeDataIfNeeded,
   toPathString,
@@ -27,7 +31,13 @@ import {
 } from "./common";
 import type { RequestArgs } from "./base";
 // @ts-ignore
-import { BASE_PATH, BaseAPI, operationServerMap } from "./base";
+import {
+  BASE_PATH,
+  COLLECTION_FORMATS,
+  BaseAPI,
+  RequiredError,
+  operationServerMap,
+} from "./base";
 
 /**
  * Request schema for approving a transaction.
@@ -256,8 +266,8 @@ export interface TransactRequestSourceChain {
 }
 
 export const TransactRequestSourceChainAssetTypeEnum = {
-  Fabric: "FABRIC",
-  Besu: "BESU",
+  A: "BESU_A",
+  B: "BESU_B",
 } as const;
 
 export type TransactRequestSourceChainAssetTypeEnum =
@@ -620,8 +630,8 @@ export class GetAmountApprovedApi extends BaseAPI {
  * @export
  */
 export const GetAmountApprovedChainEnum = {
-  Fabric: "FABRIC",
-  Besu: "BESU",
+  A: "BESU_A",
+  B: "BESU_B",
 } as const;
 export type GetAmountApprovedChainEnum =
   (typeof GetAmountApprovedChainEnum)[keyof typeof GetAmountApprovedChainEnum];
@@ -793,8 +803,8 @@ export class GetBalanceApi extends BaseAPI {
  * @export
  */
 export const GetBalanceChainEnum = {
-  Fabric: "FABRIC",
-  Besu: "BESU",
+  A: "BESU_A",
+  B: "BESU_B",
 } as const;
 export type GetBalanceChainEnum =
   (typeof GetBalanceChainEnum)[keyof typeof GetBalanceChainEnum];
@@ -957,8 +967,8 @@ export class GetSessionsReferencesApi extends BaseAPI {
  * @export
  */
 export const GetSessionsReferencesLedgerEnum = {
-  Fabric: "FABRIC",
-  Besu: "BESU",
+  A: "BESU_A",
+  B: "BESU_B",
 } as const;
 export type GetSessionsReferencesLedgerEnum =
   (typeof GetSessionsReferencesLedgerEnum)[keyof typeof GetSessionsReferencesLedgerEnum];
