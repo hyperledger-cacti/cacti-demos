@@ -1,0 +1,1 @@
+--8<-- "packages/cactus-test-plugin-ledger-connector-besu/README.md"

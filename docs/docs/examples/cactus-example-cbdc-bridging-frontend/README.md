@@ -1,0 +1,1 @@
+--8<-- "examples/cactus-example-cbdc-bridging-frontend/README.md"

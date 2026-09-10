@@ -1,0 +1,1 @@
+--8<-- "AI_GUIDELINES.md"

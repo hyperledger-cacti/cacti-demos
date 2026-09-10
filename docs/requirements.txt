@@ -1,0 +1,2 @@
+mkdocs-material>=9,<10
+mike>=2,<3

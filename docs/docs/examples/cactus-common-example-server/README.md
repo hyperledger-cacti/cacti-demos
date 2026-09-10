@@ -1,0 +1,1 @@
+--8<-- "examples/cactus-common-example-server/README.md"

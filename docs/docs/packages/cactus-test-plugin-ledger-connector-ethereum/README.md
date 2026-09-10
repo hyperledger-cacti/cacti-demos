@@ -1,0 +1,1 @@
+--8<-- "packages/cactus-test-plugin-ledger-connector-ethereum/README.md"

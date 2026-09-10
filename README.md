@@ -1,3 +1,5 @@
+<!-- --8<-- [start:content] -->
+
 # Hyperledger Cacti Demos
 
 This repository serves as a comprehensive demonstration and example environment for the Hyperledger Cacti ecosystem. It provides end-to-end integration use-cases, showcasing how to build interoperable blockchain solutions, cross-chain communication pipelines, and Secure Asset Transfer Protocol (SATP) workflows.
@@ -12,7 +14,7 @@ This repository serves as a comprehensive demonstration and example environment 
   - [Adapter Cases (demos/adapter/)](#adapter-cases-demosadapter)
 - [EVM Test Environment](#evm-test-environment)
 - [Important Instructions](#important-instructions)
-- [Setup & Running](#setup--running)
+- [Setup & Running][setup-running]
   - [Running Cases with the Makefile](#running-cases-with-the-makefile)
 - [Dependencies](#dependencies)
 - [Contact](#contact)
@@ -61,7 +63,7 @@ This repository is organized as a Yarn Workspace:
 
 ## Case Descriptions
 
-Active workspaces under [examples](./examples/) and [packages](./packages/) include a README describing their purpose, setup, API surface, usage, and validation guidance.
+Active workspaces under [examples][examples-index] and [packages][packages-index] include a README describing their purpose, setup, API surface, usage, and validation guidance.
 
 ### Extensions Cases
 
@@ -176,3 +178,16 @@ Before opening a Pull Request, please familiarize yourself with our guidelines:
 ## Contact
 
 For questions or collaboration inquiries, feel free to reach out or open an issue on this repository.
+<!-- --8<-- [end:content] -->
+
+<!--
+=============================================================================
+GITHUB REFERENCE LINKS
+These links are used when viewing this file directly on GitHub.
+The MkDocs wrapper supplies documentation-site destinations instead.
+=============================================================================
+-->
+
+[setup-running]: #setup--running
+[examples-index]: ./examples/
+[packages-index]: ./packages/

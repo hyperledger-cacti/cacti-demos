@@ -1,0 +1,65 @@
+site_name: Hyperledger Cacti Demos documentation
+site_url: !ENV [SITE_URL, "https://hyperledger-cacti.github.io/cacti-demos"]
+repo_name: hyperledger-cacti/cacti-demos
+repo_url: https://github.com/hyperledger-cacti/cacti-demos
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.footer
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: [".."]
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+  - mike
+
+extra:
+  version:
+    provider: mike
+    default: latest
+    alias: true
+
+nav:
+  - Overview: index.md
+  - Examples:
+      - Overview: examples/README.md
+      - Cacti Starter: examples/cacti-starter/README.md
+      - Common Example Server: examples/cactus-common-example-server/README.md
+      - CBDC Bridging: examples/cactus-example-cbdc-bridging/README.md
+      - CBDC Bridging Backend: examples/cactus-example-cbdc-bridging-backend/README.md
+      - CBDC Bridging Frontend: examples/cactus-example-cbdc-bridging-frontend/README.md
+      - Workshop Examples: examples/cactus-workshop-examples-2022-11-14/README.md
+  - Packages:
+      - Overview: packages/README.md
+      - COPM Test: packages/cacti-copm-test/README.md
+      - API Client Test: packages/cactus-test-api-client/README.md
+      - API Server Test: packages/cactus-test-cmd-api-server/README.md
+      - Geth Test Ledger: packages/cactus-test-geth-ledger/README.md
+      - Besu ERC-20 HTLC Test: packages/cactus-test-plugin-htlc-eth-besu-erc20/README.md
+      - Besu HTLC Test: packages/cactus-test-plugin-htlc-eth-besu/README.md
+      - Besu Connector Test: packages/cactus-test-plugin-ledger-connector-besu/README.md
+      - Ethereum Connector Test: packages/cactus-test-plugin-ledger-connector-ethereum/README.md
+      - Test Tooling: packages/cactus-test-tooling/README.md
+  - Contribute:
+      - Contributing: CONTRIBUTING.md
+      - Pull Request Guidelines: PULL.md
+      - AI Guidelines: AI_GUIDELINES.md

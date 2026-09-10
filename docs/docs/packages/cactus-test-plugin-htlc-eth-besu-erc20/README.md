@@ -1,0 +1,1 @@
+--8<-- "packages/cactus-test-plugin-htlc-eth-besu-erc20/README.md"

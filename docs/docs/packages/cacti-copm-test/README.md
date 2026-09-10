@@ -1,0 +1,1 @@
+--8<-- "packages/cacti-copm-test/README.md"
