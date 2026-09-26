@@ -5,7 +5,12 @@ D="$HOOK_DIR/$STAGE.d"
 
 NVMRC="$HOOK_DIR/../.nvmrc"
 if [ -s "$NVMRC" ]; then
-	NODE_BIN="$HOME/.nvm/versions/node/$(cat "$NVMRC")/bin"
+	NODE_VER="$(cat "$NVMRC")"
+	# nvm stores version directories with a "v" prefix that .nvmrc may omit.
+	NODE_BIN="$HOME/.nvm/versions/node/$NODE_VER/bin"
+	if [ ! -x "$NODE_BIN/node" ]; then
+		NODE_BIN="$HOME/.nvm/versions/node/v$NODE_VER/bin"
+	fi
 	if [ -x "$NODE_BIN/node" ]; then
 		PATH="$NODE_BIN:$PATH"
 		export PATH
