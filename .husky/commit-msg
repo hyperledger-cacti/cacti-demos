@@ -3,6 +3,15 @@ STAGE=commit-msg
 HOOK_DIR="$(cd "$(dirname "$0")" && pwd)"
 D="$HOOK_DIR/$STAGE.d"
 
+NVMRC="$HOOK_DIR/../.nvmrc"
+if [ -s "$NVMRC" ]; then
+	NODE_BIN="$HOME/.nvm/versions/node/$(cat "$NVMRC")/bin"
+	if [ -x "$NODE_BIN/node" ]; then
+		PATH="$NODE_BIN:$PATH"
+		export PATH
+	fi
+fi
+
 [ -d "$D" ] || exit 0
 
 for script in "$D"/*.sh; do
