@@ -2542,13 +2542,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@connectrpc/connect-node@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@connectrpc/connect-node@npm:2.2.0"
+"@connectrpc/connect-node@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@connectrpc/connect-node@npm:2.1.2"
   peerDependencies:
     "@bufbuild/protobuf": ^2.7.0
-    "@connectrpc/connect": 2.2.0
-  checksum: 10/9823db6fa8d5645b63e4ab23ed17a1989e2dada304a9b0bb149d51f29f55edadf230d054686e7749d6adc21b902146f7312d5448dd778da67a676ffded9b3619
+    "@connectrpc/connect": 2.1.2
+  checksum: 10/35deb0cf7b0c3da7e96b952a9c94186f4f9fa337c13e6950655608ce56cd789fb4b79a0687ef2158321a4714678023d617c0e125b992e91490d649352fa051f1
   languageName: node
   linkType: hard
 
@@ -2577,15 +2577,6 @@ __metadata:
   peerDependencies:
     "@bufbuild/protobuf": ^2.2.0
   checksum: 10/85c675cf76a1463f638c8fca696484d3d9a044f4e15b6800d1370ebdc0ff183a4960d11af93ea6bc84546fe3d122feee3a928d1a638617c0e327cfb30b7d63df
-  languageName: node
-  linkType: hard
-
-"@connectrpc/connect@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@connectrpc/connect@npm:2.2.0"
-  peerDependencies:
-    "@bufbuild/protobuf": ^2.7.0
-  checksum: 10/7165d4dc2a649c5a7bec54a89b37991467585691ac1b7d1dee3139a9b8a1e5a6ccf8f2c71bb122b01068abeb1981f3364b38d73b23fdac976d66b49511d93c4a
   languageName: node
   linkType: hard
 
@@ -4844,16 +4835,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:1.14.4, @grpc/grpc-js@npm:^1.11.1":
-  version: 1.14.4
-  resolution: "@grpc/grpc-js@npm:1.14.4"
-  dependencies:
-    "@grpc/proto-loader": "npm:^0.8.0"
-    "@js-sdsl/ordered-map": "npm:^4.4.2"
-  checksum: 10/f9cdbd81e7388dc784c57274fcf6f4f4484da8968dd0975b97a14708d3fb117ae4a7bc2848e1bd1cc8b8ed9ee7a80ff131bfe728c85260da90a4e0b170e31ca9
-  languageName: node
-  linkType: hard
-
 "@grpc/grpc-js@npm:1.14.5, @grpc/grpc-js@npm:^1.14.3":
   version: 1.14.5
   resolution: "@grpc/grpc-js@npm:1.14.5"
@@ -5071,8 +5052,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hyperledger-cacti/cacti-copm-test@workspace:packages/cacti-copm-test"
   dependencies:
-    "@connectrpc/connect": "npm:2.2.0"
-    "@connectrpc/connect-node": "npm:2.2.0"
+    "@connectrpc/connect": "npm:1.4.0"
+    "@connectrpc/connect-node": "npm:2.1.2"
     "@hyperledger-cacti/cacti-copm-core": "npm:3.0.1"
     "@hyperledger-cacti/cacti-plugin-copm-corda": "npm:3.0.1"
     "@hyperledger-cacti/cacti-plugin-copm-fabric": "npm:3.0.1"
@@ -15714,18 +15695,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.18.1, axios@npm:^1.5.1, axios@npm:^1.7.4":
-  version: 1.18.1
-  resolution: "axios@npm:1.18.1"
-  dependencies:
-    follow-redirects: "npm:^1.16.0"
-    form-data: "npm:^4.0.5"
-    https-proxy-agent: "npm:^5.0.1"
-    proxy-from-env: "npm:^2.1.0"
-  checksum: 10/c4cdced3ee0a9bf7dcae189fbc74a124aa079d4f04dbd995e602d39c1419476e8d021f87ee39ac8d8398e5a55e6d0b986238b3645f0d9177ac80de87c2a73f18
-  languageName: node
-  linkType: hard
-
 "axios@npm:1.20.0, axios@npm:^1.19.0":
   version: 1.20.0
   resolution: "axios@npm:1.20.0"
@@ -15744,6 +15713,18 @@ __metadata:
   dependencies:
     follow-redirects: "npm:^1.14.0"
   checksum: 10/da644592cb6f8f9f8c64fdabd7e1396d6769d7a4c1ea5f8ae8beb5c2eb90a823e3a574352b0b934ac62edc762c0f52647753dc54f7d07279127a7e5c4cd20272
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.5.1, axios@npm:^1.7.4":
+  version: 1.18.1
+  resolution: "axios@npm:1.18.1"
+  dependencies:
+    follow-redirects: "npm:^1.16.0"
+    form-data: "npm:^4.0.5"
+    https-proxy-agent: "npm:^5.0.1"
+    proxy-from-env: "npm:^2.1.0"
+  checksum: 10/c4cdced3ee0a9bf7dcae189fbc74a124aa079d4f04dbd995e602d39c1419476e8d021f87ee39ac8d8398e5a55e6d0b986238b3645f0d9177ac80de87c2a73f18
   languageName: node
   linkType: hard
 

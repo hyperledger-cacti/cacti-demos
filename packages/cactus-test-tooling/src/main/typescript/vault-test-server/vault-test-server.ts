@@ -109,7 +109,7 @@ export class VaultTestServer {
             Test: ["CMD-SHELL", "wget -O- http://127.0.0.1:8200/v1/sys/health"],
             Interval: 100 * 1000000,
           },
-        },
+        } as unknown as Docker.ContainerCreateOptions,
         {},
         (err: Error) => {
           if (err) {

@@ -168,8 +168,10 @@ export class SATPGatewayRunner implements ITestLedger {
   public async getContainerIpAddress(): Promise<string> {
     if (this.container) {
       const containerInfo = await this.container.inspect();
-      if (containerInfo.NetworkSettings?.IPAddress) {
-        return containerInfo.NetworkSettings.IPAddress;
+      const networkSettings = containerInfo.NetworkSettings as
+        { IPAddress?: string } | undefined;
+      if (networkSettings?.IPAddress) {
+        return networkSettings.IPAddress;
       } else {
         return "localhost";
       }

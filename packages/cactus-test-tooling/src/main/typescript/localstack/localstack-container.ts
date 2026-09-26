@@ -104,7 +104,7 @@ export class LocalStackContainer {
             ],
             Interval: 100 * 1000000,
           },
-        },
+        } as unknown as Docker.ContainerCreateOptions,
         {},
         (err: Error) => {
           if (err) {

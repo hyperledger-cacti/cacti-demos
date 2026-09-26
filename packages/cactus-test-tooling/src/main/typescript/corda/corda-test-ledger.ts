@@ -167,7 +167,7 @@ export class CordaTestLedger implements ITestLedger {
           // },
           Privileged: true,
           Env: this.envVars,
-        },
+        } as unknown as Docker.ContainerCreateOptions,
         {},
         (err: unknown) => {
           if (err) {

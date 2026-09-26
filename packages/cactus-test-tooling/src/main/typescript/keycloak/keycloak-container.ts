@@ -117,7 +117,7 @@ export class KeycloakContainer {
           Env,
           PublishAllPorts: true,
           Healthcheck,
-        },
+        } as unknown as Docker.ContainerCreateOptions,
         {},
         (err?: Error) => {
           if (err) {
