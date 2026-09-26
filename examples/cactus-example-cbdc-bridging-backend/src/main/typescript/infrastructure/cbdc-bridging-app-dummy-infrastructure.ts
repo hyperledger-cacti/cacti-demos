@@ -433,10 +433,8 @@ export class CbdcBridgingAppDummyInfrastructure {
 
     const reqApproveBesuAAddress =
       await besuAGatewayApproveAddressApi.getApproveAddress(
-        {
-          id: this.besuAEnvironment.network.id,
-          ledgerType: LedgerType.Besu2X,
-        },
+        this.besuAEnvironment.network.id,
+        LedgerType.Besu2X,
         TokenType.Fungible,
       );
 
@@ -455,10 +453,8 @@ export class CbdcBridgingAppDummyInfrastructure {
     );
     const reqApproveBesuBAddress =
       await besuBGatewayApproveAddressApi.getApproveAddress(
-        {
-          id: this.besuBEnvironment.network.id,
-          ledgerType: LedgerType.Besu2X,
-        },
+        this.besuBEnvironment.network.id,
+        LedgerType.Besu2X,
         TokenType.Fungible,
       );
 

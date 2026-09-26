@@ -106,7 +106,7 @@ export class PostgresTestContainer implements ITestLedger {
     const response = await this.getContainer().getArchive({
       path: filePath,
     });
-    const extract: tar.Extract = tar.extract({ autoDestroy: true });
+    const extract: tar.Extract = tar.extract();
 
     return new Promise((resolve, reject) => {
       let fileContents = "";
@@ -124,7 +124,7 @@ export class PostgresTestContainer implements ITestLedger {
         resolve(fileContents);
       });
 
-      response.pipe(extract);
+      response.pipe(extract as unknown as NodeJS.WritableStream);
     });
   }
 
@@ -173,7 +173,11 @@ export class PostgresTestContainer implements ITestLedger {
         this.container = container;
         this.containerId = container.id;
         if (this.emitContainerLogs) {
-          const logOptions = { follow: true, stderr: true, stdout: true };
+          const logOptions = {
+            follow: true,
+            stderr: true,
+            stdout: true,
+          } as const;
           const logStream = await container.logs(logOptions);
           logStream.on("data", (data: Buffer) => {
             this.log.debug(`[${imageFqn}] %o`, data.toString("utf-8"));

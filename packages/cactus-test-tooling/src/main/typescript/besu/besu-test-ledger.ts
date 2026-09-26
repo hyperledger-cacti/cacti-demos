@@ -137,7 +137,7 @@ export class BesuTestLedger implements ITestLedger {
     const response = await this.getContainer().getArchive({
       path: filePath,
     });
-    const extract: tar.Extract = tar.extract({ autoDestroy: true });
+    const extract: tar.Extract = tar.extract();
 
     return new Promise((resolve, reject) => {
       let fileContents = "";
@@ -155,7 +155,7 @@ export class BesuTestLedger implements ITestLedger {
         resolve(fileContents);
       });
 
-      response.pipe(extract);
+      response.pipe(extract as unknown as NodeJS.WritableStream);
     });
   }
 

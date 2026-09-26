@@ -1,8 +1,18 @@
-import { Stream } from "stream";
+/**
+ * Minimal readable-stream contract used by the aggregate helpers: anything
+ * that emits "data" chunks, "error" and "end" events. Accepts both Node.js
+ * streams and the streamx-based streams emitted by tar-stream v3's "entry"
+ * events, whose types are structurally incompatible with Node's Stream.
+ */
+export interface AggregatableStream {
+  on(event: "data", listener: (chunk: unknown) => void): unknown;
+  on(event: "error", listener: (err: unknown) => void): unknown;
+  on(event: "end", listener: () => void): unknown;
+}
 
 export class Streams {
   public static aggregate<T>(
-    stream: Stream,
+    stream: AggregatableStream,
     encoding:
       | "ascii"
       | "utf8"
@@ -19,8 +29,16 @@ export class Streams {
     const data: T[] = [];
 
     return new Promise((resolve, reject) => {
-      stream.on("data", (buffer: Buffer) => {
-        const item = buffer.toString(encoding) as unknown as T;
+      stream.on("data", (chunk: unknown) => {
+        if (!Buffer.isBuffer(chunk)) {
+          reject(
+            new Error(
+              `Streams#aggregate() expected Buffer chunks but got: ${typeof chunk}`,
+            ),
+          );
+          return;
+        }
+        const item = chunk.toString(encoding) as unknown as T;
         data.push(item);
       });
 
@@ -50,13 +68,23 @@ export class Streams {
     });
   }
 
-  public static aggregateToBuffer(stream: Stream): Promise<Buffer[]> {
+  public static aggregateToBuffer(
+    stream: AggregatableStream,
+  ): Promise<Buffer[]> {
     const fnTag = `Streams#aggregateToBuffer()`;
     const data: Buffer[] = [];
 
     return new Promise((resolve, reject) => {
-      stream.on("data", (buffer: Buffer) => {
-        data.push(buffer);
+      stream.on("data", (chunk: unknown) => {
+        if (!Buffer.isBuffer(chunk)) {
+          reject(
+            new Error(
+              `${fnTag} expected Buffer chunks but got: ${typeof chunk}`,
+            ),
+          );
+          return;
+        }
+        data.push(chunk);
       });
 
       stream.on("error", (err: unknown) => {

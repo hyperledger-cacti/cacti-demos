@@ -2,11 +2,19 @@ import {
   FabricConfiguration,
   FabricContractContext,
 } from "@hyperledger-cacti/cacti-plugin-copm-fabric";
-import { Wallet, DiscoveryOptions, Wallets } from "fabric-network";
+import { DiscoveryOptions, Wallets } from "fabric-network";
 import { Logger } from "@hyperledger-cacti/cactus-common";
 import path from "path";
 import fs from "fs-extra";
 import { TransferrableAsset } from "@hyperledger-cacti/cacti-copm-core";
+
+/**
+ * The wallet type expected by the copm-fabric plugin. Derived from the
+ * plugin's own FabricConfiguration so that the fabric-network copy the plugin
+ * resolves (2.2.x) is used, which differs from the one this package resolves
+ * (2.5.0-snapshot) and is not structurally compatible with it.
+ */
+type PluginWallet = Awaited<ReturnType<FabricConfiguration["getOrgWallet"]>>;
 
 export class TestFabricConfiguration implements FabricConfiguration {
   private log: Logger;
@@ -59,10 +67,10 @@ export class TestFabricConfiguration implements FabricConfiguration {
     return ccp;
   }
 
-  public async getOrgWallet(orgName: string): Promise<Wallet> {
+  public async getOrgWallet(orgName: string): Promise<PluginWallet> {
     const walletPath = path.join(this.weaverWalletPath, `wallet-${orgName}`);
     const wallet = await Wallets.newFileSystemWallet(walletPath);
-    return wallet;
+    return wallet as unknown as PluginWallet;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

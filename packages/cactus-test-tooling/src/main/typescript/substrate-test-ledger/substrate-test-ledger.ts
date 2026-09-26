@@ -157,7 +157,11 @@ export class SubstrateTestLedger {
         this._containerId = Optional.ofNonNull(id);
 
         if (this.emitContainerLogs) {
-          const logOptions = { follow: true, stderr: true, stdout: true };
+          const logOptions = {
+            follow: true,
+            stderr: true,
+            stdout: true,
+          } as const;
           const logStream = await container.logs(logOptions);
           logStream.on("data", (data: Buffer) => {
             const fnTag = `[${this.imageFqn}]`;

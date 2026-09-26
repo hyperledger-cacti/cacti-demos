@@ -122,7 +122,7 @@ export class CordaV5TestLedger implements ITestLedger {
           Binds: ["/var/run/docker.sock:/var/run/docker.sock"], // Mount the Docker socket
           PublishAllPorts: true,
           Privileged: true,
-        },
+        } as unknown as Docker.ContainerCreateOptions,
         {},
         (err: unknown) => {
           if (err) {

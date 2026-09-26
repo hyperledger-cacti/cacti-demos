@@ -157,16 +157,20 @@ export class Containers {
         return;
       }
 
-      const pack = tar.pack({ autoDestroy: true });
+      const pack = tar.pack();
 
-      pack.entry({ name: opts.dstFileName }, fileAsString, (err: unknown) => {
-        if (err) {
-          reject(err);
-        } else {
-          pack.finalize();
-          resolve(pack);
-        }
-      });
+      pack.entry(
+        { name: opts.dstFileName },
+        fileAsString as string | Uint8Array,
+        (err: unknown) => {
+          if (err) {
+            reject(err);
+          } else {
+            pack.finalize();
+            resolve(pack);
+          }
+        },
+      );
     });
 
     return new Promise((resolve, reject) => {
@@ -179,7 +183,7 @@ export class Containers {
       };
 
       container.putArchive(
-        fileAsTarStream,
+        fileAsTarStream as unknown as NodeJS.ReadableStream,
         {
           path: opts.dstFileDir,
         },
@@ -214,7 +218,7 @@ export class Containers {
     Checks.truthy(filePath, "Containers#pullFile() filePath");
 
     const response = await container.getArchive({ path: filePath });
-    const extract: tar.Extract = tar.extract({ autoDestroy: true });
+    const extract: tar.Extract = tar.extract();
 
     return new Promise((resolve, reject) => {
       let fileContents = "";
@@ -232,7 +236,8 @@ export class Containers {
         resolve(fileContents);
       });
 
-      response.pipe(extract);
+      // tar-stream v3's Extract is a streamx stream, not a Node.js one.
+      response.pipe(extract as unknown as NodeJS.WritableStream);
     });
   }
 
@@ -251,7 +256,7 @@ export class Containers {
     Checks.truthy(filePath, `${fnTag} filePath`);
 
     const response = await container.getArchive({ path: filePath });
-    const extract: tar.Extract = tar.extract({ autoDestroy: true });
+    const extract: tar.Extract = tar.extract();
 
     return new Promise((resolve, reject) => {
       let buffer: Buffer;
@@ -272,7 +277,7 @@ export class Containers {
         resolve(buffer);
       });
 
-      response.pipe(extract);
+      response.pipe(extract as unknown as NodeJS.WritableStream);
     });
   }
 
@@ -466,12 +471,12 @@ export class Containers {
 
       const pullStreamStartedHandler = (
         pullError: unknown,
-        stream: NodeJS.ReadableStream,
+        stream?: NodeJS.ReadableStream,
       ) => {
         if (pullError) {
           log.error(`Could not even start ${imageFqn} pull:`, pullError);
           reject(pullError);
-        } else {
+        } else if (stream) {
           log.debug(`Started ${imageFqn} pull progress stream OK`);
           docker.modem.followProgress(
             stream,
@@ -486,6 +491,8 @@ export class Containers {
             },
             (msg: IDockerPullProgress): void => progressPrinter(msg),
           );
+        } else {
+          reject(new Error(`No pull stream obtained for ${imageFqn}.`));
         }
       };
 
@@ -562,7 +569,7 @@ export class Containers {
         // false positive because there is no container YET in the beginning.
         // if (ex.stack.includes(`no container by ID"${containerId}"`)) {
         //   throw new Error(
-        //     `${fnTag} container crashed while awaiting healthheck -> ${ex.stack}`,
+        //     `${fnTag} container crashed while awaiting healthcheck -> ${ex.stack}`,
         //   );
         // }
         reachable = false;
@@ -825,7 +832,7 @@ export class Containers {
   }
 
   public static async streamLogs(req: IStreamLogsRequest): Promise<void> {
-    const logOptions = { follow: true, stderr: true, stdout: true };
+    const logOptions = { follow: true, stderr: true, stdout: true } as const;
     const logStream = await req.container.logs(logOptions);
     const newLineOnlyLogMessages = [`\r\n`, `+\r\n`, `.\r\n`];
 
