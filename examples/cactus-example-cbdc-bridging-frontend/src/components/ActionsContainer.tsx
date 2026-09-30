@@ -7,7 +7,7 @@ import CrossChainTransferDialog from "./dialogs/CrossChainTransferDialog";
 import TransferDialog from "./dialogs/TransferDialog";
 import ApprovalDialog from "./dialogs/ApprovalDialog";
 import { getBalance } from "../api-calls/ledgers-api";
-import { SessionReference } from "@hyperledger/cactus-example-cbdc-bridging-backend/src/main/typescript/types";
+import { SessionReference } from "@hyperledger-cacti/cactus-example-cbdc-bridging-backend/src/main/typescript/types";
 import { NormalButton } from "./buttons/NormalButton";
 import { CriticalButton } from "./buttons/CriticalButton";
 
@@ -62,32 +62,26 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
         </center>
       ) : (
         <Grid container spacing={1}>
-          <Grid
-            item
-            lg={5}
+          <Grid size={{ lg: 5 }}
             sx={{
               textAlign: "left",
               fontSize: "17px",
               marginBottom: "0.2rem",
-            }}
-          >
+            }}>
             <span>{props.user}</span>
           </Grid>
-          <Grid item lg={1} />
-          <Grid
-            item
-            lg={6}
+          <Grid size={{ lg: 1 }} />
+          <Grid size={{ lg: 6 }}
             sx={{
               textAlign: "right",
               fontSize: "17px",
               marginBottom: "0.2rem",
-            }}
-          >
+            }}>
             <span>{amount} CBDC</span>
           </Grid>
 
           {props.user !== "Bridge" && (
-            <Grid item xs={12} lg={6}>
+            <Grid size={{ xs: 12, lg: 6 }}>
               <NormalButton
                 variant="contained"
                 onClick={() => setMintDialog(true)}
@@ -97,9 +91,9 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
             </Grid>
           )}
           {props.user === "Bridge" ? (
-            <Grid item xs={12} lg={12}></Grid>
+            <Grid size={{ xs: 12, lg: 12 }}></Grid>
           ) : props.ledger === "Besu A" ? (
-            <Grid item xs={12} lg={6}>
+            <Grid size={{ xs: 12, lg: 6 }}>
               <NormalButton
                 variant="contained"
                 disabled={amount <= 0}
@@ -109,7 +103,7 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
               </NormalButton>
             </Grid>
           ) : (
-            <Grid item xs={12} lg={6}>
+            <Grid size={{ xs: 12, lg: 6 }}>
               <NormalButton
                 variant="contained"
                 disabled={amount <= 0}
@@ -120,7 +114,7 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
             </Grid>
           )}
           {props.user !== "Bridge" && (
-            <Grid item xs={12} lg={6}>
+            <Grid size={{ xs: 12, lg: 6 }}>
               <CriticalButton
                 variant="contained"
                 disabled={amount <= 0}
@@ -131,7 +125,7 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
             </Grid>
           )}
           {props.user !== "Bridge" && (
-            <Grid item xs={12} lg={6}>
+            <Grid size={{ xs: 12, lg: 6 }}>
               <CriticalButton
                 variant="contained"
                 disabled={amount <= 0 || props.tokensApproved == 0}
@@ -142,10 +136,10 @@ export default function ActionsContainer(props: IActionsContainerOptions) {
             </Grid>
           )}
           {props.ledger === "Besu A" && props.user !== "Bridge" && (
-            <Grid item xs={12} lg={6}></Grid>
+            <Grid size={{ xs: 12, lg: 6 }}></Grid>
           )}
           {props.ledger === "Besu B" && props.user !== "Bridge" && (
-            <Grid item xs={12} lg={6}></Grid>
+            <Grid size={{ xs: 12, lg: 6 }}></Grid>
           )}
         </Grid>
       )}

@@ -5,8 +5,8 @@ import {
   MintApi,
   MintRequest,
   TransferApi,
-} from "@hyperledger/cactus-example-cbdc-bridging-backend/src/main/typescript/generated/openapi/typescript-axios/api";
-import { Configuration } from "@hyperledger/cactus-example-cbdc-bridging-backend/src/main/typescript/generated/openapi/typescript-axios/configuration";
+} from "@hyperledger-cacti/cactus-example-cbdc-bridging-backend/src/main/typescript/generated/openapi/typescript-axios/api";
+import { Configuration } from "@hyperledger-cacti/cactus-example-cbdc-bridging-backend/src/main/typescript/generated/openapi/typescript-axios/configuration";
 
 export async function approveNTokens(
   path: string,

@@ -20,12 +20,7 @@ export default function ConnectionErrorDialog(
   };
 
   return (
-    <Dialog
-      open={props.open}
-      keepMounted
-      disableEscapeKeyDown
-      onClose={handleClose}
-    >
+    <Dialog open={props.open} keepMounted onClose={handleClose}>
       <DialogTitle>{"API Servers Connection Error"}</DialogTitle>
       <DialogContent>
         <Alert severity="error" sx={{ marginBottom: "1rem" }}>

@@ -21,13 +21,13 @@ export default function HomePage(props: IHomePageOptions) {
           textAlign: "center",
         }}
       >
-        <Grid item sm={12} md={5}>
+        <Grid size={{ sm: 12, md: 5 }}>
           <Ledger path={props.path} ledger={"BESU_A"} />
         </Grid>
-        <Grid item sm={12} md={2}>
+        <Grid size={{ sm: 12, md: 2 }}>
           <BridgeImage />
         </Grid>
-        <Grid item sm={12} md={5}>
+        <Grid size={{ sm: 12, md: 5 }}>
           <Ledger path={props.path} ledger={"BESU_B"} />
         </Grid>
       </Grid>

@@ -15,39 +15,33 @@ export default function DummyActionsContainer() {
       }}
     >
       <Grid container spacing={1}>
-        <Grid
-          item
-          lg={5}
+        <Grid size={{ lg: 5 }}
           sx={{
             textAlign: "left",
             fontSize: "17px",
             marginBottom: "0.2rem",
-          }}
-        >
+          }}>
           <span>{"User A"}</span>
         </Grid>
-        <Grid item lg={1} />
-        <Grid
-          item
-          lg={6}
+        <Grid size={{ lg: 1 }} />
+        <Grid size={{ lg: 6 }}
           sx={{
             textAlign: "right",
             fontSize: "17px",
             marginBottom: "0.2rem",
-          }}
-        >
+          }}>
           <span>XXX CBDC</span>
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ xs: 12, lg: 6 }}>
           <NormalButton variant="contained">Mint</NormalButton>
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ xs: 12, lg: 6 }}>
           <NormalButton variant="contained">Transfer</NormalButton>
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ xs: 12, lg: 6 }}>
           <CriticalButton variant="contained">Approval</CriticalButton>
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ xs: 12, lg: 6 }}>
           <CriticalButton variant="contained">Bridge</CriticalButton>
         </Grid>
       </Grid>
