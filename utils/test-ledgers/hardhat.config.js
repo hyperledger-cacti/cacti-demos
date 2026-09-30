@@ -2,7 +2,13 @@ require("@nomicfoundation/hardhat-toolbox");
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.28",
+  // evmVersion "cancun" is required by @openzeppelin/contracts >= 5.4 (mcopy opcode)
+  solidity: {
+    version: "0.8.28",
+    settings: {
+      evmVersion: "cancun",
+    },
+  },
   networks: {
     hardhat1: {
       url: "http://0.0.0.0:8545",
