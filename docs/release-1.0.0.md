@@ -1,4 +1,8 @@
+<!-- cspell:ignore Parth Atharva Kathe -->
+
 # Cacti Demos Release Notes
+
+> Historical record of the v1.0.0 release notes — kept under [Releases](README.md#releases) in the documentation index.
 
 This document tracks cacti-demos version updates.
 
