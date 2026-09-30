@@ -1,183 +1,114 @@
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hyperledger-cacti/cacti-demos/badge)](https://scorecard.dev/viewer/?uri=github.com/hyperledger-cacti/cacti-demos)
+[![GitHub issues](https://img.shields.io/github/issues/hyperledger-cacti/cacti-demos)](https://github.com/hyperledger-cacti/cacti-demos/issues)
+[![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://vscode.dev/github/hyperledger-cacti/cacti-demos)
+
+![Cacti Logo Color](./images/HL_Cacti_Logo_Color.png#gh-light-mode-only)
+![Cacti Logo Color](./images/HL_Cacti_Logo_Colorreverse.svg#gh-dark-mode-only)
+
 <!-- --8<-- [start:content] -->
 
 # Hyperledger Cacti Demos
 
-This repository serves as a comprehensive demonstration and example environment for the Hyperledger Cacti ecosystem. It provides end-to-end integration use-cases, showcasing how to build interoperable blockchain solutions, cross-chain communication pipelines, and Secure Asset Transfer Protocol (SATP) workflows.
+Hands-on demos for the Hyperledger Cacti ecosystem and the SATP Hermes gateway: gateway-as-oracle middleware, SATP cross-chain asset transfers, an adapter (webhook) layer, and a carbon-credit extension. The `examples/` and `packages/` directories hold applications and test packages migrated from the main [cacti](https://github.com/hyperledger-cacti/cacti) repository. This README gets you from clone to a running demo in a few minutes; details live in each demo's README and on the [documentation site](https://hyperledger-cacti.github.io/cacti-demos).
 
-## Table of Contents
+## Quickstart: Oracle Case 1
 
-- [Repository Structure](#repository-structure)
-- [Case Descriptions](#case-descriptions)
-  - [Extensions Cases](#extensions-cases)
-  - [Oracle Cases (demos/oracle)](#oracle-cases-demosoracle)
-  - [SATP Cases (demos/satp/)](#satp-cases-demossatp)
-  - [Adapter Cases (demos/adapter/)](#adapter-cases-demosadapter)
-- [EVM Test Environment](#evm-test-environment)
-- [Important Instructions](#important-instructions)
-- [Setup & Running][setup-running]
-  - [Running Cases with the Makefile](#running-cases-with-the-makefile)
-- [Dependencies](#dependencies)
-- [Contact](#contact)
-- [Contributing](#contributing)
+Oracle Case 1 runs a gateway (Docker) that reads and writes to a smart contract on a local Hardhat chain.
 
----
+Prerequisites:
 
-## Repository Structure
+- Node.js 20+ (verified on 20.20.2; CI uses 22; the Makefile's `install-node` target still pins 18.19.0)
+- [Corepack](https://nodejs.org/api/corepack.html) (ships with Node; provides Yarn 4.13)
+- Docker with Compose v2 — gateway images are `linux/amd64`; on Apple Silicon enable Rosetta in Docker Desktop
+- Python 3.8+ with `pip install requests web3`
+- GNU Make
+- Fabric binaries via [fabric-samples](https://github.com/hyperledger/fabric-samples) — only for oracle cases 5-7
 
-This repository is organized as a Yarn Workspace:
-
-```text
-.
-├── .github/                          # CI/CD workflows, PR templates, and Dependabot config
-├── .husky/                           # Git hooks (commitlint, pre-commit, pre-push)
-├── utils/
-│   ├── test-ledgers/                 # Hardhat project for setting up test EVM blockchains
-│   └── contracts/
-│       └── fabric-contracts/         # Hyperledger Fabric chaincode for testing
-├── demos/
-│   ├── oracle/
-│   │   ├── case_1/                   # Middleware: Manual READ and WRITE
-│   │   ├── case_2/                   # Middleware: Auto READ and WRITE
-│   │   ├── case_3/                   # Register polling for periodic READ
-│   │   ├── case_4/                   # Event listening for READ and UPDATE
-│   │   ├── case_5/                   # Middleware: Manual READ and WRITE (w/ Hyperledger Fabric)
-│   │   ├── case_6/                   # Register polling for periodic READ and WRITE (w/ Hyperledger Fabric)
-│   │   └── case_7/                   # Event listening for READ and WRITE (w/ Hyperledger Fabric)
-│   ├── satp/
-│   │   ├── case_1/                   # SATP Protocol: Fungible asset transfer between EVM blockchains
-│   │   ├── case_2/                   # SATP Protocol: Non fungible asset transfer between EVM blockchains
-│   │   └── case_3/                   # SATP Protocol: Fungible asset transfer between 3 different EVM blockchain pairs
-│   ├── adapter/
-│   │   ├── case_1/                   # Adapter Layer: Docker-based adapter webhook testing with deployed bridge
-│   │   └── config/                   # Adapter configuration files (gateway + adapter YAML configs)
-│   └── extensions/
-│       └── carbon-credit/            # Extending core gateway logic with business-related functionality
-├── examples/                         # Example applications and workshop projects
-├── packages/                         # Shared test fixtures and integration-test packages
-├── Makefile                          # Orchestrates all demo cases
-├── package.json                      # Workspace configuration
-└── tsconfig.json                     # TypeScript compiler configuration
-```
-
----
-
-## Case Descriptions
-
-Active workspaces under [examples][examples-index] and [packages][packages-index] include a README describing their purpose, setup, API surface, usage, and validation guidance.
-
-### Extensions Cases
-
-These use cases demonstrate the usage of the extensions available in the gateway:
-
-- **Carbon Credit Extension**: Demonstrates purchasing and retiring carbon credits using the Carbon Credit extension integrated into the gateway. The extension interacts with carbon credit marketplaces on EVM blockchains. At this point, the only marketplace supported is **Toucan Protocol**.
-
-### Oracle Cases (demos/oracle)
-
-These use cases demonstrate the usage of the gateway as middleware to interact with EVM blockchains:
-
-- **Case 1**: Manual **READ and WRITE** operations using the gateway
-- **Case 2**: Automatic **READ and WRITE** operations using the gateway
-- **Case 3**: Registering a **polling task** to periodically READ from an EVM blockchain
-- **Case 4**: **Cross-chain event listening** with subsequent READ and conditional UPDATE actions
-- **Cases 5, 6, 7**: Identical to above but utilizing **Hyperledger Fabric**.
-
-### SATP Cases (demos/satp/)
-
-The SATP folder contains secure asset transfer protocol cases.
-
-- **Case 1**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
-- **Case 2**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol (Non-fungible).
-- **Case 3**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol, between 3 blockchain pairs, and always using the same assets, starting in blockchain1.
-
-### Adapter Cases (demos/adapter/)
-
-These use cases demonstrate the **Adapter Layer** of the SATP Hermes Gateway, which enables external systems to integrate with and control SATP transfers through webhook-based communication.
-
-- **Case 1**: Docker-based adapter layer testing with **deployed bridge contracts** on Besu networks, configuring outbound/inbound webhook adapters for Stage 0 new session requests.
-
----
-
-## EVM Test Environment
-
-The `utils/test-ledgers/` directory contains a **Hardhat** project used to deploy and simulate blockchain networks and contracts for the various gateway and SATP test cases.
-
-- Located under `utils/test-ledgers/ignition/modules`, you will find simple deployment scripts and interaction modules with **hardcoded addresses** for clarity and reproducibility during testing.
-
----
-
-## Important Instructions
-
-- **Please follow the setup instructions for each case carefully.**
-- **Before switching from one case to another**, **always rerun all setup commands** to ensure:
-  - The environment is **fully refreshed**
-  - **Contract addresses remain consistent**
-  - No residual data or processes from other cases affect the results
-
-Failure to reset the environment between cases may lead to unexpected behavior due to mismatched or stale blockchain state/configurations.
-
----
-
-## Setup & Running
-
-### Initial Installation
-
-Since this is a modern Yarn workspace, you must install dependencies at the root level before running any cases:
+Steps:
 
 ```bash
-# Install all dependencies across the workspace
+# 1. Clone and install (first install takes a few minutes)
+git clone https://github.com/hyperledger-cacti/cacti-demos.git
+cd cacti-demos
+corepack enable
 yarn install
-
-# Build the TypeScript backend
 yarn build:dev:backend
+
+# 2. Compile the test contracts (required once)
+cd utils/test-ledgers
+yarn hardhat compile
+cd ../..
 ```
 
-### Running Cases with the Makefile
-
-You can use the provided `Makefile` to automate setup and environment preparation for the demo. Run:
+Then, in separate terminals:
 
 ```bash
-make help
+# Terminal 1 — start the gateway (from demos/oracle/case_1)
+cd demos/oracle/case_1 && docker compose up
+
+# Terminal 2 — start the local chain (from utils/test-ledgers)
+cd utils/test-ledgers && yarn hardhat node --hostname 0.0.0.0 --port 8545
+
+# Terminal 3 — deploy the contract, then run the demo
+cd utils/test-ledgers && yarn hardhat ignition deploy ./ignition/modules/OracleTestContract.js --network hardhat1
+cd demos/oracle/case_1 && python3 oracle-execute-manual-read-and-write.py
 ```
 
-to see all available targets for building, deploying, and running the demo cases. The main targets are:
+You should see `COMPLETE` in Terminal 3 and the write/read transactions in Terminal 2. Full walkthrough: [demos/oracle/case_1/README.md](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/oracle/case_1/README.md).
 
-- `make run-oracle-case-1` — Oracle Case 1: Manual READ and WRITE
-- `make run-oracle-case-2` — Oracle Case 2: Automatic READ and WRITE
-- `make run-oracle-case-3` — Oracle Case 3: Register polling for periodic READ
-- `make run-oracle-case-4` — Oracle Case 4: Event listening + READ and UPDATE
-- `make run-satp-case-1` — SATP Case 1: Fungible asset transfer protocol
-- `make run-satp-case-2` — SATP Case 2: Non fungible asset transfer protocol
-- `make run-satp-case-3` — SATP Case 3: Fungible asset transfer protocol between 3 different blockchain pairs
-- `make run-adapter-case-1` — Adapter Case 1: Docker adapter layer testing with deployed bridge
-- `make run-all-cases` — Run all cases sequentially with cleanup between each
+Prefer one command? `make run-oracle-case-1` automates all of the above. Note the Makefile invokes `npx hardhat`, which needs a local binary: run `npm install` inside `utils/test-ledgers` first (see [utils/test-ledgers/README.md](https://github.com/hyperledger-cacti/cacti-demos/blob/main/utils/test-ledgers/README.md)).
 
-Each case also includes its own `README.md` with step-by-step instructions for manual or advanced usage.
+Tear down when done (also before switching to another case — stale chain state and contract addresses will break the next run):
 
-The Hyperledger Fabric cases (demos/oracle/case_5, case_6, case_7) require additional setup steps as described in their respective READMEs, and therefore cannot be fully automated via the Makefile.
+```bash
+make clean   # stops compose stacks, removes gateway containers, kills Hardhat nodes (ports 8545-8547)
+```
 
-**Note:** `.PHONY` targets are now placed immediately after each script in the Makefile for clarity and maintainability.
+## Demos
 
----
+Every case has its own README with prerequisites, run steps, expected output, and troubleshooting.
 
-## Dependencies
+| Demo             | What it shows                                                 | Automations              | Docs                                                                                                                                                                                                                                                                                                       |
+| ---------------- | ------------------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Oracle case 1    | Gateway as middleware: manual READ/WRITE on EVM               | `make run-oracle-case-1` | [demos/oracle/case_1](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/oracle/case_1/README.md)                                                                                                                                                                                            |
+| Oracle case 2    | Auto READ on chain 1, WRITE to chain 2                        | `make run-oracle-case-2` | [demos/oracle/case_2](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/oracle/case_2/README.md)                                                                                                                                                                                            |
+| Oracle case 3    | Polling task: periodic READ every 5s                          | `make run-oracle-case-3` | [demos/oracle/case_3](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/oracle/case_3/README.md)                                                                                                                                                                                            |
+| Oracle case 4    | Event listening on chain 1 triggers UPDATE on chain 2         | `make run-oracle-case-4` | [demos/oracle/case_4](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/oracle/case_4/README.md)                                                                                                                                                                                            |
+| Oracle cases 5-7 | Same oracle patterns against Hyperledger Fabric               | manual only              | [case_5](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/oracle/case_5/README.md), [case_6](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/oracle/case_6/README.md), [case_7](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/oracle/case_7/README.md) |
+| SATP case 1      | Fungible token (ERC20) transfer between 2 chains, burn + mint | `make run-satp-case-1`   | [demos/satp/case_1](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/satp/case_1/README.md)                                                                                                                                                                                                |
+| SATP case 2      | Non-fungible token (ERC721) transfer between 2 chains         | `make run-satp-case-2`   | [demos/satp/case_2](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/satp/case_2/README.md)                                                                                                                                                                                                |
+| SATP case 3      | Fungible transfer across 3 chains (1 -> 2 -> 3 -> 1)          | `make run-satp-case-3`   | [demos/satp/case_3](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/satp/case_3/README.md)                                                                                                                                                                                                |
+| Adapter case 1   | SATP adapter layer: webhook-controlled transfers over Besu    | manual only              | [demos/adapter/case_1](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/adapter/case_1/README.md)                                                                                                                                                                                          |
+| Carbon credit    | Gateway extension: buy/retire Toucan TCO2 on a Polygon fork   | manual only              | [demos/extensions/carbon-credit](https://github.com/hyperledger-cacti/cacti-demos/blob/main/demos/extensions/carbon-credit/README.md)                                                                                                                                                                      |
 
-- [Docker & Docker Compose](https://docs.docker.com/compose/)
-- [Hardhat](https://hardhat.org/)
-- Python ≥ 3.8
+`make run-all-cases` runs oracle cases 1-4 and SATP cases 1-2 sequentially with cleanup in between; `make help` lists targets. There is no `make` target for the Fabric, adapter, or carbon-credit cases — follow their READMEs. Gateway config lives inside each case (`config/config.json` for oracle cases, `config/gateway-{1,2}-config.json` for SATP cases) and is mounted into the Docker container by the case's compose file; see the [configuration schema](https://github.com/hyperledger-cacti/cacti-demos/blob/main/docs/satp-gateway-configuration.md).
 
----
+## Repository layout
 
-## Contributing
+- `demos/` — the demos: `oracle/case_1..7`, `satp/case_1..3`, `adapter/case_1`, `extensions/carbon-credit` (each with its own README)
+- `utils/test-ledgers/` — Hardhat project: local EVM chains + test contracts; `utils/contracts/fabric-contracts/` — Fabric chaincode used by oracle case 7
+- Active workspaces under [examples][examples-index] and [packages][packages-index] — applications and test packages migrated from the cacti repo (e.g. [cacti-starter](examples/cacti-starter/README.md), the fastest way to see Cacti run, or the [CBDC bridging app](examples/cactus-example-cbdc-bridging/README.md)); built by `yarn build:dev:backend` and CI, independent of the `demos/` flows
+- `docs/` — documentation index, gateway configuration schema, release notes; `Makefile` — demo automation
 
-Before opening a Pull Request, please familiarize yourself with our guidelines:
+## Troubleshooting
 
-1. **[CONTRIBUTING.md](./CONTRIBUTING.md)**: Git workflow, branch naming, and DCO sign-off requirements.
-2. **[PULL.md](./PULL.md)**: Our core philosophy on **Small, Focused Pull Requests**.
-3. **[AI_GUIDELINES.md](./AI_GUIDELINES.md)**: Rules for disclosing and reviewing AI/LLM-generated code.
+- **Port conflicts** — Hardhat uses 8545-8547, the gateway uses 3010/3011/4010 (SATP case 2 runs gateway 2 on 3110/3111/4110). Free them with `make clean` or `lsof -ti:PORT | xargs kill -9`.
+- **Gateway can't reach the chain** — start Hardhat with `--hostname 0.0.0.0`, not localhost.
+- **Weird behavior after switching cases** — you skipped cleanup. Run `make clean` and restart the case from step 1.
+- **`npx hardhat` downloads its own Hardhat** — the root Yarn install doesn't create `node_modules/.bin` links in `utils/test-ledgers`; use `yarn hardhat` instead, or run `npm install` inside `utils/test-ledgers`.
+- **`yarn install` fails with lockfile errors** — you're using Yarn 1.x. Run `corepack enable` and retry.
 
-## Contact
+## Documentation
 
-For questions or collaboration inquiries, feel free to reach out or open an issue on this repository.
+- [Documentation site](https://hyperledger-cacti.github.io/cacti-demos) — hosted guides for the `examples/` and `packages/` workspaces
+- [docs/README.md](https://github.com/hyperledger-cacti/cacti-demos/blob/main/docs/README.md) — documentation index and reading path
+- [docs/satp-gateway-configuration.md](https://github.com/hyperledger-cacti/cacti-demos/blob/main/docs/satp-gateway-configuration.md) — SATP gateway configuration schema
+- [docs/release-1.0.0.md](https://github.com/hyperledger-cacti/cacti-demos/blob/main/docs/release-1.0.0.md) — v1.0.0 release notes (historical record)
+- [CONTRIBUTING.md](./CONTRIBUTING.md), [PULL.md](./PULL.md), [AI_GUIDELINES.md](./AI_GUIDELINES.md) — contribution rules
+
+## Verification notes
+
+Verified on macOS (arm64), 2026-09-16, Node 20.20.2: `corepack enable`, `yarn install --immutable`, `yarn build:dev:backend`, `yarn hardhat compile` in `utils/test-ledgers`, and `yarn workspaces list` (all workspaces resolve). The Docker-based demo flows were not executed here; their commands were checked against the repo (compose files, scripts, Makefile targets) and are marked where relevant in the per-demo docs.
 <!-- --8<-- [end:content] -->
 
 <!--
@@ -188,6 +119,5 @@ The MkDocs wrapper supplies documentation-site destinations instead.
 =============================================================================
 -->
 
-[setup-running]: #setup--running
 [examples-index]: ./examples/
 [packages-index]: ./packages/

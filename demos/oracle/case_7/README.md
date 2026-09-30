@@ -20,16 +20,17 @@ The test demonstrates event-driven automation:
 
 ## Requirements
 
-To simulate a Hyperledger Fabric network and run this example, ensure you have cloned the [Hyperledger Fabric Samples repository](https://github.com/hyperledger/fabric-samples).
+To simulate a Hyperledger Fabric network and run this example, ensure you have the [Hyperledger Fabric Samples repository](https://github.com/hyperledger/fabric-samples). Clone it **inside the repository root** so the relative chaincode path in the deploy step below resolves:
 
 ```bash
+# from the cacti-demos repository root
 git clone https://github.com/hyperledger/fabric-samples.git
-cd fabric-samples
 ```
 
 Then, install the Fabric binaries and Docker images by running:
 
 ```bash
+cd fabric-samples
 curl -sSLO https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh && chmod +x install-fabric.sh
 ./install-fabric.sh d s b
 ```
@@ -69,6 +70,8 @@ In terminal 1, from the same directory:
 ./network.sh deployCC -ccn counter -ccp ../../../utils/contracts/fabric-contracts/counter-contract/chaincode-javascript/ -ccl javascript
 ```
 
+> The relative `-ccp` path resolves when `fabric-samples` is cloned inside the repository root (see Requirements). Adjust it if you cloned elsewhere.
+
 This deploys the `counter` chaincode to the `mychannel` channel with the contract name `counter`.
 
 ---
@@ -77,14 +80,14 @@ This deploys the `counter` chaincode to the `mychannel` channel with the contrac
 
 #### Option 1: Script-based Retrieval
 
-In terminal 2:
+In terminal 2, from this case's `utils/` directory:
 
 ```bash
-cd utils
+cd demos/oracle/case_7/utils
 chmod +x getcert.sh && ./getcert.sh > certs.txt
 ```
 
-And a txt file will be created where you can just copy the keys to the placeholders in [`config/gateway-fabric-config.json`](config/gateway-fabric-config.json).
+The script reads the Fabric material from `fabric-samples/test-network` (relative to the repository root, per the clone location above) and prints each certificate ready for JSON. Copy the keys into the placeholders in [`config/gateway-fabric-config.json`](config/gateway-fabric-config.json).
 
 #### Option 2: Manual Retrieval
 
@@ -136,7 +139,7 @@ This will start the Gateway with the Fabric configuration file in `config/gatewa
 docker ps
 ```
 
-And check if `kubaya/cacti-satp-hermes-gateway` is healthy, if it proceed
+And check if `kubaya/cacti-satp-hermes-gateway` is healthy before proceeding.
 
 ---
 

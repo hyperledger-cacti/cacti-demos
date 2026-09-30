@@ -14,16 +14,17 @@ For this case, we use the standard **`asset-transfer-basic`** chaincode deployed
 
 ## Requirements
 
-To simulate a Hyperledger Fabric network and run this example, ensure you have cloned the [Hyperledger Fabric Samples repository](https://github.com/hyperledger/fabric-samples).
+To simulate a Hyperledger Fabric network and run this example, ensure you have the [Hyperledger Fabric Samples repository](https://github.com/hyperledger/fabric-samples). Clone it **inside the repository root** so the relative paths in this README and in `utils/getcert.sh` resolve:
 
 ```bash
+# from the cacti-demos repository root
 git clone https://github.com/hyperledger/fabric-samples.git
-cd fabric-samples
 ```
 
 Then, install the Fabric binaries and Docker images by running:
 
 ```bash
+cd fabric-samples
 curl -sSLO https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh && chmod +x install-fabric.sh
 ./install-fabric.sh d s b
 ```
@@ -71,14 +72,14 @@ This deploys the `asset-transfer-basic` chaincode to the `mychannel` channel wit
 
 #### Option 1: Script-based Retrieval
 
-In terminal 2, navigate to your Fabric samples directory:
+In terminal 2, from this case's `utils/` directory:
 
 ```bash
-cd utils
+cd demos/oracle/case_5/utils
 chmod +x getcert.sh && ./getcert.sh > certs.txt
 ```
 
-And a txt file will be created where you can just copy the keys to the placeholders in [`config/gateway-fabric-config.json`](config/gateway-fabric-config.json).
+The script reads the Fabric material from `fabric-samples/test-network` (relative to the repository root, per the clone location above) and prints each certificate ready for JSON. Copy the keys into the placeholders in [`config/gateway-fabric-config.json`](config/gateway-fabric-config.json).
 
 #### Option 2: Manual Retrieval
 
@@ -130,7 +131,7 @@ This will start the Gateway with the Fabric configuration file.
 docker ps
 ```
 
-And check if kubaya/cacti-satp-hermes-gateway is healthy, if it proceed
+And check if `kubaya/cacti-satp-hermes-gateway` is healthy before proceeding.
 
 ---
 
@@ -142,9 +143,7 @@ In terminal 4, from this directory:
 python3 oracle-execute-fabric.py
 ```
 
-This script sends POST requests to the Gateway to trigger chaincode functions via `/oracle/execute`.
-
----
+This script sends POST requests to the Gateway to trigger chaincode functions via `/oracle/execute`.---
 
 ### What It Does
 
@@ -155,3 +154,20 @@ This script sends POST requests to the Gateway to trigger chaincode functions vi
 5. **Update Asset** – Updates the asset and verifies the changes
 6. **Transfer Asset** – Transfers ownership and verifies the new owner
 7. **Delete Asset** – Deletes the asset and verifies removal
+
+## Cleanup
+
+```bash
+# Stop the gateway (terminal 3)
+docker compose down
+
+# Stop the Fabric network (terminal 1)
+cd fabric-samples/test-network
+./network.sh down
+```
+
+## Troubleshooting
+
+- **Gateway container unhealthy** — check `docker ps`; the container reports health after startup. Inspect logs in `./satp-hermes-gateway/logs/`.
+- **Register/execute fails with credential errors** — the certificates in `config/gateway-fabric-config.json` are stale or belong to a previous `./network.sh up`; regenerate them with `getcert.sh` (run `./network.sh down` first if org material is missing).
+- **Port conflicts** — Fabric uses 7050+ and the gateway uses 3010/3011/4010; free them or stop the other stack.

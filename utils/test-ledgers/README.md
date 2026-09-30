@@ -1,61 +1,68 @@
-# EVM Project
+# EVM Test Ledgers (Hardhat project)
 
-This directory contains the Hardhat project for deploying and testing smart contracts used in the SATP Gateway Demo.
+This directory contains the Hardhat project that provides the local EVM blockchains and test contracts used by the oracle and SATP demos.
 
-## Prerequisites
+- `contracts/` — `OracleTestContract`, `SATPTokenContract` (ERC20-style), `SATPNonFungibleTokenContract` (ERC721-style)
+- `ignition/modules/` — Hardhat Ignition deployment modules (e.g. `OracleTestContract.js`)
+- `scripts/` — deployment and interaction scripts used by the demos, e.g.:
+  - `SATPTokenContract.js` — deploy + set up SATP case 1
+  - `SATPNonFungibleTokenContract.js` — deploy + set up SATP case 2
+  - `SATPTokenContractCase3.js <1|2|3>` — deploy/set up SATP case 3 (argument selects which chain pair to authorize)
+  - `SATPTokenContract-CheckBalances.js`, `SATPTokenContract-CheckBalances-Case3.js` — check user and bridge contract balances
+- `hardhat.config.js` — defines three networks:
 
-- Node.js 18.19.0 (recommended to use `nvm`)
-- npm
+| Network    | URL                   | Used by                   |
+| ---------- | --------------------- | ------------------------- |
+| `hardhat1` | `http://0.0.0.0:8545` | all cases (chain 1)       |
+| `hardhat2` | `http://0.0.0.0:8546` | two-chain cases (chain 2) |
+| `hardhat3` | `http://0.0.0.0:8547` | SATP case 3 (chain 3)     |
 
-## Install Dependencies
+## Install
 
-Run the following command in this directory to install all required packages:
-
-```bash
-npm install
-```
-
-## Compile all Contracts
-
-Run the following command in this directory to compile all Solidity smart contracts under `/contracts`:
-
-```bash
-npx hardhat compile
-```
-
-## Running Hardhat Node
-
-To start a local Hardhat node (a test ledger):
+This directory is part of the root Yarn workspace. Installing from the repository root is enough:
 
 ```bash
-npx hardhat node --hostname 0.0.0.0 --port 8545
-# or for a second node (on a different port):
-npx hardhat node --hostname 0.0.0.0 --port 8546
+# from the repository root
+corepack enable
+yarn install
 ```
 
-## Running Tests
+Use `yarn hardhat ...` to invoke Hardhat (the root install does not create a `node_modules/.bin` entry here, so plain `npx hardhat` would download an unpinned Hardhat instead of using the local one). Alternatively, run `npm install` in this directory to get an npm-managed setup where `npx hardhat` works — the `Makefile` at the repository root assumes this.
 
-To run the test suite:
+## Compile the contracts
+
+Required once before running any demo:
 
 ```bash
-npx hardhat test
+yarn hardhat compile
 ```
 
-## Running Scripts
+## Start a local chain
 
-You can run scripts located in the `scripts/` directory. For example, to deploy the SATPTokenContract:
+One terminal per chain:
 
 ```bash
-node scripts/SATPTokenContract.js
+yarn hardhat node --hostname 0.0.0.0 --port 8545
+# second chain (two-chain cases):
+yarn hardhat node --hostname 0.0.0.0 --port 8546
+# third chain (SATP case 3):
+yarn hardhat node --hostname 0.0.0.0 --port 8547
 ```
 
-Refer to each script for specific usage and configuration details.
+`--hostname 0.0.0.0` is required so the gateway container can reach the chain.
 
-## Network Configuration
+## Deploy a contract
 
-The `hardhat.config.js` file defines two networks:
+```bash
+yarn hardhat ignition deploy ./ignition/modules/OracleTestContract.js --network hardhat1
+```
 
-- `hardhat1`: http://0.0.0.0:8545
-- `hardhat2`: http://0.0.0.0:8546
+## Run tests
 
-These are used for deploying two separate EVM blockchains in the SATP Gateway Demo.
+```bash
+yarn hardhat test
+```
+
+## Teardown
+
+Kill the node processes when done (`lsof -ti:8545 | xargs -r kill -9`), or run `make clean` from the repository root.

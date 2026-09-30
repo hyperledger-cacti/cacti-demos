@@ -1,84 +1,92 @@
-# Case 1: Using the Gateway as Middleware for READ and WRITE in EVM-based blockchains
+# Case 1: Gateway as Middleware for READ and WRITE on an EVM Blockchain
 
-This example demonstrates how to use the Gateway as a middleware layer to perform both READ and WRITE operations on an EVM-based blockchain (specifically, Hardhat). The scenario shows interaction with a simple smart contract through the Gateway's `/oracle/execute` endpoint.
+This demo uses the gateway as a middleware layer to perform READ and WRITE operations on a local EVM blockchain (Hardhat), through the gateway's `/oracle/execute` endpoint.
 
-For this, we will use the `OracleTestContract` contract, which is a simple contract that allows us to store and retrieve data. The contract has two functions:
+The demo uses the `OracleTestContract` contract with two functions:
 
-- **`setData(string memory data)`** – Stores data on-chain and associates it with a `bytes32` ID.
-- **`getData(bytes32 id)`** – Retrieves data from the contract by its ID.
+- **`setData(string memory data)`** – stores data on-chain, associated with a `bytes32` ID
+- **`getData(bytes32 id)`** – retrieves data by ID
 
-## Terminal Overview
+## Prerequisites
 
-Before starting, here is a summary of what each terminal will be used for in this case:
+Complete the [root README installation](../../../README.md#quickstart-oracle-case-1) first: Node 20+, corepack/Yarn 4, Docker, Python 3.8+ with `requests` and `web3`. Contracts must be compiled (`yarn hardhat compile` in `utils/test-ledgers`).
 
-- **Terminal 1:** Run the Gateway (Docker Compose)
-- **Terminal 2:** Start Hardhat EVM Blockchain (port 8545)
-- **Terminal 3:** Deploy the OracleTestContract smart contract
-- **Terminal 4:** Run the Oracle interaction script (read/write via Gateway)
+## Terminals
 
-This pattern is similar in other Oracle cases:
+- **Terminal 1:** gateway (Docker Compose)
+- **Terminal 2:** Hardhat chain (port 8545)
+- **Terminal 3:** contract deployment + demo script
 
-- **Gateway terminal** (usually Terminal 1): Always run the Gateway via Docker Compose
-- **EVM/Hardhat terminal(s)** (usually Terminal 2, sometimes 2 and 3): Start one or more local blockchains
-- **Deployment/Script terminal(s)** (Terminals 3+): Deploy contracts and run interaction scripts
+The terminal layout is the same in the other oracle and SATP cases: gateway in terminal 1, one or more chains next, then deployment/script terminals.
 
-Refer to each case's README for the exact mapping and steps.
+## Setup
 
-## Setup Instructions
+### 1. Start the gateway
 
-### 1. Start the Gateway (Docker)
-
-In terminal 1, from this directory:
+Terminal 1, from this directory:
 
 ```bash
 docker compose up
 ```
 
-This will start the Gateway with the corresponding configuration file located in `./config/config-oracle-execute-manual-read-and-write.json`.
+This mounts `./config/config.json` into the gateway container.
 
-### 2. Start the Hardhat EVM Blockchain
+### 2. Start the chain
 
-In terminal 2, from this directory, run:
+Terminal 2, from this directory:
 
 ```bash
-cd ../../../utils/test-ledgers && npx hardhat node --hostname 0.0.0.0 --port 8545
+cd ../../../utils/test-ledgers && yarn hardhat node --hostname 0.0.0.0 --port 8545
 ```
 
-> ⚠️ Make sure to use `--hostname 0.0.0.0` so that the Gateway (inside Docker) can access the local Hardhat node.
+`--hostname 0.0.0.0` is required: the gateway runs in Docker and must be able to reach your local chain.
 
-### 3. Deploy the Smart Contract
+### 3. Deploy the contract
 
-In terminal 3, from this directory, run:
+Terminal 3, from this directory:
 
 ```bash
-cd ../../../utils/test-ledgers && npx hardhat ignition deploy ./ignition/modules/OracleTestContract.js --network hardhat1
+cd ../../../utils/test-ledgers && yarn hardhat ignition deploy ./ignition/modules/OracleTestContract.js --network hardhat1
 ```
 
-> This deploys the `OracleTestContract` to the running Hardhat network (`hardhat1` should be configured in `hardhat.config.js` to point to `http://0.0.0.0:8545`).
+### 4. Run the demo script
 
-### 4. Run the Oracle Interaction Script
-
-In terminal 4, from this directory (`gateway/oracle/case_1`):
+Terminal 3, back in this directory:
 
 ```bash
+cd ../../demos/oracle/case_1  # only if you are still in utils/test-ledgers
 python3 oracle-execute-manual-read-and-write.py
 ```
 
-> This script sends POST requests to the Gateway to trigger contract `setData` and `getData` functions via `/oracle/execute`.
+The script sends POST requests to the gateway, which invokes `setData` and `getData` on the contract via `/oracle/execute`.
 
----
+One-command alternative: `make run-oracle-case-1` from the repository root performs all of the above (requires `npm install` inside `utils/test-ledgers` so that the Makefile's `npx hardhat` resolves).
 
-## Result
+## What you should see
 
-Check the logs in terminal 4 where you executed the `oracle-execute-manual-read-and-write.py` script. You should see the following:
+- Terminal 3: the gateway's write confirmation, then the read result, ending with:
 
-1. The response from the Gateway confirming the transaction (write) to the EVM-based blockchain.
-2. The response from the Gateway confirming the read result from the EVM-based blockchain.
-
-```shell
+```text
 COMPLETE
 ```
 
-Also check the logs in terminal 2 where you started the Hardhat node. You should see logs confirming the transaction (write) and the read result, verifying that the Gateway is functioning as a middleware for interacting with EVM-based blockchains.
+- Terminal 2: the write transaction and read call in the Hardhat logs
+- Gateway logs in `./satp-hermes-gateway/logs/` (relative to this directory) with full request/response details
 
-Finally, you can access the `./satp-hermes-gateway/logs/` directory (relative to this case folder) to see the logs generated by the Gateway. The logs will contain detailed information about the requests and responses, including any errors or warnings that may have occurred during the process.
+## Teardown
+
+```bash
+# In terminal 1: Ctrl+C, then
+docker compose down
+# Or from the repository root (also frees ports 8545-8547):
+make clean
+```
+
+Run teardown before switching to another case — stale chain state and contract addresses break the next run.
+
+## Troubleshooting
+
+- **Port 8545/3010/4010 already in use** — `make clean`, or `lsof -ti:PORT | xargs kill -9`.
+- **Gateway can't connect to the chain** — make sure the chain was started with `--hostname 0.0.0.0`.
+- **`npx hardhat` fails or downloads Hardhat** — use `yarn hardhat` (see [utils/test-ledgers/README.md](../../../utils/test-ledgers/README.md)).
+- **Image fails to pull on Apple Silicon** — the gateway image is `linux/amd64`; enable Rosetta in Docker Desktop.

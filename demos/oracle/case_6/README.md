@@ -7,7 +7,7 @@ This README describes how to run the oracle polling tests that use the SATP Herm
 - POST /api/v1/@hyperledger/cactus-plugin-satp-hermes/oracle/unregister
 - GET /api/v1/@hyperledger/cactus-plugin-satp-hermes/oracle/status
 
-The provided test script `oracle-execute-fabric.py` performs three polling scenarios:
+The provided test script `oracle-register-poller-fabric.py` performs three polling scenarios:
 
 - polling_update_fabric: creates an asset, registers a POLLING UPDATE task that updates the asset every 5s, waits, then unregisters and asserts multiple successful UPDATE operations were executed.
 - polling_read_fabric: registers a POLLING READ task that calls `GetAllAssets` every 5s, waits, then unregisters and asserts multiple successful READ operations were executed.
@@ -15,16 +15,17 @@ The provided test script `oracle-execute-fabric.py` performs three polling scena
 
 ## Requirements
 
-To simulate a Hyperledger Fabric network and run this example, ensure you have cloned the [Hyperledger Fabric Samples repository](https://github.com/hyperledger/fabric-samples).
+To simulate a Hyperledger Fabric network and run this example, ensure you have the [Hyperledger Fabric Samples repository](https://github.com/hyperledger/fabric-samples). Clone it **inside the repository root** so the relative paths in this README and in `utils/getcert.sh` resolve:
 
 ```bash
+# from the cacti-demos repository root
 git clone https://github.com/hyperledger/fabric-samples.git
-cd fabric-samples
 ```
 
 Then, install the Fabric binaries and Docker images by running:
 
 ```bash
+cd fabric-samples
 curl -sSLO https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh && chmod +x install-fabric.sh
 ./install-fabric.sh d s b
 ```
@@ -38,7 +39,7 @@ Before starting, here is a summary of what each terminal will be used for:
 - **Terminal 1:** Start Hyperledger Fabric test network and Deploy the asset-transfer-basic chaincode
 - **Terminal 2:** Retrieve all keys and certificates from Fabric
 - **Terminal 3:** Run the Gateway (Docker Compose)
-- **Terminal 4:** Run the Oracle execute script
+- **Terminal 4:** Run the polling test script (`oracle-register-poller-fabric.py`)
 
 ## Setup Instructions
 
@@ -72,14 +73,14 @@ This deploys the `asset-transfer-basic` chaincode to the `mychannel` channel wit
 
 #### Option 1: Script-based Retrieval
 
-In terminal 2, navigate to your Fabric samples directory:
+In terminal 2, from this case's `utils/` directory:
 
 ```bash
-cd utils
+cd demos/oracle/case_6/utils
 chmod +x getcert.sh && ./getcert.sh > certs.txt
 ```
 
-And a txt file will be created where you can just copy the keys to the placeholders in [`config/gateway-fabric-config.json`](config/gateway-fabric-config.json).
+The script reads the Fabric material from `fabric-samples/test-network` (relative to the repository root, per the clone location above) and prints each certificate ready for JSON. Copy the keys into the placeholders in [`config/gateway-fabric-config.json`](config/gateway-fabric-config.json).
 
 #### Option 2: Manual Retrieval
 
@@ -131,7 +132,7 @@ This will start the Gateway with the Fabric configuration file.
 docker ps
 ```
 
-And check if kubaya/cacti-satp-hermes-gateway is healthy, if it proceed
+And check if `kubaya/cacti-satp-hermes-gateway` is healthy before proceeding.
 
 ---
 
@@ -170,4 +171,15 @@ Troubleshooting
 - If register fails, check gateway logs and ensure the Fabric connection info in `config/gateway-fabric-config.json` is correct.
 - If operations are fewer than expected, increase wait times in the script or confirm gateway scheduling is working.
 
-This README matches the flow implemented in `oracle-register-poller-fabric.py`. Run the Fabric network, start the gateway, then execute the script to validate polling register/read/update flows against the `asset-transfer-basic` chaincode.
+## Cleanup
+
+```bash
+# Stop the gateway (terminal 3)
+docker compose down
+
+# Stop the Fabric network (terminal 1)
+cd fabric-samples/test-network
+./network.sh down
+```
+
+Run the Fabric network, start the gateway, then execute the script to validate polling register/read/update flows against the `asset-transfer-basic` chaincode.

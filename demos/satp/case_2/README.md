@@ -1,4 +1,4 @@
-# Case 2: Using the Gateway as Middleware for READ_AND_WRITE in EVM-based blockchains
+# Case 2: SATP Non-Fungible Asset Transfer Between Two EVM Blockchains
 
 This test case demonstrates how the Gateway can run the Secure Asset Transfer Protocol (SATP) between 2 EVM-based blockchains. The idea is to use the Gateway as a middleware to burn the original non fungible asset in the source blockchain and mint a representation on the destination blockchain.
 
@@ -26,19 +26,19 @@ Refer to each case's README for the exact mapping and steps.
 
 ### 1. Start the Hardhat EVM Blockchains
 
-In terminal 2, from this directory (`gateway/satp/case_2`):
+In terminal 2, from this directory (`demos/satp/case_2`):
 
 ```bash
-cd ../../../utils/test-ledgers && npx hardhat node --hostname 0.0.0.0 --port 8545
+cd ../../../utils/test-ledgers && yarn hardhat node --hostname 0.0.0.0 --port 8545
 ```
 
-In terminal 3, from this directory (`gateway/satp/case_2`):
+In terminal 3, from this directory (`demos/satp/case_2`):
 
 ```bash
-cd ../../../utils/test-ledgers && npx hardhat node --hostname 0.0.0.0 --port 8546
+cd ../../../utils/test-ledgers && yarn hardhat node --hostname 0.0.0.0 --port 8546
 ```
 
-> ⚠️ Make sure to use `--hostname 0.0.0.0` on both cases so that the Gateway (inside Docker) can access the local Hardhat node.
+> ⚠️ Make sure to use `--hostname 0.0.0.0` on both chains so that the Gateway (inside Docker) can access the local Hardhat nodes.
 
 ### 2. Start the Gateway (Docker)
 
@@ -48,9 +48,9 @@ In terminal 1, from this directory:
 docker compose up
 ```
 
-This will start both gateways with the corresponding configuration file located in `./config/gateway-1-config.json` and `./config/gateway-2-config.json`.
+This will start both gateways with the corresponding configuration files located in `./config/gateway-1-config.json` and `./config/gateway-2-config.json`. Gateway 1 listens on ports 3010/3011/4010 and gateway 2 on 3110/3111/4110 (see `docker-compose.yaml`).
 
-**Expected Result**: In Terminal 2 and 3 (both lockchains), observe a contract being deployed. This is the bridge contract `SATPWrapper` that allows the Gateway to interact with the client contracts deployed in EVM-based blockchains.
+**Expected Result**: In Terminal 2 and 3 (both blockchains), observe a contract being deployed. This is the bridge contract `SATPWrapper` that allows the Gateway to interact with the client contracts deployed in EVM-based blockchains.
 
 ### 2.5 (Optional) Check the blockchains to which each Gateway is connected
 
@@ -66,7 +66,7 @@ python3 satp-evm-get-integrations.py
 
 ### 3. Deploy the Token Smart Contracts
 
-In terminal 4, from this directory (`gateway/satp/case_2`):
+In terminal 4, from this directory (`demos/satp/case_2`):
 
 ```bash
 cd ../../../utils/test-ledgers && node scripts/SATPNonFungibleTokenContract.js
@@ -74,7 +74,7 @@ cd ../../../utils/test-ledgers && node scripts/SATPNonFungibleTokenContract.js
 
 > This deploys the `SATPNonFungibleTokenContract` to the running Hardhat networks (`hardhat1` and `hardhat2` should be configured in `hardhat.config.js` to point to `http://0.0.0.0:8545` and `http://0.0.0.0:8546` respectively). Additionally, it will perform the necessary contract calls necessary to set up the SATP protocol. Check the file to see the details of the operations performed.
 
-### 4. Run the Oracle Interaction Script
+### 4. Run the SATP Transfer Script
 
 In terminal 5, from this directory:
 
@@ -82,7 +82,7 @@ In terminal 5, from this directory:
 python3 satp-transact.py
 ```
 
-> This script sends POST requests to the Gateway to trigger the SAT protocol. If successful, it will burn the original asset in the source blockchain and mint a representation on the destination blockchain. Store the `SESSION_ID` returned by the script, as it will be used in the next steps.
+> This script sends POST requests to the Gateway to trigger the SATP protocol. If successful, it will burn the original asset in the source blockchain and mint a representation on the destination blockchain. Store the `SESSION_ID` returned by the script, as it will be used in the next steps.
 
 ---
 
@@ -114,3 +114,26 @@ python3 satp-evm-perform-audit.py
 Check the `/audit` directory to see the audit information.
 
 **Expected Output**: The output should show the session details, including all the messages exchanged in the SATP protocol, transaction hashes, signatures and other details of the operations performed.
+
+## Teardown
+
+```bash
+# Stop the gateways (terminal 1)
+docker compose down
+
+# Stop the Hardhat nodes (terminals 2 and 3): Ctrl+C in each
+
+# Or from the repository root — stops compose stacks, removes gateway containers, frees ports 8545-8546:
+make clean
+```
+
+Always tear down before switching cases; stale chain state and contract addresses break the next run.
+
+One-command alternative: `make run-satp-case-2` from the repository root performs the whole flow, including the status/audit calls (requires `npm install` inside `utils/test-ledgers` so that the Makefile's `npx hardhat` resolves).
+
+## Troubleshooting
+
+- **Ports already in use** — gateway 1 uses 3010/3011/4010, gateway 2 uses 3110/3111/4110, chains use 8545/8546. `make clean` frees them.
+- **`satp-transact.py` fails immediately** — confirm both gateways are healthy: `curl http://localhost:4010/api/v1/@hyperledger/cactus-plugin-satp-hermes/healthcheck` (and port 4110 for gateway 2).
+- **Stale contract addresses** — re-run the setup steps from a clean state (`make clean` first).
+- **Image fails to pull on Apple Silicon** — the gateway images are `linux/amd64`; enable Rosetta in Docker Desktop.
