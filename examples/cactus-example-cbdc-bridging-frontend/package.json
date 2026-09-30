@@ -94,7 +94,12 @@
   "devDependencies": {
     "@types/customize-cra": "1",
     "@types/uuid": "11.0.0",
+    "browserslist": "^4.18.1",
     "customize-cra": "1.0.0",
+    "postcss": "^8.4.4",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-normalize": "^10.0.1",
+    "postcss-preset-env": "^7.0.1",
     "react-app-rewired": "2.2.1",
     "ts-loader": "9.6.2"
   },

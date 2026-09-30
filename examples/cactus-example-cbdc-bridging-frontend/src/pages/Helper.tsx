@@ -31,20 +31,20 @@ export default function Helper() {
       <Box sx={{ marginTop: "2rem", marginBottom: "2rem" }}>
         <DummyActionsContainer />
       </Box>
-      <Grid container spacing={3} alignItems="top" justifyContent="top">
-        <Grid item lg={2}>
+      <Grid container spacing={3} sx={{ alignItems: "flex-start", justifyContent: "flex-start" }}>
+        <Grid size={{ lg: 2 }}>
           <NormalButton variant="contained">Mint</NormalButton>
         </Grid>
-        <Grid item lg={10} sx={{ textAlign: "right" }}>
+        <Grid size={{ lg: 10 }} sx={{ textAlign: "right" }}>
           <Typography align="left" variant="h6">
             To mint tokens to the user's account, click on the "Mint" button and
             enter the amount of tokens to mint.
           </Typography>
         </Grid>
-        <Grid item lg={2}>
+        <Grid size={{ lg: 2 }}>
           <NormalButton variant="contained">Transfer</NormalButton>
         </Grid>
-        <Grid item lg={10} sx={{ textAlign: "right" }}>
+        <Grid size={{ lg: 10 }} sx={{ textAlign: "right" }}>
           <Typography align="left" variant="h6">
             The "Transfer" button allows the user to transfer a certain amount
             of tokens in the same blockchain -- i.e., in the context of the same
@@ -53,10 +53,10 @@ export default function Helper() {
             balance. The Transfer button is disabled if the user has no tokens.
           </Typography>
         </Grid>
-        <Grid item lg={2}>
+        <Grid size={{ lg: 2 }}>
           <CriticalButton variant="contained">Approval</CriticalButton>
         </Grid>
-        <Grid item lg={10} sx={{ textAlign: "right" }}>
+        <Grid size={{ lg: 10 }} sx={{ textAlign: "right" }}>
           <Typography align="left" variant="h6">
             The "Approval" button is used to approve the bridge to spend tokens
             on on behalf of the user. This is a necessary step before initiating
@@ -64,10 +64,10 @@ export default function Helper() {
             has no tokens.
           </Typography>
         </Grid>
-        <Grid item lg={2}>
+        <Grid size={{ lg: 2 }}>
           <CriticalButton variant="contained">Bridge</CriticalButton>
         </Grid>
-        <Grid item lg={10} sx={{ textAlign: "right" }}>
+        <Grid size={{ lg: 10 }} sx={{ textAlign: "right" }}>
           <Typography align="left" variant="h6">
             The "Bridge" button is used to transfer tokens between the two
             blockchains using SATP. The bridge button is disabled if the user

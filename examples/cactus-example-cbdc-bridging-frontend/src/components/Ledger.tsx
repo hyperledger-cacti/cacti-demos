@@ -7,7 +7,7 @@ import { getSessionReferencesBridge } from "../api-calls/gateway-api";
 import { fetchAmountApprovedToBridge as fetchAmountApprovedToBridge } from "../api-calls/ledgers-api";
 import SessionReferencesTable from "./SessionReferencesTable";
 import ApprovalsTable from "./ApprovalsTable";
-import { SessionReference } from "@hyperledger/cactus-example-cbdc-bridging-backend/src/main/typescript/types";
+import { SessionReference } from "@hyperledger-cacti/cactus-example-cbdc-bridging-backend/src/main/typescript/types";
 
 export interface ILedgerOptions {
   path: string;
@@ -62,7 +62,7 @@ export default function Ledger(props: ILedgerOptions) {
     >
       <h2>{props.ledger === "BESU_A" ? "Hyperledger Besu A" : "Hyperledger Besu B"}</h2>
       <Grid container spacing={2}>
-        <Grid item sm={12} md={6}>
+        <Grid size={{ sm: 12, md: 6 }}>
           <ActionsContainer
             path={props.path}
             user={"Alice"}
@@ -71,7 +71,7 @@ export default function Ledger(props: ILedgerOptions) {
             tokensApproved={aliceApprovals}
           />
         </Grid>
-        <Grid item sm={12} md={6}>
+        <Grid size={{ sm: 12, md: 6 }}>
           <ActionsContainer
             path={props.path}
             user={"Charlie"}

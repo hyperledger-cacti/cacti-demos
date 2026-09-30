@@ -1,11 +1,10 @@
-import { SessionReference } from "@hyperledger/cactus-example-cbdc-bridging-backend/src/main/typescript/types";
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { SessionReference } from "@hyperledger-cacti/cactus-example-cbdc-bridging-backend/src/main/typescript/types";
 import {
   GetSessionsReferencesApi,
   TransactApi,
   TransactRequest,
-} from "@hyperledger/cactus-example-cbdc-bridging-backend/src/main/typescript/generated/openapi/typescript-axios/api";
-import { Configuration } from "@hyperledger/cactus-example-cbdc-bridging-backend/src/main/typescript/generated/openapi/typescript-axios/configuration";
+} from "@hyperledger-cacti/cactus-example-cbdc-bridging-backend/src/main/typescript/generated/openapi/typescript-axios/api";
+import { Configuration } from "@hyperledger-cacti/cactus-example-cbdc-bridging-backend/src/main/typescript/generated/openapi/typescript-axios/configuration";
 
 export async function getSessionReferencesBridge(
   path: string,
