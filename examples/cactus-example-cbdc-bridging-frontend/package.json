@@ -87,7 +87,7 @@
     "ts-node": "10.9.2",
     "typescript": "5.6.2",
     "uuid": "14.0.2",
-    "webpack": "5.111.0",
+    "webpack": "5.111.1",
     "webpack-cli": "7.2.3",
     "webpack-dev-server": "6.0.0"
   },
@@ -98,8 +98,8 @@
     "customize-cra": "1.0.0",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-normalize": "^10.0.1",
-    "postcss-preset-env": "^7.0.1",
+    "postcss-normalize": "^13.0.1",
+    "postcss-preset-env": "^11.5.4",
     "react-app-rewired": "2.2.1",
     "ts-loader": "9.6.2"
   },
