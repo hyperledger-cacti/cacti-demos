@@ -23,6 +23,56 @@ jobs:
       - name: Lint (JS/TS + Solidity)
         run: yarn lint
 
+  test-unit:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/configure-repo
+      - name: Build TypeScript
+        run: yarn build:dev:backend
+      - name: Install hardhat test dependencies
+        run: npm ci --prefix utils/test-ledgers
+      - name: Run unit tests (jest + hardhat)
+        run: yarn test:unit
+
+  test-integration:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    # Docker-based suites are not proven green across runs yet; flip this to
+    # required once they are (cacti main precedent for unproven heavy suites).
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/configure-repo
+      - name: Pre-pull test ledger container images
+        run: |
+          docker pull ghcr.io/hyperledger-cacti/besu-all-in-one:v2.2.0-rc.2
+          docker pull ghcr.io/hyperledger/cacti-geth-all-in-one:2023-07-27-2a8c48ed6
+      - name: Build TypeScript
+        run: yarn build:dev:backend
+      - name: Run integration tests
+        run: yarn test:integration
+
+  test-acceptance:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    # Demo end-to-end tier: unproven across runs, kept non-blocking for now.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/configure-repo
+      - name: Build EVM Contracts
+        run: yarn build:evm
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install demo driver dependencies
+        run: pip install requests web3
+      - name: Run acceptance test (oracle case 1)
+        run: yarn test:acceptance
+
+
   lint-python:
     runs-on: ubuntu-22.04
     steps:
