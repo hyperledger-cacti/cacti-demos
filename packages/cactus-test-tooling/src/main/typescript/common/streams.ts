@@ -1,3 +1,5 @@
+import { Writable } from "stream";
+
 /**
  * Minimal readable-stream contract used by the aggregate helpers: anything
  * that emits "data" chunks, "error" and "end" events. Accepts both Node.js
@@ -11,6 +13,21 @@ export interface AggregatableStream {
 }
 
 export class Streams {
+  /**
+   * A writable stream that discards everything written to it. Useful as the
+   * output stream of `dockerode.run()` when container output is not needed:
+   * passing an empty array there makes dockerode demultiplex the attached
+   * stdio stream into `undefined` streams, crashing docker-modem as soon as
+   * the container produces output.
+   */
+  public static noopWritable(): NodeJS.WritableStream {
+    return new Writable({
+      write(_chunk, _encoding, callback) {
+        callback();
+      },
+    });
+  }
+
   public static aggregate<T>(
     stream: AggregatableStream,
     encoding:

@@ -11,6 +11,7 @@ import {
   LoggerProvider,
 } from "@hyperledger-cacti/cactus-common";
 import { Containers } from "../common/containers";
+import { Streams } from "../common/streams";
 import EventEmitter from "events";
 import { SupportedImageVersions } from "./supported-image-versions";
 import { Network } from "./network";
@@ -334,7 +335,7 @@ export class StellarTestLedger implements IStellarTestLedger {
       const eventEmitter: EventEmitter = docker.run(
         this.fullContainerImageName,
         [...this.getImageCommands()],
-        [],
+        Streams.noopWritable(),
         { ...createOptions, Healthcheck: Healthcheck },
         {},
         (err: unknown) => {

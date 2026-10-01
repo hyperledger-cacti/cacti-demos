@@ -145,7 +145,7 @@ export class PostgresTestContainer implements ITestLedger {
       const eventEmitter: EventEmitter = docker.run(
         imageFqn,
         [],
-        [],
+        Streams.noopWritable(),
         {
           Env: this.envVars,
           Healthcheck: {
