@@ -22,7 +22,7 @@ describe("PostgresTestContainer", () => {
     expect(PostgresTestContainer).toBeTruthy();
     expect(
       () => new PostgresTestContainer({ imageVersion: "nope" }),
-    ).toThrowError();
+    ).toThrow();
   });
 
   it("constructor does not throw if valid input is provided", () => {
