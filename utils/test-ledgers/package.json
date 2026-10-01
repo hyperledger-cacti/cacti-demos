@@ -36,6 +36,7 @@
     "uuid@<11": "11.1.1"
   },
   "scripts": {
-    "compile": "hardhat compile"
+    "compile": "hardhat compile",
+    "test": "npx hardhat test"
   }
 }

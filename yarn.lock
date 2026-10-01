@@ -16928,6 +16928,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": "npm:^21.2.1"
     "@commitlint/config-conventional": "npm:^21.2.0"
+    "@types/jest": "npm:30.0.0"
     "@typescript-eslint/eslint-plugin": "npm:8.70.0"
     "@typescript-eslint/parser": "npm:8.70.0"
     cspell: "npm:10.3.3"
@@ -16935,11 +16936,18 @@ __metadata:
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-prettier: "npm:^5.5.6"
     husky: "npm:^9.1.7"
+    jest: "npm:30.5.1"
+    jest-extended: "npm:7.0.0"
+    jest-junit: "npm:16.0.0"
+    jest-util: "npm:30.5.1"
     lerna: "npm:^10.0.0"
     lint-staged: "npm:^17.0.8"
+    long: "npm:5.2.3"
     npm-run-all: "npm:^4.1.5"
     prettier: "npm:^3.9.4"
     solhint: "npm:^6.2.3"
+    ts-jest: "npm:29.4.12"
+    tslib: "npm:2.8.1"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -28276,6 +28284,18 @@ __metadata:
     pretty-format: "npm:^27.5.1"
     throat: "npm:^6.0.1"
   checksum: 10/052d3c99c36295564a6688ae7e66cfd59997ca9589ccaaa2551d344d84699816a6b8c7bebf3a5f7bcdf691a07f7065c61f4a0770b810e5d887acd21f80a06304
+  languageName: node
+  linkType: hard
+
+"jest-junit@npm:16.0.0":
+  version: 16.0.0
+  resolution: "jest-junit@npm:16.0.0"
+  dependencies:
+    mkdirp: "npm:^1.0.4"
+    strip-ansi: "npm:^6.0.1"
+    uuid: "npm:^8.3.2"
+    xml: "npm:^1.0.1"
+  checksum: 10/2c33ee8bfd0c83b9aa1f8ba5905084890d5f519d294ccc2829d778ac860d5adffffec75d930f44f1d498aa8370c783e0aa6a632d947fb7e81205f0e7b926669d
   languageName: node
   linkType: hard
 
@@ -44097,6 +44117,13 @@ __metadata:
   version: 3.0.0
   resolution: "xml-name-validator@npm:3.0.0"
   checksum: 10/24f5d38c777ad9239dfe99c4ca3cd155415b65ac583785d1514e04b9f86d6d09eaff983ed373e7a779ceefd1fca0fd893f2fc264999e9aeaac36b6e1afc397ed
+  languageName: node
+  linkType: hard
+
+"xml@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "xml@npm:1.0.1"
+  checksum: 10/6c4c31a1308e45732e5ac6b50edbca0e8f7abe5cb5de10215d8e3c688819fe7c7706e056f6fb59b1a23fdf1000c2d7a8bba0a89e94aa1796cd2376d9a5ba401e
   languageName: node
   linkType: hard
 
