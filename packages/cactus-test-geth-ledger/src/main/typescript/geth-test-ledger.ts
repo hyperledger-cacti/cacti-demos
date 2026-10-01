@@ -10,7 +10,7 @@ import {
   LogLevelDesc,
   LoggerProvider,
 } from "@hyperledger-cacti/cactus-common";
-import { Containers } from "@hyperledger-cacti/cactus-test-tooling";
+import { Containers, Streams } from "@hyperledger-cacti/cactus-test-tooling";
 
 export interface IGethTestLedgerOptions {
   readonly containerImageName?: string;
@@ -187,7 +187,7 @@ export class GethTestLedger {
       const eventEmitter: EventEmitter = docker.run(
         this.fullContainerImageName,
         cmd,
-        [],
+        Streams.noopWritable(),
         {
           ExposedPorts: {
             ["8545/tcp"]: {},

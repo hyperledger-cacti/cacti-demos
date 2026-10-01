@@ -305,7 +305,7 @@ export class BesuTestLedger implements ITestLedger {
       const eventEmitter: EventEmitter = docker.run(
         imageFqn,
         [],
-        [],
+        Streams.noopWritable(),
         {
           ExposedPorts: {
             [`${this.rpcApiHttpPort}/tcp`]: {}, // besu RPC - HTTP
